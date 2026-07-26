@@ -13,7 +13,7 @@ Plan, build, test, package, and improve across engines—then stop for human rev
 
 </div>
 
-![Dimwit Rainman Studio work surface](docs/assets/dimwit-studio.png)
+![Dimwit Studio work surface](docs/assets/dimwit-studio.jpg)
 
 Dimwit coordinates game-production work across Unreal Engine, Blender, Unity, Godot, Defold, Bevy, web, CMake, Flame, and mobile toolchains. It turns a brief into a resumable production graph, binds execution to typed capabilities, collects machine-readable evidence, and refuses to turn missing proof into a pass.
 
@@ -29,7 +29,7 @@ The studio can autonomously reach `PROMOTED_TO_REVIEW`. Human acceptance, signin
 | **Unreal production lane** | UBT/UAT, commandlets, authenticated loopback editor inspection, packaging, and process-bound capture |
 | **Mobile factory** | Android/iOS input, lifecycle, performance, packaging, store-readiness, and signing-boundary plans |
 | **Recursive improvement** | Diverse candidates, evidence-ranked proposals, accepted/rejected outcome accounting, and review-only promotion |
-| **Rainman Studio IDE** | Local evidence, source, jobs, engines, mobile readiness, review queue, and fixed allowlisted actions |
+| **Dimwit Studio IDE** | Local evidence, source, jobs, engines, mobile readiness, review queue, and fixed allowlisted actions |
 
 ## Production architecture
 

@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-07-26
+
+### Fixed
+
+- Replaced the stale pre-Dimwit studio capture with a fresh, source-backed
+  Dimwit Studio screenshot.
+- Corrected the live studio reactor monogram and removed the retired product name
+  from public documentation and ledger descriptions.
+- Added a fail-closed public-release check for stale branding and Dimwit UI identity.
+
 ## [0.1.0] - 2026-07-26
 
 ### Added
@@ -28,5 +38,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 This release exposes the orchestration and evidence system. It does not include licensed
 DCC applications, Unreal Engine content, private media assets, or a turnkey production bundle.
 
-[Unreleased]: https://github.com/ObtuseAI/dimwit/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/ObtuseAI/dimwit/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/ObtuseAI/dimwit/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/ObtuseAI/dimwit/releases/tag/v0.1.0

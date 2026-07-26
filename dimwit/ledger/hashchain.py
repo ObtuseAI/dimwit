@@ -1,4 +1,4 @@
-"""Tamper-evident hash chaining for Rainman's append-only proof ledger (task 2).
+"""Tamper-evident hash chaining for Dimwit's append-only proof ledger.
 
 Each entry carries `prev_hash` (the previous entry's `entry_hash`) + `entry_hash` = sha256 over
 {prev_hash, payload}, where payload is the entry minus the two hash fields. Any edit to a past entry

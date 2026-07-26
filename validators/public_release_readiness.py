@@ -45,6 +45,9 @@ STALE_POSTURE_PATTERNS: Final[tuple[re.Pattern[str], ...]] = (
     re.compile(r"\bprivate alpha\b", re.IGNORECASE),
     re.compile(r"<private-repository-url>", re.IGNORECASE),
 )
+STALE_BRAND_PATTERNS: Final[tuple[re.Pattern[str], ...]] = (
+    re.compile(r"\b" + "rain" + "man" + r"\b", re.IGNORECASE),
+)
 MARKDOWN_LINK_PATTERN: Final[re.Pattern[str]] = re.compile(
     r"(?:!\[[^\]]*\]|\[[^\]]+\])\(([^)]+)\)"
 )
@@ -100,6 +103,43 @@ def find_private_path_blockers(root: Path, paths: tuple[Path, ...]) -> tuple[Blo
                         f"matched forbidden public-tree path pattern: {pattern.pattern}",
                     )
                 )
+    return tuple(blockers)
+
+
+def find_stale_brand_blockers(root: Path, paths: tuple[Path, ...]) -> tuple[Blocker, ...]:
+    blockers: list[Blocker] = []
+    for path in paths:
+        if path.suffix.lower() not in TEXT_SUFFIXES:
+            continue
+        text = read_text(path)
+        for pattern in STALE_BRAND_PATTERNS:
+            if pattern.search(text) is not None:
+                blockers.append(
+                    Blocker(
+                        "stale_brand",
+                        path.relative_to(root).as_posix(),
+                        f"matched retired product name: {pattern.pattern}",
+                    )
+                )
+    studio_index = root / "dimwit" / "studio_ide" / "static" / "index.html"
+    if studio_index.is_file():
+        studio_text = read_text(studio_index)
+        if "<strong>DIMWIT</strong>" not in studio_text:
+            blockers.append(
+                Blocker(
+                    "studio_brand",
+                    studio_index.relative_to(root).as_posix(),
+                    "studio header must identify the product as DIMWIT",
+                )
+            )
+        if re.search(r'class="reactor"[^>]*>.*?<span>D</span>', studio_text) is None:
+            blockers.append(
+                Blocker(
+                    "studio_brand",
+                    studio_index.relative_to(root).as_posix(),
+                    "studio reactor monogram must be D",
+                )
+            )
     return tuple(blockers)
 
 
@@ -191,6 +231,7 @@ def build_report(root: Path) -> dict[str, object]:
     blockers = (
         *find_required_file_blockers(root),
         *find_private_path_blockers(root, paths),
+        *find_stale_brand_blockers(root, paths),
         *find_readme_blockers(root),
         *find_policy_blockers(root),
     )

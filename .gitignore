@@ -23,7 +23,7 @@ frontend_capture/
 source_art/
 assets/
 !docs/assets/
-!docs/assets/dimwit-studio.png
+!docs/assets/dimwit-studio.jpg
 !tests/fixtures/engine_projects/unity/Assets/
 !tests/fixtures/engine_projects/unity/Assets/.gitkeep
 unreal_imports/

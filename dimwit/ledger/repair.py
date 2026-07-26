@@ -1,4 +1,4 @@
-"""Auditable repair utilities for Rainman JSONL hash-chain ledgers.
+"""Auditable repair utilities for Dimwit JSONL hash-chain ledgers.
 
 The repair path is intentionally narrow: it never edits the semantic payload of
 an entry. It backs up the original ledger, strips only hash fields, rebuilds a
@@ -126,7 +126,7 @@ def repair_ledger_chain(path: Path | str, *, backup_dir: Path | str, reason: str
 
 
 def _main() -> int:
-    parser = argparse.ArgumentParser(description="Repair a Rainman JSONL hash-chain ledger without changing payloads.")
+    parser = argparse.ArgumentParser(description="Repair a Dimwit JSONL hash-chain ledger without changing payloads.")
     parser.add_argument("ledger", type=Path)
     parser.add_argument("backup_dir", type=Path)
     parser.add_argument("--reason", default="manual-rechain")
