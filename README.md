@@ -23,6 +23,24 @@ It turns a brief into a typed, dependency-aware production graph. Each runnable 
 
 Dimwit can autonomously prepare a candidate up to `PROMOTED_TO_REVIEW`. Human acceptance, source integration, signing, publishing, payment, account access, store submission, and active-slice promotion remain operator-owned.
 
+## Product truth
+
+| Contract | Current public state |
+| --- | --- |
+| **Portfolio role** | **Multi-DCC Production Evidence Plane** — evidence-native orchestration across Unreal, Blender, native engines, mobile toolchains, validation, and review. |
+| **Maturity** | **Research preview** |
+| **Engineering evidence baseline** | [`1019e4df`](https://github.com/ObtuseAI/dimwit/commit/1019e4dfb6191a2e751829253fde7359c5bb2d67) · configured [test workflow](https://github.com/ObtuseAI/dimwit/actions/workflows/tests.yml) |
+| **Proved now** | The public source implements typed production graphs, capability detection, bounded command plans, receipts, artifact hashing, fail-closed validators, recovery candidates, and review promotion. |
+| **Authority ceiling** | Automation stops at `PROMOTED_TO_REVIEW`. Human operators own acceptance, integration, publishing, accounts, payment, signing, and active-slice promotion. |
+| **Clean demonstration** | Use the [quick start](#quick-start) to inspect the graph, run provider-free checks, and exercise bounded studio surfaces. |
+| **Known limit** | DCC execution, live captures, visual judgment, mobile SDKs, and packaged-build proof depend on the actual local toolchains and current project evidence; missing evidence remains blocked. |
+
+**Designed for:** studios and technical production teams that need AI-assisted creative throughput with receipts, replay, rollback, and a hard human review ceiling.
+
+[Explore the ObtuseAI portfolio](https://github.com/ObtuseAI) ·
+[Inspect the production contract](#a-shared-contract-for-very-different-engines) ·
+[Start a technical conversation](https://github.com/ObtuseAI/dimwit/issues)
+
 ## Dimwit in one minute
 
 | Question | Answer |
