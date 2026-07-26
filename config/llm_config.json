@@ -1,0 +1,10 @@
+{
+  "_comment": "OpenRouter cloud-brain config for Dimwit. Operator directive 2026-06-26: GLM 5.2 brain. text_model = GLM-5.2 (z-ai/glm-5.2, text-only) for planning/concept/lighting-direction; vision_model = GLM-5V-turbo for single-shot lanes (motion contact sheets, generic judge_image). Operator directive 2026-07-02: MiniMax M3 added to the imagery mix - CHARACTER verdicts go through the explicit cross-vendor quorum panel optics.QUORUM_MODELS (gemini-3.5-flash + minimax-m3 + qwen3-vl-32b; glm-5v-turbo lost its panel seat by golden calibration: it coin-flipped 0.55-fail/0.9-pass on identical goldens). Panel changes must re-earn python -m dimwit.optics_calibration (stability 2).",
+  "text_model": "z-ai/glm-5.2",
+  "vision_model": "z-ai/glm-5v-turbo",
+  "max_tokens": 1200,
+  "temperature": 0.2,
+  "max_image_px": 896,
+  "retries": 3,
+  "timeout_s": 120
+}

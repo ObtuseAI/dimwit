@@ -1,0 +1,16 @@
+{
+  "input": "asset_spec.json",
+  "outputs": [
+    ".blend",
+    ".fbx_or_glb",
+    "mesh_metadata.json"
+  ],
+  "must_define": [
+    "material_slot_definitions",
+    "scale_units_cm",
+    "origin_pivot_convention",
+    "collision_proxy_suggestion"
+  ],
+  "origin_convention": "feet at z=0, facing -X (front toward player), single welded mesh, ordered material slots",
+  "v1_note": "may adapt the existing hostile-construct Blender script but must generalize to future asset classes"
+}

@@ -1,0 +1,15 @@
+{
+  "_comment": "Weapon profile. Read first-person/hero close-up + clean silhouette + palette discipline; perf matters (held every frame). Threshold at default floor.",
+  "promote_threshold": 0.70,
+  "threshold_floor": 0.70,
+  "dimension_weights": {
+    "hero_readability": 1.8,
+    "silhouette_readability": 1.6,
+    "palette_discipline": 1.4,
+    "not_magenta_dominant": 1.3,
+    "performance_risk": 1.3,
+    "material_sanity": 1.2
+  },
+  "hard_gates": ["style", "provenance"],
+  "required_evidence": ["hero_contact_sheet", "player_camera_contact_sheet"]
+}

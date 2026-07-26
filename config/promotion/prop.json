@@ -1,0 +1,14 @@
+{
+  "_comment": "Environment prop / kit-piece profile. Lower stakes than hero assets but must stay on-palette, perf-cheap, and not generic AI slop. Threshold at default floor (ratchet-up only).",
+  "promote_threshold": 0.70,
+  "threshold_floor": 0.70,
+  "dimension_weights": {
+    "palette_discipline": 1.5,
+    "not_generic_ai_slop": 1.5,
+    "performance_risk": 1.4,
+    "material_sanity": 1.3,
+    "collision_sanity": 1.2
+  },
+  "hard_gates": ["style", "provenance"],
+  "required_evidence": ["hero_contact_sheet", "player_camera_contact_sheet"]
+}

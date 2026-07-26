@@ -1,0 +1,42 @@
+# SECRETS — never commit the OpenRouter API key
+config/secrets.json
+
+# Python
+__pycache__/
+*.pyc
+
+# evidence/artifact stores (append-only proof data + regenerable outputs, never source)
+artifacts/
+# runtime ledger DATA lives at repo root (<ROOT>/ledger/*.jsonl); anchor so it
+# does NOT exclude the SOURCE package dimwit/ledger/ that engine.py imports
+/ledger/
+captures/
+bundles/
+review_packages/
+proofs/
+queues/
+state/
+memory/
+reports/
+lessons/
+frontend_capture/
+source_art/
+assets/
+!docs/assets/
+!docs/assets/dimwit-studio.png
+!tests/fixtures/engine_projects/unity/Assets/
+!tests/fixtures/engine_projects/unity/Assets/.gitkeep
+unreal_imports/
+
+# neural3d model weights / venv (multi-GB, reproducible)
+neural3d/venv/
+neural3d/**/ckpts/
+neural3d/**/*.bin
+neural3d/**/*.safetensors
+
+# logs
+*.log
+
+# local browser/test tooling
+.playwright-cli/
+output/playwright/

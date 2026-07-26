@@ -1,0 +1,32 @@
+{
+  "states": [
+    "REQUESTED",
+    "REFERENCE_ANALYZED",
+    "SPEC_CREATED",
+    "GENERATED",
+    "IMPORTED",
+    "TECH_VALIDATED",
+    "HERO_CAPTURED",
+    "PLAYER_CAMERA_VALIDATED",
+    "REJECTED",
+    "NEEDS_RECURSION",
+    "MUTATING",
+    "PROMOTED_TO_REVIEW",
+    "HUMAN_ACCEPTED",
+    "HUMAN_REJECTED",
+    "PROMOTED_TO_ACTIVE_SLICE",
+    "BLOCKED"
+  ],
+  "autonomous_terminals": [
+    "PROMOTED_TO_REVIEW",
+    "NEEDS_RECURSION",
+    "REJECTED",
+    "BLOCKED"
+  ],
+  "operator_only_states": [
+    "HUMAN_ACCEPTED",
+    "HUMAN_REJECTED",
+    "PROMOTED_TO_ACTIVE_SLICE"
+  ],
+  "rule": "Dimwit may autonomously reach PROMOTED_TO_REVIEW; HUMAN_ACCEPTED and PROMOTED_TO_ACTIVE_SLICE require an explicit operator gate."
+}

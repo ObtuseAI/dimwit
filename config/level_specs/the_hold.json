@@ -1,0 +1,19 @@
+{
+  "level_path": "/Game/Wanefall/Maps/Wanefall_TheHold_Data",
+  "tile_size": 400,
+  "floor_grid": {"piece": "SM_Kit_Floor", "x": [-2, 3], "y": [-2, 2]},
+  "perimeter_walls": true,
+  "props": [
+    {"piece": "SM_Kit_Cover", "loc": [0, 770, 0], "yaw": 0},
+    {"piece": "SM_Kit_Spire", "loc": [0, 980, 0], "yaw": 0},
+    {"piece": "SM_Kit_Pillar", "loc": [1150, 850, 0], "yaw": 0},
+    {"piece": "SM_Kit_Pillar", "loc": [1150, -850, 0], "yaw": 0}
+  ],
+  "lights": [
+    {"type": "directional", "loc": [0, 0, 1500], "rot": [-42, 25, 0], "intensity": 6.0},
+    {"type": "point", "loc": [0, 0, 620], "intensity": 16000},
+    {"type": "spot", "loc": [1050, 0, 760], "rot": [-58, 0, 0], "intensity": 25000}
+  ],
+  "sky_atmosphere": true,
+  "player_start": {"loc": [0, 0, 60], "rot": [0, 0, 0]}
+}

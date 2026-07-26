@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "studio_id": "wanefall_elite_full_game",
+  "review_ceiling": "PROMOTED_TO_REVIEW",
+  "project": "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/WanefallGreybox.uproject",
+  "nodes": [
+    {"id": "toolchain_preflight", "kind": "preflight", "deps": [], "cost": 0.25},
+    {"id": "gameplay_compile", "kind": "validation", "domains": ["gameplay_code"], "deps": ["toolchain_preflight"], "cost": 1},
+    {"id": "character_policy", "kind": "pipeline", "pipeline": "character_roster_policy", "asset_id": "active_roster", "domains": ["character_roster_policy"], "deps": ["toolchain_preflight"], "cost": 1, "proofs": ["artifacts/character_roster_policy/character_roster_policy_report.json"]},
+    {"id": "character_sources", "kind": "pipeline", "pipeline": "character_source_sync", "asset_id": "active", "domains": ["character_source_sync"], "deps": ["character_policy"], "cost": 1, "proofs": ["artifacts/character_source_sync/character_source_sync_report.json"]},
+    {"id": "character_fidelity", "kind": "validation", "domains": ["character_roster_fidelity", "characters_static_full_nanite"], "deps": ["character_sources"], "cost": 2},
+    {"id": "rigging", "kind": "pipeline", "pipeline": "rigging", "asset_id": "zythan", "domains": ["rigged_skeletal_meshes"], "deps": ["character_fidelity"], "cost": 3},
+    {"id": "animation", "kind": "pipeline", "pipeline": "animation", "asset_id": "zythan", "domains": ["animation_wiring"], "deps": ["rigging"], "cost": 3},
+    {"id": "environment", "kind": "pipeline", "pipeline": "environment", "asset_id": "arena1", "domains": ["environment_maps"], "deps": ["toolchain_preflight"], "cost": 4},
+    {"id": "materials", "kind": "pipeline", "pipeline": "materials_shaders", "asset_id": "wane", "domains": ["materials_shaders"], "deps": ["toolchain_preflight"], "cost": 2},
+    {"id": "vfx", "kind": "pipeline", "pipeline": "vfx", "asset_id": "crystallize", "domains": ["vfx_audio", "wane_fx"], "deps": ["materials"], "cost": 3},
+    {"id": "audio", "kind": "pipeline", "pipeline": "audio", "asset_id": "wane_sfx", "domains": ["audio_foundation"], "deps": ["toolchain_preflight"], "cost": 2},
+    {"id": "flagship_world", "kind": "pipeline", "pipeline": "flagship_arena_art_pass", "asset_id": "wanefall_arena4v4_flagship", "domains": ["flagship_arena"], "deps": ["environment", "materials", "vfx"], "cost": 4, "proofs": ["artifacts/flagship_arena/flagship_arena_dress_result.json"]},
+    {"id": "player_experience", "kind": "validation", "domains": ["movement_traversal", "weapons_inplay", "ui_hud", "br_loop", "player_hygiene", "input_matrix", "optics_semantic", "intent_conformance"], "deps": ["gameplay_compile", "animation", "flagship_world", "audio"], "cost": 2},
+    {"id": "real_game", "kind": "pipeline", "pipeline": "real_game_validation", "asset_id": "wanefall_default_lobby", "domains": ["real_game_runtime"], "deps": ["player_experience"], "cost": 2, "proofs": ["artifacts/real_game_validation/real_game_validation_result.json"]},
+    {"id": "package", "kind": "pipeline", "pipeline": "packaged_build_validation", "asset_id": "wanefall_win64_development", "domains": ["packaged_build"], "deps": ["real_game"], "cost": 5, "proofs": ["artifacts/packaged_build_validation/packaged_build_result.json"]},
+    {"id": "performance", "kind": "pipeline", "pipeline": "performance_baseline", "asset_id": "wanefall_win64_development_perf", "domains": ["performance_baseline"], "deps": ["package"], "cost": 3, "proofs": ["artifacts/performance_baseline/performance_baseline_result.json"]},
+    {"id": "balance", "kind": "pipeline", "pipeline": "bot_balance_telemetry", "asset_id": "wanefall_win64_development_botmatch", "domains": ["bot_balance"], "deps": ["package"], "cost": 3, "proofs": ["artifacts/bot_balance/bot_balance_result.json"]},
+    {"id": "progression", "kind": "pipeline", "pipeline": "progression", "asset_id": "wanefall_win64_development_progression", "domains": ["progression"], "deps": ["package"], "cost": 3, "proofs": ["artifacts/progression/progression_result.json"]},
+    {"id": "settings", "kind": "pipeline", "pipeline": "ui_settings_persistence", "asset_id": "wanefall_win64_development_settings", "domains": ["ui_settings"], "deps": ["package"], "cost": 2, "proofs": ["artifacts/ui_settings/ui_settings_result.json"]},
+    {"id": "self_metrics", "kind": "pipeline", "pipeline": "self_metrics_director", "asset_id": "wanefall_self_metrics", "domains": ["self_metrics"], "deps": ["performance", "balance", "progression", "settings"], "cost": 1, "proofs": ["artifacts/self_metrics/self_metrics.json"]},
+    {"id": "release_integrity", "kind": "validation", "domains": ["content_vcs", "build_hygiene", "proof_integrity", "pipeline_contracts", "design_system"], "deps": ["self_metrics"], "cost": 1},
+    {"id": "studio_review", "kind": "pipeline", "pipeline": "unreal_game_builder_engine", "asset_id": "wanefall_autonomous_studio", "domains": ["unreal_game_builder_engine", "autonomy_engine"], "deps": ["release_integrity"], "cost": 1, "proofs": ["artifacts/unreal_game_builder/UNREAL_GAME_BUILDER_FINAL_REPORT_20260629.json"]}
+  ]
+}

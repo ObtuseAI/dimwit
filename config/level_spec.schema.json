@@ -1,0 +1,13 @@
+{
+  "_comment": "Data-driven level spec (task 12). scripts/ue/build_level.py reads one of these and builds a UE level from the modular kit + the validated Movable/lumens light recipe — replacing hardcoded scripts/ue/build_hold_room.py + scripts/ue/build_kit_arena.py. Layouts become JSON inputs the agent can author.",
+  "schema": {
+    "level_path": "string  e.g. /Game/Wanefall/Maps/Wanefall_TheHold_02",
+    "tile_size": "number (uu per kit tile, default 400)",
+    "floor_grid": {"piece": "SM_Kit_Floor", "x": "[minIdx,maxIdx]", "y": "[minIdx,maxIdx]"},
+    "perimeter_walls": "bool (auto-wall the floor_grid edges)",
+    "props": [{"piece": "SM_Kit_* | char/weapon mesh path", "loc": "[x,y,z]", "yaw": "deg", "scale": "float|null", "target_height_cm": "float|null"}],
+    "lights": [{"type": "point|spot|directional", "loc": "[x,y,z]", "rot": "[pitch,yaw,roll]", "intensity": "lumens (point/spot) or lux (directional)", "color": "[r,g,b]"}],
+    "sky_atmosphere": "bool (default true; gives skylight a sky to capture)",
+    "player_start": {"loc": "[x,y,z]", "rot": "[pitch,yaw,roll]"}
+  }
+}

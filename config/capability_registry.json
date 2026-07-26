@@ -1,0 +1,31 @@
+{
+  "_comment": "Dimwit capability registry (task 9). Each entry = a named DESIGN/DEVELOP/EXECUTE/TEST verb mapped to an existing function via module:function. verify_all() asserts every target resolves (task 16). Add rows as more tools are wrapped; this is the single dispatch surface the director, brain-agent loop, and MCP server share.",
+  "capabilities": [
+    {"name": "DESIGN/brain.plan_queue", "domain": "DESIGN", "target": "dimwit.cloud_brain:plan_queue", "description": "GLM 5.2 queue planning (advisory, schema-validated)"},
+    {"name": "DESIGN/brain.concept", "domain": "DESIGN", "target": "dimwit.cloud_brain:concept_prompts", "description": "GLM 5.2 concept prompt generation"},
+    {"name": "DEVELOP/mesh.generate", "domain": "DEVELOP", "target": "dimwit.meshgen:generate", "description": "Blender/trimesh mesh generation + measurement"},
+    {"name": "DEVELOP/cloud.image_to_3d", "domain": "DEVELOP", "target": "dimwit.hi3d:submit", "description": "Hi3D cloud image->3D (resumable, cost-aware)"},
+    {"name": "TEST/ue.live_inspect", "domain": "TEST", "target": "dimwit.capabilities.ue_live:call", "description": "authenticated read-only live Unreal inspection (ping/list_actors); mutations use dedicated gated tools"},
+    {"name": "TEST/score.candidate", "domain": "TEST", "target": "dimwit.engine:score_candidate", "description": "deterministic 16-dim score + pixel-truth override + weighted overall"},
+    {"name": "TEST/gate.run_all", "domain": "TEST", "target": "dimwit.engine:run_all_gates", "description": "run the 8 validation gates incl. style + provenance hard gates"},
+    {"name": "TEST/perception.measure", "domain": "TEST", "target": "dimwit.perception:perceive_evidence", "description": "measure real pixels from evidence images (pixel-truth)"},
+    {"name": "TEST/brain.vision_qa", "domain": "TEST", "target": "dimwit.cloud_brain:review_character", "description": "GLM 5V character render QA"},
+    {"name": "DEVELOP/brain.light_qa", "domain": "DEVELOP", "target": "scripts.qa.dimwit_light_qa:qa", "description": "Paid GLM 5V render readability QA -> numeric lighting deltas and local ledger mutation"},
+    {"name": "TEST/toolchain.blender_health", "domain": "TEST", "target": "dimwit.toolchains.blender:health", "description": "Discover Blender and inventory audited modeling/rigging/render capabilities"},
+    {"name": "EXECUTE/blender.run_script", "domain": "EXECUTE", "target": "dimwit.toolchains.blender:run_script", "description": "Run an allowlisted headless Blender script with manifest, timeout, logs, and output hashes"},
+    {"name": "TEST/toolchain.unreal_health", "domain": "TEST", "target": "dimwit.toolchains.unreal:health", "description": "Discover Unreal Editor, UBT, UAT, project, and production capabilities"},
+    {"name": "EXECUTE/unreal.run_python", "domain": "EXECUTE", "target": "dimwit.toolchains.unreal:run_python", "description": "Run a repository-owned Unreal Python automation job with proof receipts"},
+    {"name": "EXECUTE/unreal.build", "domain": "EXECUTE", "target": "dimwit.toolchains.unreal:build_project", "description": "Build an allowlisted Unreal target through UBT with logs and budgets"},
+    {"name": "EXECUTE/unreal.package", "domain": "EXECUTE", "target": "dimwit.toolchains.unreal:package_project", "description": "BuildCookRun an allowlisted package archive with receipts"},
+    {"name": "DESIGN/studio.plan", "domain": "DESIGN", "target": "dimwit.toolchains.studio:plan_studio", "description": "Plan the resumable end-to-end game-production DAG"},
+    {"name": "EXECUTE/studio.run", "domain": "EXECUTE", "target": "dimwit.toolchains.studio:run_studio", "description": "Run bounded full-game studio nodes through Blender, Unreal, pipelines, and validation"},
+    {"name": "DESIGN/evolution.diversity_plan", "domain": "DESIGN", "target": "dimwit.evolution.diversity:build_diversity_plan", "description": "Build an advisory quality-diversity plan and review-only champion archive from experiment evidence"},
+    {"name": "TEST/ecosystem.audit", "domain": "TEST", "target": "dimwit.opensource_adoption:audit_ecosystem", "description": "Fail-closed open-source license, risk, local-presence, and adoption audit with no installs or execution"},
+    {"name": "DESIGN/studio.ide_state", "domain": "DESIGN", "target": "dimwit.studio_ide.server:build_workspace_state", "description": "Build the read-only state model for Dimwit's localhost game-production IDE"},
+    {"name": "TEST/engines.audit", "domain": "TEST", "target": "dimwit.toolchains.engines.universal:audit_engines", "description": "Inventory executable adapters and blockers across Unreal, Unity, Godot, Defold, Bevy, web, CMake, and Flame"},
+    {"name": "DESIGN/engines.plan_build", "domain": "DESIGN", "target": "dimwit.toolchains.engines.universal:plan_build", "description": "Create a confined proof-bearing cross-engine build/package plan"},
+    {"name": "EXECUTE/engines.run_build", "domain": "EXECUTE", "target": "dimwit.toolchains.engines.universal:run_build", "description": "Run an explicitly authorized universal engine build with output hashes"},
+    {"name": "TEST/mobile.audit", "domain": "TEST", "target": "dimwit.toolchains.mobile:audit_mobile", "description": "Audit Android/iOS SDKs and 12-lane mobile quality readiness without signing or uploads"},
+    {"name": "DESIGN/mobile.plan_build", "domain": "DESIGN", "target": "dimwit.toolchains.mobile:plan_mobile_build", "description": "Plan a cross-engine Android or iOS build under mobile manifest and host gates"}
+  ]
+}

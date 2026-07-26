@@ -1,0 +1,14 @@
+{
+  "_comment": "Vehicle profile. Scale + collision + silhouette at distance + perf (large, on screen often). Threshold at default floor.",
+  "promote_threshold": 0.70,
+  "threshold_floor": 0.70,
+  "dimension_weights": {
+    "scale_sanity": 1.8,
+    "collision_sanity": 1.6,
+    "silhouette_readability": 1.5,
+    "third_person_camera_readability": 1.4,
+    "performance_risk": 1.5
+  },
+  "hard_gates": ["style", "provenance"],
+  "required_evidence": ["hero_contact_sheet", "player_camera_contact_sheet"]
+}

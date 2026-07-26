@@ -1,0 +1,1 @@
+{"parent": "/InterchangeAssets/Materials/FBXLegacyPhongSurfaceMaterial.FBXLegacyPhongSurfaceMaterial", "metallic": 1.0, "note": "known-BAD: FBX legacy-Phong material renders silver dark; the harness MUST flag this"}

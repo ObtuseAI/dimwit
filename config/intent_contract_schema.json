@@ -1,0 +1,95 @@
+{
+  "$schema": "dimwit/intent_contract/v1",
+  "_doc": "THE INTENT CONTRACT — the 'initial picture / goals / design' declared UP FRONT, per build/asset/flow, BEFORE any execution. It is authored at REQUESTED time (spec_author.author_intent_contract), hashed, and ledgered so it CANNOT be retro-fitted to match the result. It is the SINGLE rubric the capture is compared against at EVERY stage (plan -> execute -> qa -> capture -> compare). It versions + diffs like DESIGN.md so target drift is itself caught (v_intent_contract_no_drift). Doctrine preserved: fail-closed (no contract OR no acceptance band => BLOCKED, never silent PASS); thresholds ratchet UP only — confidence_target lives in the graduated-autonomy band [0.95, 0.99], starting at the operator-chosen 0.95 floor and ratcheting toward the 0.99 calibrated ceiling, enforced as max(author, frozen ASSET_TYPE_FLOORS.confidence_floor); review-only (reaching the contract gates PROMOTED_TO_REVIEW, never auto-accept).",
+
+  "required": [
+    "intent_id",
+    "asset_id",
+    "asset_type",
+    "schema_version",
+    "authored_ts",
+    "goals",
+    "design_law",
+    "expected_appearance",
+    "acceptance",
+    "validation_plan",
+    "provenance",
+    "intent_hash"
+  ],
+
+  "fields": {
+    "intent_id": "string  — stable id, '<asset_id>__intent' ; one contract per build/flow",
+    "asset_id": "string  — matches AssetTask.asset_id (core.py:80)",
+    "asset_type": "string  — matches AssetTask.asset_type; selects the promotion profile (engine.load_promotion_profile) AND the default validator/optics rubric set",
+    "flow_kind": "asset|build|flow  — asset=single mesh/material; build=composed scene/level; flow=multi-step gameplay sequence. Selects which capture stages exist.",
+    "schema_version": "string  — 'dimwit/intent_contract/v1' ; bumped only by an operator-reviewed schema change",
+    "authored_ts": "int (unix)  — set ONCE at authoring; immutable; used to prove the contract pre-dates the evidence",
+    "authored_by": "string  — 'spec_author'|'operator'|'<llm-model>' ; provenance of the target itself",
+
+    "goals": {
+      "_doc": "Human-readable intent + machine-checkable per-dimension targets. The per-dimension targets are the rubric numbers compare_to_target() scores the capture against.",
+      "summary": "string  — one-sentence statement of what this build must be",
+      "intended_gameplay_role": "string  — carried from AssetTask.intended_gameplay_role (core.py:84); e.g. 'mid-lane hostile the player reads at 25m'",
+      "target_dimensions": "object<dim:float 0..1>  — per-SCORED_DIMENSIONS targets (core.py:40 SCORED_DIMENSIONS). e.g. {\"third_person_camera_readability\":0.95,\"hit_destroy_state_clarity\":0.9}. Dims omitted inherit the asset_type promotion-profile default. These REPLACE the literal 0.6 placeholders in spec_author.py:41.",
+      "load_bearing_dimensions": "array<string>  — the dims that MUST individually clear acceptance.dimension_floors (cannot be averaged away). e.g. ['third_person_camera_readability','gameplay_readability','not_black_blob']"
+    },
+
+    "design_law": {
+      "_doc": "The applicable slice of the GLOBAL visual law (WanefallGreybox/DESIGN.md) + LOCAL overrides. This binds the per-build contract to the canonical law the design_md validator domain already lints (dimwit/pipelines/design_md.py).",
+      "design_md_path": "string  — abs path to the canonical DESIGN.md (default 'C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/DESIGN.md')",
+      "design_md_hash": "string  — sha256 of DESIGN.md at authoring; if it differs at compare-time the global law drifted under the build -> BLOCKED",
+      "token_slice": "array<string>  — the DESIGN.md token/section ids this build is governed by (e.g. ['materials.carapace-metallic','materials.weakpoint-emissive','cameras.tp-grading'])",
+      "canon_expectations": "object  — concrete DESIGN.md canon values asserted for THIS build, e.g. {\"carapace_metallic\":0.0,\"weakpoint_emissive\":1.0,\"near_black_not_pure_black\":true,\"tp_white_temp_k\":7000}",
+      "local_overrides": "object<token:value>  — per-build deviations from the global law, each REQUIRING a justification string; an override with no justification => BLOCKED"
+    },
+
+    "expected_appearance": {
+      "_doc": "What the build should LOOK like, in words + optional reference imagery. perception.compare_to_target() and optics.target_confidence() consume reference_images as the declared picture.",
+      "description": "string  — strict prose description a senior artist would write ('dark alien carapace, teal Wane spinal vein, single orange weak-point at the chest, clean readable silhouette at lane distance')",
+      "reference_images": "array<string>  — abs paths to the declared initial picture(s) / target render(s). MAY be empty for a text-only target, in which case acceptance.allow_textonly_target MUST be true or the build is BLOCKED.",
+      "must_have_traits": "array<string>  — REQUIRED_IDENTITY-style traits this build must exhibit (core.py:136); checked against the rendered evidence, not just the spec",
+      "forbidden_traits": "array<string>  — FORBIDDEN_IDENTITY-style traits (core.py:124); a measured occurrence is a hard fail",
+      "silhouette_note": "string  — what the silhouette must communicate (drives silhouette_readability target + optics clean_silhouette)"
+    },
+
+    "acceptance": {
+      "_doc": "HARD acceptance criteria. confidence_target is the fused 0.99 gate-to-REVIEW (ratchet-up only, floored at 0.99). dimension_floors stop a weak load-bearing dim being averaged away (closes the engine.py:255-262 inflatable-mean gap). target_match_floor forces non-trivial similarity to the declared picture.",
+      "confidence_target": "float  — fused-confidence required to reach PROMOTED_TO_REVIEW. In the ratchet band [0.95, 0.99]; RATCHET UP ONLY (max(declared, frozen ASSET_TYPE_FLOORS.confidence_floor)); starts at the operator-chosen 0.95 floor, calibrated destination 0.99. NEVER auto-accept.",
+      "dimension_floors": "object<dim:float>  — per-load-bearing-dim minimums; min(load_bearing dims) must clear these BEFORE the mean is even considered",
+      "target_match_floor": "float  — minimum capture-vs-declared-picture similarity (perception.compare_to_target + optics matches_reference); default 0.85; a build that scores a high style-mean but doesn't resemble its declared picture cannot promote",
+      "allow_textonly_target": "bool  — if true a contract may declare no reference image (text-only target); if false (default for asset_type in characters/enemies) a missing reference => BLOCKED",
+      "max_target_drift": "float  — allowed intent_hash-stable cosine/field drift between the authored contract and any later contract version before v_intent_contract_no_drift FAILS (target-drift caught like DESIGN.md baseline regression)",
+      "require_perception": "bool  — default true; if true and numpy/Pillow OR evidence images are absent the build is BLOCKED (closes the engine.py:21-25 fail-OPEN gap so 0.99 can never be hit on declared-only data)",
+      "require_optics_semantic": "bool  — default true for character/enemy; if true and the vision-LLM is unavailable the build is BLOCKED, never PASS (mirrors optics.py fail-closed)"
+    },
+
+    "validation_plan": {
+      "_doc": "Which validators + optics rubrics apply to THIS build. The director/suite loads these so the contract is the single source of which gates run, not a hardcoded set.",
+      "validator_domains": "array<string>  — validation_registry domains that MUST be green for this build (e.g. ['hi3d_characters','rigged_skeletal_meshes','design_md','intent_conformance'])",
+      "optics_rubric": "string  — which optics judge applies: 'character'|'image'|'motion' (selects judge_character/judge_image/judge_motion in optics.py)",
+      "required_capture_stages": "array<string>  — the stages that MUST produce a real capture compared to the target: subset of ['plan','execute','hero','player_camera','motion']; an empty list => BLOCKED",
+      "golden_corpus_refs": "array<string>  — fixture ids this build's contract must not regress (ties into v_golden_regression_corpus)"
+    },
+
+    "provenance": {
+      "_doc": "Provenance of the BUILD source AND of the target imagery, both fail-closed (mirrors core.evaluate_provenance). A declared reference image with no license is unusable as a target.",
+      "license_class": "owned_reference|generated_concept|licensed_reference|public_domain|open_license|unknown_license|forbidden  (core.PROVENANCE_CLASSES)",
+      "source_prompt": "string|null",
+      "source_file": "string|null",
+      "reference_license": "string  — license covering expected_appearance.reference_images; required if reference_images is non-empty",
+      "direct_copy_of_copyright": "bool  — true => forbidden (core.evaluate_provenance)"
+    },
+
+    "intent_hash": "string  — sha256_obj of {goals, design_law, expected_appearance, acceptance, validation_plan} (the SCORED part of the contract). Written to the ledger at REQUESTED. The compare stage re-derives it; if the on-disk contract's intent_hash no longer matches its content the target was tampered post-authoring -> BLOCKED."
+  },
+
+  "lifecycle_binding": {
+    "_doc": "How the contract threads plan->execute->qa->capture->compare.",
+    "authored_at": "REQUESTED  — spec_author.author_intent_contract writes config-shaped intent_contract.json into assets/<asset_id>/ next to asset_spec.json; intent_hash appended to the Dimwit ledger before generation begins (run_asset_task pre-gate, engine.py:373)",
+    "carried_into_plan": "ProductionPipeline.plan() (base.py:109) loads the contract and returns it on the plan dict; BlockedError if absent",
+    "scored_at_qa": "ProductionPipeline.qa() (base.py:117) calls perception.compare_to_target + optics.target_confidence against expected_appearance.reference_images at EACH capture stage in required_capture_stages",
+    "fused_in_engine": "engine.score_candidate (engine.py:209) folds a fail-closed target_match dimension and gates cand.overall on acceptance.confidence_target (0.99) + dimension_floors + target_match_floor",
+    "suite_loads_it": "ValidationContext carries the contract; the new 'intent_conformance' validator domain compares the final capture to expected_appearance.reference (generalizes the hardcoded ref at validation_registry.py:333)",
+    "drift_guarded": "v_intent_contract_no_drift diffs the contract version like DESIGN.md baseline; design_law.design_md_hash mismatch or intent_hash mismatch => BLOCKED"
+  }
+}

@@ -1,0 +1,229 @@
+{
+  "schema_version": 1,
+  "run1_pid": 26508,
+  "run2_pid": 26984,
+  "profile_after_run1": {
+    "schema_version": 1,
+    "profile_id": "local",
+    "display_name": "Operative",
+    "created_at": "",
+    "updated_at": "2026-07-03T22:43:03.657Z",
+    "account_level": 4,
+    "account_xp": 7920,
+    "clan_tag": "",
+    "mode_stats": {
+      "Arena4v4_TDM": {
+        "played": 6,
+        "wins": 6,
+        "losses": 0,
+        "kills": 66,
+        "deaths": 84,
+        "assists": 0,
+        "objective_score": 0
+      }
+    },
+    "rank_state": [],
+    "settings": {
+      "lstick": 0.5,
+      "rstick": 0.5,
+      "remap": 0,
+      "vibration": true,
+      "master": 0.800000011920929,
+      "voice": 0.800000011920929,
+      "music": 0.6000000238418579,
+      "dialogue": 0.800000011920929,
+      "voice_chat": true,
+      "input_device": "Default Controller",
+      "output_device": "Default Audio Device",
+      "graphics": 3
+    },
+    "unlocks": [
+      "wane_rifle_default",
+      "wane_charge_default",
+      "waneboard_default",
+      "operator_default"
+    ],
+    "recent_matches": [
+      "botmatch_5",
+      "botmatch_4",
+      "botmatch_3",
+      "botmatch_2",
+      "botmatch_1",
+      "botmatch_0"
+    ],
+    "friends": [],
+    "loadout": [
+      {
+        "slot": "primary",
+        "item": "wane_rifle_default"
+      },
+      {
+        "slot": "equipment",
+        "item": "wane_charge_default"
+      },
+      {
+        "slot": "waneboard",
+        "item": "waneboard_default"
+      },
+      {
+        "slot": "cosmetic",
+        "item": "operator_default"
+      }
+    ]
+  },
+  "profile_after_run2": {
+    "schema_version": 1,
+    "profile_id": "local",
+    "display_name": "Operative",
+    "created_at": "",
+    "updated_at": "2026-07-03T22:43:23.125Z",
+    "account_level": 6,
+    "account_xp": 15840,
+    "clan_tag": "",
+    "mode_stats": {
+      "Arena4v4_TDM": {
+        "played": 12,
+        "wins": 12,
+        "losses": 0,
+        "kills": 132,
+        "deaths": 168,
+        "assists": 0,
+        "objective_score": 0
+      }
+    },
+    "rank_state": [],
+    "settings": {
+      "lstick": 0.5,
+      "rstick": 0.5,
+      "remap": 0,
+      "vibration": true,
+      "master": 0.800000011920929,
+      "voice": 0.800000011920929,
+      "music": 0.6000000238418579,
+      "dialogue": 0.800000011920929,
+      "voice_chat": true,
+      "input_device": "Default Controller",
+      "output_device": "Default Audio Device",
+      "graphics": 3
+    },
+    "unlocks": [
+      "wane_rifle_default",
+      "wane_charge_default",
+      "waneboard_default",
+      "operator_default"
+    ],
+    "recent_matches": [
+      "botmatch_5",
+      "botmatch_4",
+      "botmatch_3",
+      "botmatch_2",
+      "botmatch_1",
+      "botmatch_0",
+      "botmatch_5",
+      "botmatch_4",
+      "botmatch_3",
+      "botmatch_2",
+      "botmatch_1",
+      "botmatch_0"
+    ],
+    "friends": [],
+    "loadout": [
+      {
+        "slot": "primary",
+        "item": "wane_rifle_default"
+      },
+      {
+        "slot": "equipment",
+        "item": "wane_charge_default"
+      },
+      {
+        "slot": "waneboard",
+        "item": "waneboard_default"
+      },
+      {
+        "slot": "cosmetic",
+        "item": "operator_default"
+      }
+    ]
+  },
+  "apply_proofs": [
+    {
+      "match_id": "botmatch_0",
+      "mode_id": "Arena4v4_TDM",
+      "win": true,
+      "kills": 9,
+      "deaths": 14,
+      "assists": 0,
+      "xp_granted": 1120,
+      "account_xp_after": 9040,
+      "account_level_after": 4,
+      "challenge_daily_kills_progress": 9
+    },
+    {
+      "match_id": "botmatch_1",
+      "mode_id": "Arena4v4_TDM",
+      "win": true,
+      "kills": 12,
+      "deaths": 14,
+      "assists": 0,
+      "xp_granted": 1420,
+      "account_xp_after": 10460,
+      "account_level_after": 5,
+      "challenge_daily_kills_progress": 10
+    },
+    {
+      "match_id": "botmatch_2",
+      "mode_id": "Arena4v4_TDM",
+      "win": true,
+      "kills": 12,
+      "deaths": 14,
+      "assists": 0,
+      "xp_granted": 1420,
+      "account_xp_after": 11880,
+      "account_level_after": 5,
+      "challenge_daily_kills_progress": 10
+    },
+    {
+      "match_id": "botmatch_3",
+      "mode_id": "Arena4v4_TDM",
+      "win": true,
+      "kills": 9,
+      "deaths": 14,
+      "assists": 0,
+      "xp_granted": 1120,
+      "account_xp_after": 13000,
+      "account_level_after": 5,
+      "challenge_daily_kills_progress": 10
+    },
+    {
+      "match_id": "botmatch_4",
+      "mode_id": "Arena4v4_TDM",
+      "win": true,
+      "kills": 12,
+      "deaths": 14,
+      "assists": 0,
+      "xp_granted": 1420,
+      "account_xp_after": 14420,
+      "account_level_after": 5,
+      "challenge_daily_kills_progress": 10
+    },
+    {
+      "match_id": "botmatch_5",
+      "mode_id": "Arena4v4_TDM",
+      "win": true,
+      "kills": 12,
+      "deaths": 14,
+      "assists": 0,
+      "xp_granted": 1420,
+      "account_xp_after": 15840,
+      "account_level_after": 6,
+      "challenge_daily_kills_progress": 10
+    }
+  ],
+  "package_binding": {
+    "archive_dir": "D:\\WanefallBuild\\PackagedBuildValidation\\runs\\20260703_173440\\archive",
+    "manifest_sha256": "dd175eed5095039eef219ecb7dca646de3ee7ed551305bac217f9380340545f7",
+    "exe_sha256_at_run": "dd175eed5095039eef219ecb7dca646de3ee7ed551305bac217f9380340545f7",
+    "matches": true
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-07-11",
+  "review_ceiling": "PROMOTED_TO_REVIEW",
+  "android_policy": {
+    "minimum_supported_sdk": 26,
+    "play_target_sdk_floor": 35,
+    "required_architectures": ["arm64-v8a"],
+    "development_format": "apk",
+    "store_format": "aab",
+    "signing": "OPERATOR_ONLY"
+  },
+  "ios_policy": {
+    "requires_macos": true,
+    "requires_xcode": true,
+    "requires_privacy_manifest": true,
+    "archive_format": "xcarchive",
+    "distribution_format": "ipa",
+    "signing": "OPERATOR_ONLY"
+  },
+  "quality_lanes": [
+    {"id": "touch", "checks": ["tap", "multitouch", "swipe", "pinch", "rotate", "gesture_conflicts"]},
+    {"id": "layout", "checks": ["safe_areas", "notches", "foldables", "portrait", "landscape", "tablet", "dynamic_resolution"]},
+    {"id": "lifecycle", "checks": ["cold_start", "resume", "background", "interruption", "process_death", "save_restore"]},
+    {"id": "performance", "checks": ["frame_pacing", "thermal", "battery", "memory", "startup_time", "download_size", "shader_hitches"]},
+    {"id": "input", "checks": ["touch", "controller", "keyboard", "mouse", "haptics", "remapping"]},
+    {"id": "network", "checks": ["offline", "latency", "packet_loss", "reconnect", "cellular", "wifi_handoff"]},
+    {"id": "accessibility", "checks": ["screen_reader", "contrast", "text_scale", "reduced_motion", "subtitles", "color_independence"]},
+    {"id": "localization", "checks": ["locale_fallback", "rtl", "font_coverage", "long_strings", "regional_formats"]},
+    {"id": "privacy", "checks": ["permission_minimization", "consent", "data_safety", "privacy_manifest", "child_safety"]},
+    {"id": "store", "checks": ["icons", "screenshots", "description", "age_rating", "versioning", "release_notes", "support_url"]},
+    {"id": "reliability", "checks": ["crash_recovery", "low_storage", "low_memory", "upgrade", "rollback", "corrupt_save"]},
+    {"id": "monetization", "checks": ["iap_sandbox", "restore_purchases", "subscription_state", "ad_failure", "parental_gate"]}
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "_doc": "Dimwit pluggable GEOMETRY backends — closes G3 (single paid-cloud dependency). Dimwit picks a geometry source by name; the character/generation pipelines resolve it via dimwit/geometry_backends.py. status: BUILT (runnable now) | SCAFFOLD (adapter + exact activation contract). The 'primitive' backend is the GUARANTEED LOCAL FALLBACK so the engine never hard-stops when Hi3D is unavailable. Provenance fail-closed: every backend records source+license before any asset it makes can promote.",
+  "version": 1,
+  "default_chain": ["hi3d", "triposr", "primitive"],
+  "backends": {
+    "hi3d": {
+      "status": "BUILT", "tool": "Hi3D/Hitem3D image-to-3D cloud", "kind": "cloud", "cost": "credits",
+      "license": "Hi3D Essential plan (commercial, recorded)", "headless": true,
+      "does": "Highest-fidelity image->3D (the current primary). ~2M-tri detailed mesh.",
+      "integration": "dimwit/hi3d.py (HTTP client, key in config/secrets.json)."
+    },
+    "triposr": {
+      "status": "SCAFFOLD", "tool": "TripoSR (OSS, Stability)", "kind": "local-gpu", "cost": "free",
+      "license": "MIT (verify per release)", "headless": true,
+      "does": "Local single-image->3D on the RTX 3070 — removes the network/credits dependency.",
+      "integration": "dimwit/neural3d.py isolated venv; infer -> mesh -> handcraft topology pipeline.",
+      "activate": "pip install in the neural3d venv: torch + tsr; download the TripoSR weights; set neural3d.ENABLED=1."
+    },
+    "instantmesh": {
+      "status": "SCAFFOLD", "tool": "InstantMesh (OSS)", "kind": "local-gpu", "cost": "free",
+      "license": "Apache-2.0 (verify)", "headless": true,
+      "does": "Multi-view local image->3D (higher fidelity than TripoSR when a GPU is free).",
+      "integration": "isolated venv; multiview -> mesh -> handcraft. Research the active repo + weights license first."
+    },
+    "primitive": {
+      "status": "BUILT", "tool": "Blender primitive blockout (primitive_blockout.py)", "kind": "local-cpu",
+      "cost": "free", "license": "first-party (unencumbered)", "headless": true,
+      "does": "GUARANTEED FALLBACK: deterministic correctly-proportioned humanoid blockout (clean quads, manifold, UV'd) at SK_Mannequin scale. Honest PLACEHOLDER (not promotable) that keeps the whole pipeline runnable + riggable OFFLINE when every other backend is unavailable.",
+      "integration": "blender_scripts/primitive_blockout.py -- out=<fbx> height=1.8."
+    }
+  }
+}

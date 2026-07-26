@@ -1,0 +1,11 @@
+{
+  "_comment": "Hi3D/Hitem3D geometry backend. v2.1 1536pro + PBR = best quality, ~45cr ($0.90)/char. request_type 3 = geometry+texture in one shot. format 2 = GLB.",
+  "model": "hitem3dv2.1",
+  "request_type": 3,
+  "resolution": "1536pro",
+  "pbr": 1,
+  "format": 2,
+  "poll_interval_s": 8,
+  "poll_timeout_s": 900,
+  "timeout_s": 120
+}

@@ -1,0 +1,21 @@
+{
+  "includes": [
+    "asset spec",
+    "source/provenance",
+    "hero contact sheet",
+    "player-camera contact sheet",
+    "technical proof",
+    "style proof",
+    "promotion verdict",
+    "known weaknesses",
+    "accept/reject/taste-adjust checklist"
+  ],
+  "human_decisions": [
+    "ACCEPT_FOR_ACTIVE_SLICE",
+    "REJECT",
+    "REQUEST_TASTE_ADJUSTMENT",
+    "KEEP_AS_FALLBACK",
+    "ARCHIVE"
+  ],
+  "rule": "Dimwit cannot choose the final human decision automatically."
+}

@@ -1,0 +1,31 @@
+{
+  "initial": [
+    "blender_procedural_mesh",
+    "blender_kitbash",
+    "unreal_import_build_commandlet",
+    "unreal_material_assignment",
+    "unreal_collision_setup",
+    "unreal_preview_placement",
+    "hero_capture",
+    "player_camera_validation"
+  ],
+  "optional_future": [
+    "image_to_3d_model",
+    "mesh_cleanup_library",
+    "texture_generation",
+    "normal_map_generation",
+    "lod_generator",
+    "vfx_generator",
+    "hud_icon_generator",
+    "audio_placeholder_generator"
+  ],
+  "availability_note": "V1 requires NO unavailable external models; backends are adapters that record intent and call existing WANEFALL pipeline steps when present.",
+  "existing_wanefall_pipeline_hooks": {
+    "blender": "SourceAssets/Blender/scripts/gen_*.py -> exports/*.fbx",
+    "unreal_import": "WanefallBlenderImport commandlet -> /Game/Wanefall/Imported/Blender/",
+    "material_author": "WanefallMaterialAuthorCommandlet",
+    "hero_capture": "-WANEFALLHEROCAPTURE (AWanefallSculptedEnemyHeroCaptureDirector)",
+    "player_camera": "-WANEFALLMOVEMENTCAPTURE (AWanefallMovementCaptureDirector)",
+    "dual_gate": "WanefallDualGateLiveQA commandlet"
+  }
+}

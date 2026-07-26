@@ -1,0 +1,10 @@
+{
+  "rule": "If a human live screenshot shows an asset or scene is visually unacceptable, that OVERRIDES automated PASS/PASS_WITH_NOTES.",
+  "precedence": [
+    "human_live_screenshot_override",
+    "player_camera_validation",
+    "hero_capture_validation",
+    "automated_score"
+  ],
+  "mandatory": true
+}

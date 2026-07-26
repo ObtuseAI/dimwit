@@ -1,0 +1,39 @@
+{
+  "required": [
+    "dark alien combat",
+    "mature sci-fi",
+    "teal/cyan Wane energy",
+    "red/orange hostile weak points",
+    "third-person gameplay readability",
+    "controller-first visual clarity",
+    "clean silhouettes"
+  ],
+  "forbidden": [
+    "magenta target identity",
+    "white debug junk",
+    "generic fantasy",
+    "cheerful cartoon plastic",
+    "random AI ornament clutter",
+    "unreadable black blobs",
+    "copyrighted direct copying"
+  ],
+  "required_identity_traits": [
+    "dark_alien",
+    "teal_wane_energy",
+    "red_or_orange_weak_point",
+    "clean_silhouette"
+  ],
+  "forbidden_identity_traits": [
+    "magenta",
+    "purple_core",
+    "white_debug",
+    "white_blob",
+    "black_blob",
+    "near_black_metallic_body",
+    "cartoon",
+    "plastic_toy",
+    "generic_fantasy",
+    "ornament_clutter"
+  ],
+  "enforced_by": "dimwit.core.evaluate_style_law (deterministic, hard-fails on forbidden identity traits)"
+}

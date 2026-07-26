@@ -1,0 +1,159 @@
+{
+  "_doc": "Dimwit director autonomous backlog. The director orders by (priority + expected_value - cost - fail_penalty), runs each pipeline to PROMOTED_TO_REVIEW (operator-gated beyond), and trips a circuit breaker after repeated failures. Edit freely; run: python scripts/pipeline/run_director.py [--dry|--review|--validate].",
+  "tasks": [
+    {
+      "pipeline": "packaged_build_validation",
+      "asset_id": "wanefall_win64_development",
+      "priority": 13,
+      "cost": 3,
+      "expected_value": 7
+    },
+    {
+      "pipeline": "performance_baseline",
+      "asset_id": "wanefall_win64_development_perf",
+      "priority": 9,
+      "cost": 2,
+      "expected_value": 6
+    },
+    {
+      "pipeline": "bot_balance_telemetry",
+      "asset_id": "wanefall_win64_development_botmatch",
+      "priority": 9,
+      "cost": 2,
+      "expected_value": 6
+    },
+    {
+      "pipeline": "ui_settings_persistence",
+      "asset_id": "wanefall_win64_development_settings",
+      "priority": 9,
+      "cost": 2,
+      "expected_value": 6
+    },
+    {
+      "pipeline": "self_metrics_director",
+      "asset_id": "wanefall_self_metrics",
+      "priority": 16,
+      "cost": 1,
+      "expected_value": 8
+    },
+    {
+      "pipeline": "flagship_arena_art_pass",
+      "asset_id": "wanefall_arena4v4_flagship",
+      "priority": 8,
+      "cost": 4,
+      "expected_value": 6
+    },
+    {
+      "pipeline": "character_roster_policy",
+      "asset_id": "active_roster",
+      "priority": 15,
+      "cost": 1,
+      "expected_value": 8
+    },
+    {
+      "pipeline": "character_source_sync",
+      "asset_id": "active",
+      "priority": 14,
+      "cost": 1,
+      "expected_value": 7
+    },
+    {
+      "pipeline": "metahuman_output_attempt",
+      "asset_id": "zythan",
+      "priority": 12,
+      "cost": 2,
+      "expected_value": 6
+    },
+    {
+      "pipeline": "unreal_game_builder_engine",
+      "asset_id": "wanefall_autonomous_studio",
+      "priority": 11,
+      "cost": 1,
+      "expected_value": 5
+    },
+    {
+      "pipeline": "real_game_validation",
+      "asset_id": "wanefall_default_lobby",
+      "priority": 10,
+      "cost": 1,
+      "expected_value": 4
+    },
+    {
+      "pipeline": "character_fidelity",
+      "asset_id": "zythan",
+      "priority": 7,
+      "cost": 3,
+      "expected_value": 3
+    },
+    {
+      "pipeline": "character_fidelity",
+      "asset_id": "qorin",
+      "priority": 7,
+      "cost": 3,
+      "expected_value": 3
+    },
+    {
+      "pipeline": "character_fidelity",
+      "asset_id": "therak",
+      "priority": 7,
+      "cost": 3,
+      "expected_value": 3
+    },
+    {
+      "pipeline": "character_fidelity",
+      "asset_id": "ullio",
+      "priority": 7,
+      "cost": 3,
+      "expected_value": 3
+    },
+    {
+      "pipeline": "character_fidelity",
+      "asset_id": "kelous",
+      "priority": 7,
+      "cost": 3,
+      "expected_value": 3
+    },
+    {
+      "pipeline": "character_fidelity",
+      "asset_id": "nexor",
+      "priority": 7,
+      "cost": 3,
+      "expected_value": 3
+    },
+    {
+      "pipeline": "environment",
+      "asset_id": "arena1",
+      "priority": 8,
+      "cost": 4,
+      "expected_value": 6
+    },
+    {
+      "pipeline": "materials_shaders",
+      "asset_id": "wane",
+      "priority": 5,
+      "cost": 2,
+      "expected_value": 3
+    },
+    {
+      "pipeline": "vfx",
+      "asset_id": "crystallize",
+      "priority": 3,
+      "cost": 3,
+      "expected_value": 2
+    },
+    {
+      "pipeline": "audio",
+      "asset_id": "wane_sfx",
+      "priority": 3,
+      "cost": 2,
+      "expected_value": 2
+    },
+    {
+      "pipeline": "progression",
+      "asset_id": "wanefall_win64_development_progression",
+      "priority": 8,
+      "cost": 3,
+      "expected_value": 6
+    }
+  ]
+}

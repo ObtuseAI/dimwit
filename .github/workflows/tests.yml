@@ -1,0 +1,154 @@
+name: tests
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+# First-ever CI for dimwit. This repo is a local-first game-production studio:
+# most of the ~140 root scripts import the `unreal` (Unreal Editor) or `bpy`
+# (Blender) modules and cannot run in a headless GitHub runner. Large parts of
+# the `dimwit` package also import `dimwit.ledger`, a source subpackage that the
+# repo's .gitignore (`ledger/`) excludes from version control, so it is absent
+# from a fresh clone and any test importing `dimwit.pipelines`/`dimwit.engine`
+# fails at collection. CI therefore runs the honest, clean-clone-safe subset of
+# pure-Python tests only. Everything excluded is a local-only / missing-package
+# concern, not a regression introduced here.
+
+jobs:
+  tests:
+    name: pytest (pure-python, clean-clone-safe)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          submodules: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+      - name: Install test dependencies
+        # No requirements.txt / pyproject in the repo; the pure-Python tests
+        # only need pytest plus a few scientific/image libraries.
+        run: python -m pip install --upgrade pip pytest pillow numpy trimesh
+      - name: Run CI-safe pytest selection
+        # Explicit allow-list of the test modules that are genuinely
+        # clean-clone-safe: pure Python, no Unreal/Blender, no unguarded
+        # ctypes.windll, and no reads of local Unreal-project content. The
+        # dimwit.ledger SOURCE package is now committed (previously excluded by
+        # a too-broad `ledger/` .gitignore rule), so the ~60 tests that import
+        # dimwit.engine/dimwit.pipelines now collect and run on a fresh clone.
+        # Deliberately EXCLUDED (pass on a dev box, not on a clean Linux runner):
+        #   * test_ekris_clean_capture and test_anim_live_capture (their root
+        #     scripts bind ctypes.windll.user32 at import; Windows-only).
+        #   * contract tests that read a developer's local Unreal project
+        #     (C:\...\WanefallGreybox Source/*.cpp/.h, *.uproject, Config/*.ini)
+        #     or gitignored artifact content: test_character_roster_policy,
+        #     test_frontdoor_playable_contract, test_hud_weakpoint_contract,
+        #     test_lobby_dynamic_ui_contract, test_real_game_runtime_config,
+        #     test_rigging_deform, test_runtime_material_usage_flags,
+        #     test_wane_fx, test_wane_trial_visual_repair_contract.
+        #   * tests that assert Windows path shapes (D:\..., backslash separators)
+        #     or need a Blender executable, so they fail on Linux:
+        #     test_bot_balance_telemetry, test_elite_toolchains,
+        #     test_metahuman_output_attempt, test_packaged_build_validation,
+        #     test_performance_baseline.
+        # This selection is the honest intersection a clean Linux runner can
+        # actually satisfy: 549 tests across 58 modules, including source-controlled
+        # engine fixtures, improvement outcomes, and cross-engine proof receipts.
+        run: |
+          python -m pytest -q -p no:cacheprovider --no-header \
+            dimwit/tests/test_adapter_conformance.py \
+            dimwit/tests/test_agent_loop_security.py \
+            dimwit/tests/test_audio_foundation.py \
+            dimwit/tests/test_authority_ceiling.py \
+            dimwit/tests/test_autonomy_capability_matrix.py \
+            dimwit/tests/test_build_loop.py \
+            dimwit/tests/test_build_retention.py \
+            dimwit/tests/test_character_deformation_defect_gate.py \
+            dimwit/tests/test_character_multiview_symmetry_gate.py \
+            dimwit/tests/test_character_roster_path_security.py \
+            dimwit/tests/test_character_source_sync.py \
+            dimwit/tests/test_command_deck_truth.py \
+            dimwit/tests/test_confidence.py \
+            dimwit/tests/test_content_vcs.py \
+            dimwit/tests/test_cross_engine_proof.py \
+            dimwit/tests/test_deformation.py \
+            dimwit/tests/test_desktop_hands_process_identity.py \
+            dimwit/tests/test_director_resilience.py \
+            dimwit/tests/test_diversity_and_ecosystem.py \
+            dimwit/tests/test_engine_fusion.py \
+            dimwit/tests/test_flagship_arena.py \
+            dimwit/tests/test_input_matrix.py \
+            dimwit/tests/test_intent_contract.py \
+            dimwit/tests/test_intent_loop_e2e.py \
+            dimwit/tests/test_improvement_outcomes.py \
+            dimwit/tests/test_ledger_append_concurrency.py \
+            dimwit/tests/test_ledger_repair.py \
+            dimwit/tests/test_llm_retry.py \
+            dimwit/tests/test_loop_deform.py \
+            dimwit/tests/test_mcp_safety_gates.py \
+            dimwit/tests/test_metahuman_utilization.py \
+            dimwit/tests/test_neural3d_supply_chain.py \
+            dimwit/tests/test_optics_judge_quorum.py \
+            dimwit/tests/test_optics_subject_truth.py \
+            dimwit/tests/test_packaged_gameplay_motion.py \
+            dimwit/tests/test_pipeline_contract_auditor.py \
+            dimwit/tests/test_player_hygiene.py \
+            dimwit/tests/test_real_game_validation.py \
+            dimwit/tests/test_recursive_improvement.py \
+            dimwit/tests/test_rig_deform_identity.py \
+            dimwit/tests/test_runtime_process_identity.py \
+            dimwit/tests/test_self_metrics.py \
+            dimwit/tests/test_state_truth_sync.py \
+            dimwit/tests/test_studio_ide.py \
+            dimwit/tests/test_suite_intent.py \
+            dimwit/tests/test_suite_rig_deform.py \
+            dimwit/tests/test_target_match.py \
+            dimwit/tests/test_ue_live_capability.py \
+            dimwit/tests/test_ue_probe_launch_args.py \
+            dimwit/tests/test_ui_settings_persistence.py \
+            dimwit/tests/test_universal_mobile_factory.py \
+            dimwit/tests/test_unreal_game_builder_engine.py \
+            tests/test_animation_roster.py \
+            tests/test_mode_contract.py \
+            tests/test_progression.py \
+            tests/test_rigging_roster.py \
+            tests/test_roster_fidelity.py \
+            tests/test_roster_fidelity_registry.py
+
+      - name: Check public-release presentation and hygiene
+        run: python validators/public_release_readiness.py --root . --report "$RUNNER_TEMP/dimwit-public-release-readiness.json"
+
+  import-check:
+    name: byte-compile dimwit package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          submodules: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+      - name: Byte-compile the dimwit package
+        # Only the importable `dimwit` package. The root ue_*.py scripts import
+        # the editor-only `unreal` module and are intentionally not compiled here.
+        run: python -m compileall -q dimwit
+
+  lint:
+    name: ruff (advisory)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          submodules: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+      - name: Install ruff
+        run: python -m pip install --upgrade pip ruff
+      - name: Run ruff
+        # Advisory only: this codebase predates any linter and is not
+        # ruff-clean. continue-on-error keeps the job green so lint never
+        # blocks a merge; read the log for findings.
+        continue-on-error: true
+        run: ruff check .

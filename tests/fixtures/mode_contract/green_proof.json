@@ -1,0 +1,417 @@
+{
+	"source": "wanefall_mode_sim_proof_commandlet",
+	"complete": true,
+	"mode_count": 23,
+	"failures": 0,
+	"modes": [
+		{
+			"name": "arena.dm_1v1",
+			"category": "arena",
+			"result": "SIDE_0_WIN",
+			"pass": true,
+			"reset_ok": true,
+			"reset_state": "reset_ok",
+			"summary": "DM[team sides=2] phase=MatchOver elapsed=0.0 kills=5 downs=1 finishes=1 scores=[5,0] winner=0 reason=score_limit",
+			"fields":
+			{
+				"went_live": "true",
+				"winner": "0",
+				"score": "5",
+				"kills": "5",
+				"downs": "1",
+				"finishes": "1"
+			}
+		},
+		{
+			"name": "arena.dm_2v2",
+			"category": "arena",
+			"result": "SIDE_0_WIN",
+			"pass": true,
+			"reset_ok": true,
+			"reset_state": "reset_ok",
+			"summary": "DM[team sides=2] phase=MatchOver elapsed=0.0 kills=4 downs=1 finishes=1 scores=[4,0] winner=0 reason=score_limit",
+			"fields":
+			{
+				"went_live": "true",
+				"winner": "0",
+				"score": "4",
+				"kills": "4",
+				"downs": "1",
+				"finishes": "1"
+			}
+		},
+		{
+			"name": "arena.dm_ffa",
+			"category": "arena",
+			"result": "SIDE_2_WIN",
+			"pass": true,
+			"reset_ok": true,
+			"reset_state": "reset_ok",
+			"summary": "DM[ffa sides=6] phase=MatchOver elapsed=0.0 kills=3 downs=1 finishes=1 scores=[0,0,3,0,0,0] winner=2 reason=score_limit",
+			"fields":
+			{
+				"went_live": "true",
+				"winner": "2",
+				"score": "3",
+				"kills": "3",
+				"downs": "1",
+				"finishes": "1"
+			}
+		},
+		{
+			"name": "arena.a4v4_tdm",
+			"category": "arena",
+			"result": "SIDE_0_WIN",
+			"pass": true,
+			"reset_ok": true,
+			"reset_state": "reset_ok",
+			"summary": "DM[team sides=2] phase=MatchOver elapsed=0.0 kills=8 downs=1 finishes=1 scores=[8,0] winner=0 reason=score_limit",
+			"fields":
+			{
+				"went_live": "true",
+				"winner": "0",
+				"score": "8",
+				"kills": "8",
+				"downs": "1",
+				"finishes": "1"
+			}
+		},
+		{
+			"name": "arena.a4v4_ctf",
+			"category": "arena",
+			"result": "TEAM_0_WIN",
+			"pass": true,
+			"reset_ok": true,
+			"reset_state": "reset_ok",
+			"summary": "CTF phase=MatchOver score=3-0 pickups=4 drops=1 returns=1 captures=3 relicA=0 relicB=0 winner=0 reason=capture_limit",
+			"fields":
+			{
+				"went_live": "true",
+				"winner": "0",
+				"captures": "3",
+				"pickups": "4",
+				"drops": "1",
+				"returns": "1",
+				"auto_return_on_timer": "true"
+			}
+		},
+		{
+			"name": "arena.a4v4_ctrl",
+			"category": "arena",
+			"result": "TEAM_0_WIN",
+			"pass": true,
+			"reset_ok": true,
+			"reset_state": "reset_ok",
+			"summary": "CONTROL phase=MatchOver zones=3 score=30-0 owned=3/0 captures=3 contests=0 winner=0 reason=score_limit",
+			"fields":
+			{
+				"went_live": "true",
+				"winner": "0",
+				"owned_zones": "3",
+				"captures": "3",
+				"contested_freeze": "true"
+			}
+		},
+		{
+			"name": "arena.a4v4_hard",
+			"category": "arena",
+			"result": "TEAM_0_WIN",
+			"pass": true,
+			"reset_ok": true,
+			"reset_state": "reset_ok",
+			"summary": "HARDPOINT phase=MatchOver hill=0/4 score=20-0 rotations=4 contests=0 owner=-1 contested=0 winner=0 ot=0 reason=score_limit",
+			"fields":
+			{
+				"went_live": "true",
+				"winner": "0",
+				"score": "20",
+				"rotations": "4",
+				"contested_freeze": "true"
+			}
+		},
+		{
+			"name": "arena.a4v4_snd",
+			"category": "arena",
+			"result": "TEAM_0_WIN",
+			"pass": true,
+			"reset_ok": true,
+			"reset_state": "reset_ok",
+			"summary": "SND match=MatchOver round=4 rounds=4-0 attackTeam=1 armed=0 plants=2 defuses=1 detonations=1 elims=8 swaps=3 lastResult=DefendEliminate winner=0 reason=rounds_to_win",
+			"fields":
+			{
+				"winner": "0",
+				"plants": "2",
+				"defuses": "1",
+				"detonations": "1",
+				"eliminations": "8",
+				"side_swaps": "3",
+				"time_expire_defend_win": "true"
+			}
+		},
+		{
+			"name": "arena.a8v8_tdm",
+			"category": "arena",
+			"result": "SIDE_0_WIN",
+			"pass": true,
+			"reset_ok": true,
+			"reset_state": "reset_ok",
+			"summary": "DM[team sides=2] phase=MatchOver elapsed=0.0 kills=12 downs=1 finishes=1 scores=[12,0] winner=0 reason=score_limit",
+			"fields":
+			{
+				"went_live": "true",
+				"winner": "0",
+				"score": "12",
+				"kills": "12",
+				"downs": "1",
+				"finishes": "1"
+			}
+		},
+		{
+			"name": "arena.a8v8_ctf",
+			"category": "arena",
+			"result": "TEAM_0_WIN",
+			"pass": true,
+			"reset_ok": true,
+			"reset_state": "reset_ok",
+			"summary": "CTF phase=MatchOver score=4-0 pickups=5 drops=1 returns=1 captures=4 relicA=0 relicB=0 winner=0 reason=capture_limit",
+			"fields":
+			{
+				"went_live": "true",
+				"winner": "0",
+				"captures": "4",
+				"pickups": "5",
+				"drops": "1",
+				"returns": "1",
+				"auto_return_on_timer": "true"
+			}
+		},
+		{
+			"name": "arena.a8v8_ctrl",
+			"category": "arena",
+			"result": "TEAM_0_WIN",
+			"pass": true,
+			"reset_ok": true,
+			"reset_state": "reset_ok",
+			"summary": "CONTROL phase=MatchOver zones=5 score=40-0 owned=5/0 captures=5 contests=0 winner=0 reason=score_limit",
+			"fields":
+			{
+				"went_live": "true",
+				"winner": "0",
+				"owned_zones": "5",
+				"captures": "5",
+				"contested_freeze": "true"
+			}
+		},
+		{
+			"name": "arena.a8v8_hard",
+			"category": "arena",
+			"result": "TEAM_0_WIN",
+			"pass": true,
+			"reset_ok": true,
+			"reset_state": "reset_ok",
+			"summary": "HARDPOINT phase=MatchOver hill=1/4 score=25-0 rotations=5 contests=0 owner=-1 contested=0 winner=0 ot=0 reason=score_limit",
+			"fields":
+			{
+				"went_live": "true",
+				"winner": "0",
+				"score": "25",
+				"rotations": "5",
+				"contested_freeze": "true"
+			}
+		},
+		{
+			"name": "arena.a8v8_snd",
+			"category": "arena",
+			"result": "TEAM_0_WIN",
+			"pass": true,
+			"reset_ok": true,
+			"reset_state": "reset_ok",
+			"summary": "SND match=MatchOver round=4 rounds=4-0 attackTeam=1 armed=0 plants=2 defuses=1 detonations=1 elims=16 swaps=3 lastResult=DefendEliminate winner=0 reason=rounds_to_win",
+			"fields":
+			{
+				"winner": "0",
+				"plants": "2",
+				"defuses": "1",
+				"detonations": "1",
+				"eliminations": "16",
+				"side_swaps": "3",
+				"time_expire_defend_win": "true"
+			}
+		},
+		{
+			"name": "br.waneroyale",
+			"category": "battle_royale",
+			"result": "LAST_STANDING_alive_1",
+			"pass": true,
+			"reset_ok": true,
+			"reset_state": "reset_ok",
+			"summary": "BR phase=MatchOver alive=1/8 stage=4/4 radius=600 shrink=94% elims=7 downs=4 ooz_events=7 ooz_dmg=70 winnerRemaining=1 reason=last_combatant_standing",
+			"fields":
+			{
+				"went_live": "true",
+				"alive": "1",
+				"eliminations": "7",
+				"downs": "4",
+				"shrink_stage": "4",
+				"zone_radius": "600",
+				"ooz_damage": "70"
+			}
+		},
+		{
+			"name": "extraction.success",
+			"category": "extraction",
+			"result": "EXTRACTED",
+			"pass": true,
+			"reset_ok": true,
+			"reset_state": "reset_ok",
+			"summary": "EXTRACT phase=MatchOver state=Extracted loot=3 value=225 hp=100 extractProg=8.0/8.0 elapsed=5/300 threatHits=0 success=1 reason=extracted_with_3_loot",
+			"fields":
+			{
+				"went_live": "true",
+				"loot": "3",
+				"loot_value": "225",
+				"success": "true"
+			}
+		},
+		{
+			"name": "extraction.kia",
+			"category": "extraction",
+			"result": "KILLED_IN_ACTION",
+			"pass": true,
+			"reset_ok": true,
+			"reset_state": "n/a",
+			"summary": "EXTRACT phase=MatchOver state=FailedKIA loot=1 value=50 hp=0 extractProg=0.0/8.0 elapsed=0/300 threatHits=3 success=0 reason=killed_in_action",
+			"fields":
+			{
+				"dead": "true",
+				"threat_hits": "3",
+				"success": "false"
+			}
+		},
+		{
+			"name": "extraction.timeout",
+			"category": "extraction",
+			"result": "RAID_TIMEOUT",
+			"pass": true,
+			"reset_ok": true,
+			"reset_state": "n/a",
+			"summary": "EXTRACT phase=MatchOver state=FailedTimeout loot=1 value=25 hp=100 extractProg=0.0/8.0 elapsed=11/10 threatHits=0 success=0 reason=raid_timeout",
+			"fields":
+			{
+				"timed_out": "true",
+				"success": "false"
+			}
+		},
+		{
+			"name": "arcade.wanerush",
+			"category": "arcade",
+			"result": "FINISHED",
+			"pass": true,
+			"reset_ok": true,
+			"reset_state": "reset_ok",
+			"summary": "RACE phase=MatchOver lap=2/2 cp=12/12 nextCp=0 time=6.5 boosts=1 wrongway=1 resets=1 finished=1 reason=finished_2_laps_in_6.5s",
+			"fields":
+			{
+				"went_live": "true",
+				"finished": "true",
+				"checkpoints": "12",
+				"laps": "2",
+				"wrong_way": "1",
+				"boosts": "1",
+				"resets": "1",
+				"ordered_pass_valid": "true"
+			}
+		},
+		{
+			"name": "arcade.waneclash",
+			"category": "arcade",
+			"result": "SIDE_0_WIN",
+			"pass": true,
+			"reset_ok": true,
+			"reset_state": "reset_ok",
+			"summary": "BRAWL phase=MatchOver elapsed=0.0 knockbacks=5 ringouts=5 respawns=5 scores=[5,0] winner=0 reason=score_limit",
+			"fields":
+			{
+				"went_live": "true",
+				"winner": "0",
+				"ring_outs": "5",
+				"knockbacks": "5",
+				"respawns": "5"
+			}
+		},
+		{
+			"name": "arcade.rolltrial",
+			"category": "arcade",
+			"result": "FINISHED",
+			"pass": true,
+			"reset_ok": true,
+			"reset_state": "reset_ok",
+			"summary": "ROLL phase=MatchOver physicsRoll=1 cp=5/5 nextCp=5 time=2.0 falls=1 resets=1 finished=1 reason=finished_in_2.0s_falls_1",
+			"fields":
+			{
+				"went_live": "true",
+				"finished": "true",
+				"checkpoints": "5",
+				"falls": "1",
+				"resets": "1",
+				"physics_roll_flag": "true",
+				"ordered_pass_valid": "true"
+			}
+		},
+		{
+			"name": "ui.foundation",
+			"category": "ui",
+			"result": "UI_MODEL_VALID",
+			"pass": true,
+			"reset_ok": true,
+			"reset_state": "stateless",
+			"summary": "UIModel categories=6 totalModes=21 [Arena:13 BattleRoyale:1 Extraction:1 Arcade:3 Practice:2 Trial:1] | Nav cat[5]='Trial' mode[0]='WaneTrial' | settingsValid(def=1 bad=1 fix=1 clamp=1) | Result mode='A4v4_CTF' map='/Game/Wanefall/Maps/Wanefall_ArenaCore_Greybox_01' result='TEAM_A_WIN' score=3-1 dur=421.0 headline='WANE RELIC SECURED'",
+			"fields":
+			{
+				"setting_count": "12",
+				"default_valid": "true",
+				"bad_rejected": "true",
+				"clamped": "true",
+				"categories": "6",
+				"total_modes": "21",
+				"categories_complete": "true",
+				"nav_ok": "true",
+				"results_model_ok": "true"
+			}
+		},
+		{
+			"name": "trial.wanetrial",
+			"category": "trial",
+			"result": "SIDE_0_WIN",
+			"pass": true,
+			"reset_ok": true,
+			"reset_state": "reset_ok",
+			"summary": "DM[team sides=2] phase=MatchOver elapsed=0.0 kills=1 downs=1 finishes=1 scores=[1,0] winner=0 reason=score_limit",
+			"fields":
+			{
+				"went_live": "true",
+				"winner": "0",
+				"downs": "1",
+				"finishes": "1",
+				"kills": "1",
+				"second_chance_before_finish": "true"
+			}
+		},
+		{
+			"name": "practice.range",
+			"category": "practice",
+			"result": "PRACTICE_LIVE",
+			"pass": true,
+			"reset_ok": true,
+			"reset_state": "reset_ok",
+			"summary": "DM[ffa sides=2] phase=Live elapsed=3600.0 kills=20 downs=0 finishes=0 scores=[20,0] winner=-1 reason=",
+			"fields":
+			{
+				"went_live": "true",
+				"is_over": "false",
+				"winner": "-1",
+				"practice_kills": "20"
+			}
+		}
+	]
+}

@@ -1,0 +1,155 @@
+{
+  "_doc": "Dimwit production-engine manifest. status: BUILT (runnable, import+self-validated) | VERIFY (built, needs one live UE/Blender run) | PLANNED. Every pipeline subclasses dimwit.pipelines.base.ProductionPipeline and inherits the fully-proofed recursive loop (plan->execute->QA->repair->hash-chained ledger->gate). Active-slice promotion is ALWAYS operator-gated. Orchestrated by dimwit.director (scripts/pipeline/run_director.py). Self-check: python scripts/pipeline/run_director.py --validate.",
+  "version": 2,
+  "director": {
+    "status": "BUILT",
+    "module": "dimwit.director:Director",
+    "runner": "scripts/pipeline/run_director.py",
+    "purpose": "Autonomous sweep: order tasks by (priority+EV-cost-fail_penalty), run each pipeline to PROMOTED_TO_REVIEW, per-pipeline circuit breaker, hash-chained director ledger, operator review queue.",
+    "tasks": "config/director_tasks.json"
+  },
+  "pipelines": {
+    "character_fidelity": {
+      "status": "BUILT",
+      "module": "dimwit.pipelines.character_fidelity:CharacterFidelityPipeline",
+      "driver": "scripts/ue/ue_char_fidelity.py",
+      "purpose": "Full-detail Nanite import (no decimation) + Nanite material flag + satin de-chrome. Closes in-game!=Hi3D-creation.",
+      "proven": "Active roster source-to-Unreal fidelity records stay gated by source GLB, imported asset, material, and optics evidence."
+    },
+    "rigging": {
+      "status": "VERIFY",
+      "module": "dimwit.pipelines.rigging:RiggingPipeline",
+      "driver": "blender_scripts/rig_to_mannequin.py + scripts/ue/ue_rig_io.py",
+      "purpose": "Auto-rig static Hi3D mesh -> UE5 Mannequin skeletal (Blender automatic weights) so it reuses ABP_Manny.",
+      "proof": "weight_coverage~1.0, <=4 influences, bones>=50, UE skeletal imported"
+    },
+    "animation": {
+      "status": "VERIFY",
+      "module": "dimwit.pipelines.animation:AnimationPipeline",
+      "driver": "scripts/ue/ue_anim_setup.py",
+      "purpose": "Make a rigged char animate by reusing ABP_Manny / AnimStarterPack (same SK_Mannequin skeleton).",
+      "proof": "rig_exists + skeleton_compatible(hard) + anim_bp_assigned + >=1 compatible anim",
+      "depends_on": "rigging"
+    },
+    "environment": {
+      "status": "VERIFY",
+      "module": "dimwit.pipelines.environment:EnvironmentPipeline",
+      "driver": "scripts/ue/ue_env_build.py",
+      "purpose": "Procedural WANE-LINE arena from the modular MapKit (deterministic collapse axis), seeded + reproducible.",
+      "proof": "level_saved + actor_count + PlayerStarts + lighting + wane-line spine/core + no missing kit pieces"
+    },
+    "vfx": {
+      "status": "VERIFY",
+      "module": "dimwit.pipelines.vfx:VFXPipeline",
+      "driver": "scripts/ue/ue_vfx_build.py",
+      "purpose": "Niagara WANE VFX per verb (crystallize/erode/snap/hit/death) by duplicating+parameterizing a template system.",
+      "proof": "Niagara system asset created + emitters/params"
+    },
+    "audio": {
+      "status": "VERIFY",
+      "module": "dimwit.pipelines.audio:AudioPipeline",
+      "driver": "scripts/ue/ue_audio_import.py",
+      "purpose": "Weaponized-Banter TTS (Piper/pyttsx3/SAPI) -> WAV -> UE SoundWaves + MetaSound source scaffold.",
+      "proof": ">=1 WAV synthesized + imported as SoundWave + loudness sanity"
+    },
+    "materials_shaders": {
+      "status": "VERIFY",
+      "module": "dimwit.pipelines.materials_shaders:MaterialsShadersPipeline",
+      "driver": "scripts/ue/ue_materials_build.py",
+      "purpose": "MF_Wane master material function + M_WaneSurface (teal/blue seam mask, saturation, de-chrome) across assets.",
+      "proof": "MF_Wane + M_WaneSurface created + compile ok"
+    },
+    "marble_ingest": {
+      "status": "VERIFY",
+      "module": "dimwit.pipelines.marble_ingest:MarbleIngestPipeline",
+      "driver": "blender_scripts/marble_blender_ingest.py + scripts/ue/ue_marble_import.py",
+      "purpose": "Bring a Marble (World Labs) AI-generated world into WANEFALL as a playable UE5.8 env: intake/route (collider|hq GLB | splat PLY/SPZ) -> Blender OpenCV->Z-up axis fix + scale calibration + weld/decimate/triangulate -> UE Interchange import as Nanite StaticMesh + UseComplexAsSimple collision + neutral test map.",
+      "proof": "V1..V11 fail-closed: axis Z-up + scale calibrated + tri budget + Nanite(vs SOURCE tris) + UseComplexAsSimple + test map saved w/ PlayerStart; provenance fail-closed on commercial license; V11 optics pending live PIE capture",
+      "human_only_boundary": "Account creation, commercial-tier subscription, world generation, and export DOWNLOAD are operator-only (marble.worldlabs.ai). Automation begins once an export file exists on disk. SPLAT visual track BLOCKED on 5.8 (no confirmed Gaussian-splat plugin build). See docs/DIMWIT_MARBLE_INGEST.md."
+    },
+    "real_game_validation": {
+      "status": "BUILT",
+      "module": "dimwit.pipelines.real_game_validation:RealGameValidationPipeline",
+      "driver": "DesktopEyes + actual WanefallGreybox standalone window",
+      "purpose": "Validate the real running WANEFALL game window instead of static files, constructor state, or proxy captures.",
+      "proof": "Fresh desktop capture, nonblank still, nonblank frame burst, strict UE log fatal/error scan, and placeholder/blockout geometry signal. Current live state is PASS and promoted to the autonomous review ceiling."
+    },
+    "packaged_build_validation": {
+      "status": "BUILT",
+      "module": "dimwit.pipelines.packaged_build_validation:PackagedBuildValidationPipeline",
+      "driver": "RunUAT BuildCookRun + packaged WanefallGreybox.exe + DesktopEyes",
+      "purpose": "Validate a release-style packaged Win64 Development build rather than relying only on editor/game-target compile or editor standalone runtime.",
+      "proof": "Writes artifacts/packaged_build_validation/packaged_build_result.json and package_manifest.json with UAT logs, archive path, executable hash/size, package totals, packaged window capture, frame burst, and packaged log scan."
+    },
+    "performance_baseline": {
+      "status": "BUILT",
+      "module": "dimwit.pipelines.performance_baseline:PerformanceBaselinePipeline",
+      "driver": "packaged WanefallGreybox.exe -WANEFALLPERFPROOF + UWanefallPerfProofSubsystem + DesktopEyes/DesktopHands",
+      "purpose": "Machine-play the CURRENT packaged build (command deck -> ENTER deploy -> Arena4v4 bot TDM) while the flag-gated in-game perf subsystem samples wall frametime + memory; fail-closed floor gates (p95 16.6ms @1080p, steady hitch count 0, 8GB peak) make packaged performance a per-run truth.",
+      "proof": "Writes artifacts/performance_baseline/performance_baseline_result.json with the identity-bound perf payload (per-map menu/arena segments, steady windows, downsampled steady trace), package sha binding, measurement conditions, and recomputed floor checks."
+    },
+    "bot_balance_telemetry": {
+      "status": "BUILT",
+      "module": "dimwit.pipelines.bot_balance_telemetry:BotBalanceTelemetryPipeline",
+      "driver": "packaged WanefallGreybox.exe -WANEFALLBOTMATCH -nullrhi -deterministic -fps=60 + UWanefallBotMatchSubsystem",
+      "purpose": "Headless packaged bot-vs-bot Arena4v4 matches at scale through the REAL game loop; emits per-match TTK, fire uptime, weapon usage, 16x16 position heatmaps, and wane-line progression curves so design changes cite receipts (masterplan B2/A2).",
+      "proof": "Writes artifacts/bot_balance/bot_balance_result.json with the flag/pid/exe-sha-bound telemetry payload; gates are recomputed from the per-match array (fabricated aggregates REJECTED) plus drift gates vs the pinned committed baseline (missing baseline BLOCKS)."
+    },
+    "ui_settings_persistence": {
+      "status": "BUILT",
+      "module": "dimwit.pipelines.ui_settings:UiSettingsPersistencePipeline",
+      "driver": "packaged WanefallGreybox.exe -WANEFALLSETTINGSPROOF SettingsProofPhase=write|verify + UWanefallProfileSubsystem + UWanefallSettingsProofSubsystem",
+      "purpose": "Prove settings persistence on the packaged build: a flag-gated two-launch proof changes all 12 FWanefallSettings + a resolution, persists the profile JSON + applies UGameUserSettings, then a real relaunch reloads from disk and reports what survived (masterplan B4/B6).",
+      "proof": "Writes artifacts/ui_settings/ui_settings_result.json with write/verify proofs; gates recompute the 12-field round-trip across relaunch, GameUserSettings apply+persist, non-default coverage, and pid/exe-sha binding (two distinct pids)."
+    },
+    "self_metrics_director": {
+      "status": "BUILT",
+      "module": "dimwit.pipelines.self_metrics:SelfMetricsDirectorPipeline",
+      "driver": "pure Python over artifacts/validation/validation_report_full.json (no UE)",
+      "purpose": "The recursive loop measures + schedules itself (A2): self-metrics over the validator suite (domain health, probe mix), an evidence-freshness RADAR that predicts which heavy lanes decay next, and an evidence-ranked operational queue (fix broken domain / re-run stale lane) with receipts.",
+      "proof": "Writes artifacts/self_metrics/self_metrics.json; gates recompute suite/domains/probe_mix from the cited report (fabricated self-grade caught), verify the freshness radar covers every aged lane, and the operational queue is deterministic + evidence-cited (broken->stale->warn)."
+    },
+    "flagship_arena_art_pass": {
+      "status": "BUILT",
+      "module": "dimwit.pipelines.flagship_arena_pipeline:FlagshipArenaArtPassPipeline",
+      "driver": "scripts/ue/ue_arena_flagship_dress.py (saves dressed map) + scripts/ue/ue_arena_capture_tour.py (SceneCapture station tour)",
+      "purpose": "Dress Wanefall_Arena4v4_Prototype_01 from greybox to a readable wane-themed flagship (kit landmarks + wane/trim materials + lighting rig + wane-energy identity, SAVED into the map) and prove it with a per-station capture tour (masterplan B3).",
+      "proof": "Writes artifacts/flagship_arena/flagship_arena_dress_result.json + flagship_arena_tour_result.json + per-station stills; gates check kit-landmark dressing over greybox, SkyAtmosphere lighting rig, emissive wane-energy identity, PlayerStarts, and a non-blank distinct-coverage capture tour."
+    },
+    "unreal_game_builder_engine": {
+      "status": "BUILT",
+      "module": "dimwit.pipelines.unreal_game_builder_engine:UnrealGameBuilderEnginePipeline",
+      "driver": "artifacts/validation + autonomy matrix + pipeline contracts + real-game validation + MetaHuman utilization audit",
+      "purpose": "All-in-one Unreal game-building engine proof layer: maps every major game-production lane to evidence, current blockers, validation commands, rollback paths, and a ranked recursive repair queue.",
+      "proof": "Writes doctrine, scorecard, and final report artifacts under artifacts/unreal_game_builder; passes only if required lanes are covered, current blockers stay visible, queue actions are ranked, and every action preserves PROMOTED_TO_REVIEW."
+    },
+    "metahuman_output_attempt": {
+      "status": "BUILT",
+      "module": "dimwit.pipelines.metahuman_output_attempt:MetaHumanOutputAttemptPipeline",
+      "driver": "UnrealEditor-Cmd.exe + PythonScriptPlugin + MetaHumanCharacter editor APIs",
+      "purpose": "Executable fail-closed MetaHuman output lane: attempts a WANEFALL source-mesh-linked MetaHuman character transform and records exact output or blocker evidence.",
+      "proof": "Writes artifacts/metahuman_output_attempt/<character>/metahuman_output_attempt_result.json. Only source-linked transform operations with existing outputs can satisfy MetaHuman output evidence; raw MH_*.uasset or .dna names alone are ignored."
+    },
+    "character_roster_policy": {
+      "status": "BUILT",
+      "module": "dimwit.pipelines.character_roster_policy:CharacterRosterPolicyPipeline",
+      "driver": "config/character_roster.json + imported humanoid/mech evidence + director queue audit",
+      "purpose": "Active roster/quarantine gate: supports 7 active humanoids plus 8 active mech characters while retaining retired prototypes as audit evidence, not active repair blockers.",
+      "proof": "Writes artifacts/character_roster_policy/character_roster_policy_report.json and fails if quarantined characters re-enter director tasks or mech evidence is missing."
+    },
+    "character_source_sync": {
+      "status": "BUILT",
+      "module": "dimwit.pipelines.character_source_sync:CharacterSourceSyncPipeline",
+      "driver": "Hi3D/Hitem3D source GLBs + blender_scripts/character_anatomy_review.py + character_fidelity + metahuman_output_attempt",
+      "purpose": "Fail-closed source chain for active website-generated WANEFALL humanoids: Hi3D GLB, Blender source/retopo/rig anatomy evidence, validated Unreal import, and source-linked MetaHuman output must stay connected. Quarantined characters report retired status instead of consuming repair loops.",
+      "proof": "Writes artifacts/character_source_sync/character_source_sync_report.json with per-character stage states, next-action commands, and hard failure for fragmented geometry or dirty rig transforms."
+    },
+    "progression": {
+      "status": "BUILT",
+      "module": "dimwit.pipelines.progression:ProgressionPipeline",
+      "driver": "packaged WanefallGreybox.exe -WANEFALLBOTMATCH x2 (two sequential relaunches) + UWanefallProgressionSubsystem",
+      "purpose": "Proves progression is EARNED from a real bot-match seat and PERSISTS across a real process relaunch: XP/level/challenges recomputed from the emitted apply-proofs, anti-farm cap enforced, and run #2 loads run #1's saved profile (PROGRESSION_PERSISTENCE_V1, masterplan B6).",
+      "proof": "Writes artifacts/progression/progression_result.json (exe-sha-bound, two distinct pids); gates recompute earned xp/level/challenges from per-match apply-proofs, chain-check accumulation, and assert account_xp after relaunch == run1 + run2 granted (reset REJECTED)."
+    }
+  }
+}

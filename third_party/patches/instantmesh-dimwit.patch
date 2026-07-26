@@ -1,0 +1,9 @@
+diff --git a/run.py b/run.py
+index 1454253..f1d74d0 100644
+--- a/run.py
++++ b/run.py
+@@ -101,2 +101,3 @@ pipeline = DiffusionPipeline.from_pretrained(
+-    custom_pipeline="zero123plus",
++    custom_pipeline="zero123plus",
++    revision="2da07e89919e1a130c9b5add1584c70c7aa065fd",
+     torch_dtype=torch.float16,

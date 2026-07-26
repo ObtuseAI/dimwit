@@ -1,0 +1,28 @@
+{
+  "gates": [
+    "technical",
+    "style",
+    "hero_capture",
+    "player_camera",
+    "performance",
+    "collision",
+    "provenance",
+    "promotion"
+  ],
+  "outputs": [
+    "technical_validation.json",
+    "style_validation.json",
+    "hero_capture_validation.json",
+    "player_camera_validation.json",
+    "performance_sanity.json",
+    "collision_sanity.json",
+    "provenance_validation.json",
+    "promotion_verdict.json"
+  ],
+  "hard_gates": [
+    "style",
+    "provenance"
+  ],
+  "promotion_threshold": 0.7,
+  "rule": "player_camera evidence cannot be replaced by hero_capture; both are required for a full promotion verdict."
+}

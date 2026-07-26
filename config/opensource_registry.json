@@ -1,0 +1,33 @@
+{
+  "policy": "Dimwit imports ONLY open-source tools whose license permits use in a commercial game pipeline. Each entry records license + source + role + provenance. Copyleft DCC TOOLS (e.g. Blender/GPL) may be invoked as EXTERNAL PROCESSES — their GPL covers the tool, not the assets they output (per the Blender Foundation's own licensing FAQ), so generated assets remain unencumbered.",
+  "imported": [
+    {"name": "numpy", "version": "2.4.6", "license": "BSD-3-Clause", "spdx": "BSD-3-Clause",
+     "source": "https://numpy.org", "role": "vectorized pixel + geometry math (perception)", "linking": "library_import", "commercial_ok": true, "preinstalled": true},
+    {"name": "Pillow", "version": "12.2.0", "license": "HPND (MIT-style permissive)", "spdx": "HPND",
+     "source": "https://python-pillow.org", "role": "image IO for pixel-truth perception + contact sheets", "linking": "library_import", "commercial_ok": true, "preinstalled": true},
+    {"name": "trimesh", "version": "4.12.2", "license": "MIT", "spdx": "MIT",
+     "source": "https://github.com/mikedh/trimesh", "role": "procedural mesh build + GLB/OBJ export + measured geometry metrics", "linking": "library_import", "commercial_ok": true, "installed_this_pass": true},
+    {"name": "requests", "version": "2.34.2", "license": "Apache-2.0", "spdx": "Apache-2.0",
+     "source": "https://requests.readthedocs.io", "role": "optional reference/asset fetch (provenance-gated)", "linking": "library_import", "commercial_ok": true, "preinstalled": true},
+    {"name": "Blender", "version": "5.1.2", "license": "GPL-3.0 (tool)", "spdx": "GPL-3.0-or-later",
+     "source": "https://www.blender.org", "role": "headless DCC backend: procedural blockout build + FBX/GLB export", "linking": "external_process_only", "commercial_ok": true,
+     "gpl_note": "Blender is invoked as a SEPARATE PROCESS (no linking). Per the Blender Foundation FAQ, assets you create with Blender are YOURS and are NOT covered by the GPL. Dimwit never links Blender code into shipped game code."}
+  ],
+  "neural_image_to_3d_backend": {
+    "isolation": "separate Python 3.12 venv at Dimwit/neural3d/venv; Dimwit core (3.14) calls it as a SUBPROCESS (same boundary as Blender)",
+    "gpu": "NVIDIA RTX 3070 8GB (CUDA via torch's bundled runtime; driver 595.79 / CUDA 13.2 capable)",
+    "imported": [
+      {"name": "torch", "build": "2.6.0+cu124", "license": "BSD-3-Clause", "source": "https://pytorch.org", "role": "GPU tensor backend for image-to-3D", "linking": "external_venv_subprocess", "commercial_ok": true},
+      {"name": "torchvision", "license": "BSD-3-Clause", "source": "https://github.com/pytorch/vision", "role": "image transforms", "linking": "external_venv_subprocess", "commercial_ok": true},
+      {"name": "TripoSR", "license": "MIT (code)", "weights_license": "MIT (stabilityai/TripoSR weights)", "source": "https://github.com/VAST-AI-Research/TripoSR", "role": "single-image -> 3D mesh", "linking": "external_venv_subprocess", "commercial_ok": true},
+      {"name": "transformers", "license": "Apache-2.0", "source": "https://github.com/huggingface/transformers", "role": "TripoSR image tokenizer deps", "linking": "external_venv_subprocess", "commercial_ok": true},
+      {"name": "rembg", "license": "MIT", "source": "https://github.com/danielgatis/rembg", "role": "foreground/background removal before image-to-3D", "linking": "external_venv_subprocess", "commercial_ok": true},
+      {"name": "omegaconf", "license": "BSD-3-Clause", "source": "https://github.com/omry/omegaconf", "role": "TripoSR config", "linking": "external_venv_subprocess", "commercial_ok": true}
+    ],
+    "note": "All neural-backend code is permissive; TripoSR CODE and WEIGHTS are MIT, so meshes it produces are usable commercially. The reference image you provide must itself be owned/licensed (Dimwit provenance gate still applies to the input)."
+  },
+  "rejected_or_avoided": [
+    {"name": "any unknown-license model weights / scraped asset packs", "reason": "fail Dimwit provenance gate (unknown_license/forbidden)"},
+    {"name": "GPL/AGPL LIBRARIES linked into shipped game code", "reason": "would impose copyleft on the game; only external-process GPL tools are allowed"}
+  ]
+}

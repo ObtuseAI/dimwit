@@ -1,0 +1,26 @@
+{
+  "accepts": [
+    "image reference",
+    "AI-generated concept",
+    "screenshot",
+    "failed gameplay screenshot",
+    "moodboard image",
+    "existing placeholder actor",
+    "text asset spec",
+    "design doc need"
+  ],
+  "extracts": [
+    "asset_class",
+    "silhouette",
+    "dominant_shapes",
+    "palette",
+    "materials",
+    "useful_traits",
+    "forbidden_traits",
+    "gameplay_role",
+    "scale_estimate",
+    "camera_readability_risk",
+    "wanefall_translation_plan"
+  ],
+  "output": "a WANEFALL-native asset_spec (never a literal copy of the source)"
+}

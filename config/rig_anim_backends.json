@@ -1,0 +1,218 @@
+{
+  "_doc": "Dimwit pluggable backend registry. Dimwit picks a backend by name; the rigging/animation pipelines resolve rigging_backends + animation_backends via dimwit/pipelines/anim_backends.py (other categories are eval-metadata only and are NOT auto-resolved as runnable backends). status: BUILT (runnable headless now) | READY (script staged, run on demand) | SCAFFOLD (adapter + integration contract; needs install/key/web/smoke) | REFERENCE (forkable reference, not wired). Whatever 'Auro 15.0' turns out to be drops in as one more entry here. PROVENANCE FAIL-CLOSED: a backend must record source + license before any asset it makes can promote; recording an eval here is NOT adoption and NOT promotion. Every externally-sourced entry carries an `eval{}` block (verdict/confidence/license/spdx/commercial_ship_ok/provenance_gate/adversarial_verified/caveats), plus operator_gated:true and auto_promote:false. provenance_gate values: clears | PENDING_ADVERSARIAL_REVERIFY (independent license re-verify did not complete -> may NOT clear) | n/a (reference-only, nothing promoted). External evals sourced from the adversarial 2-stage workflow w2imvg90z (eval -> independent license-verify), 2026-06-27.",
+  "version": 2,
+  "rigging_backends": {
+    "blender_smooth": {
+      "status": "BUILT", "tool": "Blender 5.1 (rig_to_mannequin.py)", "license": "GPL tool, outputs unencumbered",
+      "cost": "free", "headless": true,
+      "does": "Auto-rig a static Hi3D mesh to the UE5 Mannequin skeleton with inverse-distance K=4 smooth weights (KDTree + segment distance). Coverage 1.0, <=4 influences.",
+      "integration": "blender_scripts/rig_to_mannequin.py -- mannequin=<SK FBX> mesh=<char GLB> out=<rigged FBX>; then scripts/ue/ue_rig_io.py import_skeletal."
+    },
+    "accurig": {
+      "status": "SCAFFOLD", "tool": "Reallusion AccuRig 2.0", "license": "free (commercial OK)", "cost": "free",
+      "headless": false,
+      "does": "Best-quality free auto-rig (full body + fingers) for any character -> FBX/USD with clean smooth weights.",
+      "integration": "Install AccuRig; batch each char OBJ/FBX -> rigged FBX -> scripts/ue/ue_rig_io.py import_skeletal + IK-retarget to SK_Mannequin. Semi-interactive (GUI); CLI/batch limited.",
+      "activate": "download from actorcore.reallusion.com/auto-rig"
+    },
+    "tripo_rig": {
+      "status": "SCAFFOLD", "tool": "Tripo AI auto-rig (API)", "license": "per-account terms", "cost": "credits",
+      "headless": true,
+      "does": "Cloud API: rig a static mesh -> skeleton + smooth skin weights in seconds (Dimwit's rigging backend, mirroring Hi3D as the geometry backend).",
+      "integration": "dimwit/tripo_rig.py (HTTP client, mirrors hi3d.py): submit mesh -> poll -> download rigged GLB/FBX. Needs TRIPO_API_KEY in config/secrets.json."
+    },
+    "mixamo": {
+      "status": "SCAFFOLD", "tool": "Adobe Mixamo", "license": "free (royalty-free use)", "cost": "free",
+      "headless": false,
+      "does": "Auto-rig + a large humanoid animation library (incl. swinging/flips). Web upload.",
+      "integration": "Upload mesh to mixamo.com -> download rigged FBX + chosen anims -> IK-retarget to SK_Mannequin. Web/account (semi-interactive)."
+    },
+    "unirig": {
+      "status": "SCAFFOLD", "tool": "UniRig / OSS ML auto-rig", "license": "OSS — eval noted MIT-class; re-verify the exact active fork before promote", "cost": "free (GPU)",
+      "headless": true,
+      "does": "ML auto-rigging of arbitrary meshes; candidate local alternative to Tripo when a GPU is free.",
+      "integration": "isolated venv (like neural3d); infer skeleton+weights -> FBX. Research/verify the active repo + license before wiring."
+    },
+    "ue_to_rigify": {
+      "status": "SCAFFOLD", "tool": "Epic 'UE to Rigify' (EpicGamesExt/BlenderTools, ue2rigify 1.6.2)", "license": "MIT", "cost": "free",
+      "headless": false,
+      "does": "Node-based retarget system layering Blender Rigify control rigs onto the UE Mannequin / Marketplace / custom alien skeletons, then pushing retargeted anim back to UE via Send to Unreal. Addresses the custom-species retarget tax.",
+      "integration": "Install ue2rigify addon in Blender (5.1/4.x); author/retarget on a control rig; export retargeted clip through send_to_unreal into UE5.8 -> Dimwit live+optics validate before promote. SMOKE-TEST UE5.8 first.",
+      "activate": "vendor EpicGamesExt/BlenderTools @ tag 20230601211651 (ue2rigify 1.6.2), retain MIT notice",
+      "eval": {
+        "verdict": "adopt", "confidence": 0.82, "license": "MIT", "spdx": "MIT", "commercial_ship_ok": true,
+        "provenance_gate": "clears", "adversarial_verified": true, "source": "workflow w2imvg90z (2026-06-27)",
+        "caveats": [
+          "Same repo as send_to_unreal; UE5.8/Blender-4.x compat UNVERIFIED (last release Nov 2023, last commit Jul 2024 predate UE5.8) -> smoke-test gate before promote.",
+          "Near-dormant upstream; budget for a self-maintained MIT fork if UE5.8 needs patching.",
+          "Editor/author-time tool only — never ships in the packaged game; output (retargeted anim) is unencumbered."
+        ]
+      },
+      "operator_gated": true, "auto_promote": false
+    }
+  },
+  "animation_backends": {
+    "procedural": {
+      "status": "BUILT", "tool": "WANEFALL C++ (AWanefallPrototypeCharacter)", "license": "first-party", "cost": "free",
+      "does": "Procedural traversal already in-engine: grapple pendulum swing, boost flips, rolls, agility cuts, muzzle-tracks-crosshair aim. No anim assets needed.",
+      "integration": "compiled into the character; tuning UPROPERTYs exposed."
+    },
+    "animstarterpack_retarget": {
+      "status": "READY", "tool": "UE5 IK Retargeter + in-project AnimStarterPack", "license": "Epic Content EULA (in-engine)",
+      "cost": "free", "headless": true,
+      "does": "IK-retarget the in-project AnimStarterPack (UE4 mocap: idle/walk/jog/run/jump/turn/strafe) from UE4_Mannequin_Skeleton -> SK_Mannequin so the rigged aliens play REAL locomotion (not just procedural).",
+      "integration": "scripts/ue/ue_retarget_animstarterpack.py (headless UnrealEditor-Cmd): build/resolve a UE4->UE5 IK Retargeter, batch-retarget the AnimStarterPack sequences to SK_Mannequin under /Game/Wanefall/Dimwit/Anims."
+    },
+    "mixamo_library": {
+      "status": "SCAFFOLD", "tool": "Mixamo animation library", "license": "free (royalty-free)", "cost": "free",
+      "headless": false,
+      "does": "Acrobatic/parkour/swing/flip/wall-run anims for the Spider-Man-with-a-gun set.",
+      "integration": "download FBX anims -> import -> IK-retarget to SK_Mannequin -> layer into the AnimBP."
+    },
+    "cascadeur": {
+      "status": "SCAFFOLD", "tool": "Cascadeur", "license": "free tier / paid", "cost": "free-ish",
+      "headless": false,
+      "does": "AI-assisted + physics keyframe authoring of bespoke WANEFALL acrobatic moves (swings, flips, dismounts).",
+      "integration": "author in Cascadeur -> export FBX -> import + retarget. GUI."
+    },
+    "ai_mocap": {
+      "status": "SCAFFOLD", "tool": "DeepMotion / RADiCAL / Rokoko", "license": "per-account", "cost": "subscription",
+      "headless": false,
+      "does": "Video -> 3D animation (no suit), native UE5 import; fast custom moves.",
+      "integration": "record video -> AI mocap -> FBX/native UE -> retarget to SK_Mannequin."
+    },
+    "ml_text_to_motion": {
+      "status": "SCAFFOLD", "tool": "MDM / MotionGPT / OmniControl (OSS)", "license": "MIT-ish (verify)", "cost": "free (GPU)",
+      "headless": true,
+      "does": "Text -> motion generation for WANEFALL-native moves (Crystallize/Erode/Snap signature actions).",
+      "integration": "isolated venv; generate SMPL/BVH -> convert -> retarget to SK_Mannequin."
+    },
+    "aim_offset_animbp": {
+      "status": "SCAFFOLD", "tool": "UE5 AnimBlueprint + AimOffset", "license": "first-party", "cost": "free",
+      "headless": false,
+      "does": "Layered upper-body aim (spine twist) so the gun aims with the body while lower body runs/swings -- the full 'with a gun' read beyond the procedural muzzle-track.",
+      "integration": "in-editor: AimOffset asset + a layered-blend-per-bone AnimBP reading the character's AimPitch/AimYaw. Editor authoring (not headless)."
+    }
+  },
+  "bridge_backends": {
+    "_doc": "Blender<->UE transport + LLM-driven authoring front-ends. NOT a rig/anim backend; an authoring/transport layer whose OUTPUT is re-validated through the deterministic headless pipeline before any promotion.",
+    "send_to_unreal": {
+      "status": "SCAFFOLD", "tool": "Epic 'Send to Unreal' (EpicGamesExt/BlenderTools, send2ue 2.4.3)", "license": "MIT", "cost": "free",
+      "headless": false,
+      "does": "One-click Blender->UE export of static/skeletal meshes, skeletons, animations, materials, sockets, collisions, LODs over the UE editor Python/remote-exec API. The canonical Blender->UE5 asset transport.",
+      "integration": "Install send2ue in Blender; enable UE 'Python/remote execution'; export a greybox alien SKM+anim into UE5.8 -> Dimwit in-engine validate (import OK, skeleton intact, anim plays) BEFORE promote. Editor-time only; never ships.",
+      "activate": "vendor EpicGamesExt/BlenderTools @ tag 20231109043947 (send2ue 2.4.3), retain MIT notice",
+      "eval": {
+        "verdict": "adopt", "confidence": 0.82, "license": "MIT", "spdx": "MIT", "commercial_ship_ok": true,
+        "provenance_gate": "clears", "adversarial_verified": true, "source": "workflow w2imvg90z (2026-06-27)",
+        "caveats": [
+          "UE5.8/Blender-4.x compat UNVERIFIED (predates UE5.8) -> fail-closed smoke-test gate before promote.",
+          "Near-dormant upstream (no release since Nov 2023); budget for a self-maintained MIT fork.",
+          "Requires the UE editor Python/remote-exec plugin enabled; editor-time only, zero runtime/shipping footprint."
+        ]
+      },
+      "operator_gated": true, "auto_promote": false
+    },
+    "blender_mcp": {
+      "status": "SCAFFOLD", "kind": "mcp", "tool": "ahujasid/blender-mcp (MCP bridge + Blender addon)", "license": "MIT", "cost": "free",
+      "headless": false,
+      "does": "Lets Claude drive a live Blender session (create/modify objects + materials, inspect scene, viewport screenshots, asset pulls from Poly Haven/Sketchfab/Hyper3D). An interactive authoring/exploration front-end mapping onto the orchestrate->execute->validate-with-own-eyes loop.",
+      "integration": "Install addon.py in Blender (3.0+; our 4.x/5.1 qualifies); add MCP server via `uvx blender-mcp`. AUTHORING ONLY: any result is exported (FBX/glTF) and re-validated through the deterministic headless pipeline + provenance gate before promotion. The MCP path authors, it does NOT certify.",
+      "eval": {
+        "verdict": "candidate", "confidence": 0.83, "license": "MIT", "spdx": "MIT", "commercial_ship_ok": true,
+        "provenance_gate": "clears", "adversarial_verified": true, "source": "workflow w2imvg90z (2026-06-27)",
+        "caveats": [
+          "execute_blender_code runs ARBITRARY Python in Blender on the local machine (README flags it 'potentially dangerous') -> MUST be operator-gated and OFF BY DEFAULT before any Dimwit use, like the guarded desktop HANDS.",
+          "LLM-driven editing is non-deterministic -> authoring front-end only, NEVER the certified/auto-promote path (conflicts with proof-driven reproducibility).",
+          "Poly Haven/Sketchfab/Hyper3D pulls carry their OWN per-asset licenses independent of blender-mcp's MIT -> provenance gate must validate each downloaded asset separately.",
+          "No built-in UE export / zero UE5.8 coupling — the Blender->UE handoff is still your own export scripting."
+        ]
+      },
+      "execute_blender_code": "DISABLED_BY_DEFAULT_OPERATOR_GATED",
+      "operator_gated": true, "auto_promote": false
+    }
+  },
+  "physics_backends": {
+    "_doc": "Runtime secondary-motion / bone-physics anim-layer backends (per-skeleton AnimGraph nodes). Layer on top of the existing SKM + ABP pipeline; do not generate or rig geometry.",
+    "kawaii_physics": {
+      "status": "SCAFFOLD", "tool": "pafuhana1213/KawaiiPhysics (UE AnimGraph bone-physics node)", "license": "MIT", "cost": "free",
+      "headless": false,
+      "does": "Lightweight constraint-based (non-PhysX) secondary motion for swaying elements — alien antennae, carapace appendages, accessories — driven in sync with animation/movement via a single AnimGraph node with sphere/capsule/plane collision limits and bone-length preservation.",
+      "integration": "Clone into WanefallGreybox/Plugins/KawaiiPhysics; compile from source vs C:/UE_5.8; author sway/jiggle bones into an alien skeleton; add a KawaiiPhysics node to the species post-process AnimBP with bone list + collision; Dimwit live+optics validate the sway (no stretch/jitter) before promote.",
+      "activate": "git clone pafuhana1213/KawaiiPhysics @ v1.21.0 into Plugins/, retain MIT notice, build vs UE_5.8",
+      "eval": {
+        "verdict": "candidate", "confidence": 0.82, "license": "MIT", "spdx": "MIT", "commercial_ship_ok": true,
+        "provenance_gate": "clears", "adversarial_verified": true, "source": "workflow w2imvg90z (2026-06-27)",
+        "caveats": [
+          "UE5.8 NOT officially listed (README tops at UE5.7) -> compile-and-test pass vs UE_5.8 required before trusting; treat 5.8 as unverified until it builds+runs in WANEFALL.",
+          "It is a SOLVER not a rigger: needs dedicated sway/jiggle sub-bones already authored into the alien skeletons (skeletons without appendage bones get nothing to simulate).",
+          "Constraint solver, not full rigid-body — fine for cosmetic secondary motion, not gameplay-affecting physics.",
+          "MIT: bundle the copyright+permission notice in WANEFALL's third-party/OSS manifest. Actively maintained (v1.21.0, 2026-06-23). Docs largely Japanese."
+        ]
+      },
+      "operator_gated": true, "auto_promote": false
+    }
+  },
+  "terrain_backends": {
+    "_doc": "Terrain / real-world-landscape source generators feeding the existing UE5.8 Interchange env-ingest (the Marble pipeline path: Z-up axis fix + scale-calibrate + weld/decimate + Nanite). Output base topology, NOT gameplay-ready greybox.",
+    "blender_gis": {
+      "status": "SCAFFOLD", "tool": "domlysz/BlenderGIS (GIS terrain addon)", "license": "GPL-3.0", "cost": "free",
+      "headless": false,
+      "does": "Import real-world GIS data (Shapefile, raster, GeoTIFF DEM, OpenStreetMap) into Blender; build georeferenced terrain meshes from DEM (Delaunay), drape OSM building/road footprints — the real-world counterpart to Marble for BR-map greyboxing.",
+      "integration": "Install in Blender (min v2.83; our 4.x/5.1 OK); OpenTopography API key (operator-only); author a region -> DEM + optional OSM -> apply Marble Blender conditioning (Z-up, scale-calibrate, weld/decimate) -> UE5.8 Interchange ingest -> Dimwit validate.",
+      "activate": "install domlysz/BlenderGIS @ v2.2.15; register OpenTopography key (operator-only)",
+      "eval": {
+        "verdict": "candidate", "confidence": 0.86, "license": "GPL-3.0", "spdx": "GPL-3.0-only",
+        "commercial_ship_ok": true,
+        "provenance_gate": "PENDING_ADVERSARIAL_REVERIFY",
+        "adversarial_verified": false,
+        "verify_error": "license-verify agent hit StructuredOutput retry cap (5) — independent re-verify did NOT complete; license is eval-stage only and may NOT clear the gate until re-verified",
+        "source": "workflow w2imvg90z (2026-06-27)",
+        "caveats": [
+          "GPL-3.0 copyleft attaches to the ADDON CODE, not to output terrain meshes (identical to using Blender itself, which is GPL, to make game art) — output meshes are unencumbered/shippable. The addon is NEVER linked into the game binary (that WOULD be a copyleft problem); only its exported meshes ship.",
+          "DATA_PROVENANCE is a SEPARATE gate from the addon license: OpenStreetMap data is ODbL (attribution + DATABASE share-alike), SRTM/NASA elevation is public-domain. Must be checked PER data pull; the addon's GPL says nothing about the geographic data.",
+          "Independent adversarial license-verify FAILED to complete -> fail-closed: re-run the verify before any promotion from this backend.",
+          "Output is raw real-world topology (dense, real-meter scale) — heavy decimate/retopo + manual collision/lane/cover authoring required; not gameplay-ready."
+        ]
+      },
+      "operator_gated": true, "auto_promote": false
+    },
+    "cashgen_ue": {
+      "status": "REFERENCE", "tool": "midgen/cashgenUE (runtime procedural heightmap terrain, UE C++ plugin)", "license": "MIT", "cost": "free",
+      "headless": false,
+      "does": "Multithreaded runtime procedural heightmap terrain with hydraulic erosion, tile LODs/collision, player-tracking infinite streaming. Most value to WANEFALL is OFFLINE as a build-time heightmap+erosion generator for ONE arena/BR terrain.",
+      "integration": "REFERENCE/fork only: no UE5.8 branch (tops at 5.0). If pursued, fork + UnrealFastNoisePlugin, port to UE5.8 + DynamicMeshComponent/GeometryScript, use offline to bake a heightmap -> static Nanite landscape.",
+      "eval": {
+        "verdict": "reference", "confidence": 0.83, "license": "MIT", "spdx": "MIT", "commercial_ship_ok": true,
+        "provenance_gate": "n/a (reference-only — nothing promoted)", "adversarial_verified": true,
+        "source": "workflow w2imvg90z (2026-06-27)",
+        "caveats": [
+          "No UE5.8 support (highest branch 5.0 ~2022; README says UE4.25) -> a multi-version C++ port is required and unproven.",
+          "Transitive dep on UnrealFastNoisePlugin (separate UE4-era repo) doubles the port surface; uses legacy ProceduralMeshComponent (off the UE5.8 path).",
+          "Architectural mismatch: built for INFINITE player-tracking streaming (open world) vs WANEFALL's bounded arena/BR map — headline feature largely unneeded.",
+          "License (MIT) is clean; the block is engineering/version, not licensing. Stale (last commit 2024-12-10)."
+        ]
+      },
+      "operator_gated": true, "auto_promote": false
+    }
+  },
+  "reference_tools": {
+    "_doc": "Reference/curation only — NOT backends, nothing to resolve or promote. Used to seed the candidate-tools backlog; each linked tool needs its OWN per-tool license+version evaluation.",
+    "awesome_blender": {
+      "status": "REFERENCE", "tool": "agmmnn/awesome-blender (curated index)", "license": "CC0-1.0", "cost": "free",
+      "does": "A curated README index of Blender addons/tools/resources. Zero runnable code — a discovery map. Value: a vetted shortlist of candidate tools (Auto-Rig Pro, BlenRig for rigging; FLIP Fluids for physics; terrain generators) to evaluate next.",
+      "integration": "Reference only. Extract relevant entries into a candidate-tools backlog; run a SEPARATE Dimwit provenance+fit eval on each (CC0 of the index confers nothing on the linked tools).",
+      "eval": {
+        "verdict": "reference", "confidence": 0.95, "license": "CC0-1.0", "spdx": "CC0-1.0",
+        "commercial_ship_ok": true, "provenance_gate": "n/a (reference-only — ships nothing)",
+        "adversarial_verified": true, "source": "workflow w2imvg90z (2026-06-27)",
+        "caveats": [
+          "Link index only — nothing to promote; its CC0 license covers only the list text, NOT any linked project.",
+          "Each linked tool (Auto-Rig Pro = paid, BlenRig/most addons = GPL, etc.) must be license+version checked independently before adoption.",
+          "GPL distinction to apply per linked tool: a GPL Blender ADDON encumbers addon code not output assets; a GPL UE PLUGIN linked into the game IS a copyleft problem."
+        ]
+      },
+      "operator_gated": true, "auto_promote": false
+    }
+  }
+}

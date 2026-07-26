@@ -1,0 +1,51 @@
+{
+  "character": "zythan",
+  "created": "2026-07-02",
+  "notes": "Optics-judge golden calibration set (masterplan H1B2). Ground truth is UNAMBIGUOUS by construction: the good goldens are the own-eyes-verified production capture (plus a mild exposure lift of it), the bad goldens are one real capture-law-clause-2 lie plus synthetic degradations of the good capture through the two production wash regression classes (make_synthetic_goldens.py regenerates them). If calibration breaks, fix the judge (prompt/models/quorum), never the goldens.",
+  "excluded_borderline": {
+    "RigMatExperiment_E0_CTRL.png": "2026-07-02: measured global value/saturation stats nearly identical to the reference cover (mean_v 0.485 vs 0.489, dark_frac 0.205 vs 0.178) - its washout is micro-scale seam contrast only, and judges flip on it run to run. A borderline case destabilizes binary calibration under EITHER label; kept in artifacts/zythan_mat_experiment as experiment evidence.",
+    "RigMatExperiment_E1_EM0.png": "2026-07-02: pixel-identical to good_rig_ship_production after downscale (deterministic tick-less renderer) - added no information as a separate golden."
+  },
+  "goldens": [
+    {
+      "name": "good_rig_ship_production",
+      "file": "good_rig_ship_production.png",
+      "reference": "zythan_reference.png",
+      "expect": "pass",
+      "subject_only": true,
+      "why": "Streamed-true production cap_rig_ship capture at proven y-800 staging: deep-violet carapace, black seam network, pale-blue accents (H1B1 result, own-eyes verified)."
+    },
+    {
+      "name": "good_exposure_lift",
+      "file": "good_exposure_lift.png",
+      "reference": "zythan_reference.png",
+      "expect": "pass",
+      "subject_only": true,
+      "why": "Same production capture with a mild (x1.12) exposure lift: identity, hue family, saturation and seam articulation all intact - exposure alone must never fail a render."
+    },
+    {
+      "name": "bad_lowmip_washed",
+      "file": "bad_lowmip_washed.png",
+      "reference": "zythan_reference.png",
+      "expect": "fail",
+      "subject_only": true,
+      "why": "REAL capture-law-clause-2 lie: texture-streaming-on capture sampling permanently-low mips - pale featureless figure, no paneling."
+    },
+    {
+      "name": "bad_desaturated_silver",
+      "file": "bad_desaturated_silver.png",
+      "reference": "zythan_reference.png",
+      "expect": "fail",
+      "subject_only": true,
+      "why": "Synthetic (S x0.12): the classic flat-silver material regression - monochrome silver figure vs the violet reference."
+    },
+    {
+      "name": "bad_value_flattened",
+      "file": "bad_value_flattened.png",
+      "reference": "zythan_reference.png",
+      "expect": "fail",
+      "subject_only": true,
+      "why": "Synthetic (V compressed toward bright, S x0.6): the emissive/glow washout class - dark seams collapse toward plate brightness, articulation lost."
+    }
+  ]
+}

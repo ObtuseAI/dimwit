@@ -1,0 +1,8 @@
+{
+  "_comment": "Dimwit promotion profile (task 1). DEFAULT = current behavior exactly: 0.70 threshold, equal dimension weights (empty map => arithmetic-mean overall, byte-identical to pre-profile runs). Per-class files (e.g. weapon.json, hostile_construct_enemy.json) overlay this. Thresholds RATCHET UP ONLY — the engine clamps promote_threshold to max(promote_threshold, threshold_floor); a class may raise its bar, never lower it below the floor.",
+  "promote_threshold": 0.70,
+  "threshold_floor": 0.70,
+  "dimension_weights": {},
+  "hard_gates": ["style", "provenance"],
+  "required_evidence": ["hero_contact_sheet", "player_camera_contact_sheet"]
+}

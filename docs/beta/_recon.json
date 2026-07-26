@@ -1,0 +1,356 @@
+[
+  {
+    "subsystem": "modes",
+    "keyFiles": [
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallModeDefinition.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallModeRegistry.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallModeRegistry.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallModeRouter.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallModeRouter.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallModeRuntimeTypes.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallModeResult.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallArenaObjectiveModes.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallArenaObjectiveModes.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallLargeModes.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallLargeModes.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallArcadeModes.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallObjectiveRuntime.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallArena4v4GameState.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallArena4v4GameState.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallSessionSystems.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallModeSimHarness.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallPrototypeGameMode.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallPrototypeGameMode.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Config/DefaultEngine.ini",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallLiveSurfaceHarness.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallBotLiteEnemy.cpp"
+    ],
+    "exists": [
+      "MODE REGISTRY (data-driven): FWanefallModeRegistryDefaults::BuildDefaultModes() in WanefallModeRegistry.cpp defines 24 modes as FWanefallModeDefinition rows (ModeId, DisplayName, MapPath, ModeType, Objective, TeamCount, TeamSize, ScoreLimit, RoundSeconds, PlaylistCategory, Status). Held by UWanefallModeRegistry (UObject) via BuildDefault().",
+      "DEFINED MODES + player counts (from the registry rows): Matrix (Practice, FFA 1, PlayablePrototype); Arena4v4_TDM (TeamDeathmatch, 2 teams x4 = 8 players, ScoreLimit 50, 600s, PlayablePrototype); WaneTrial (Deathmatch, 2x1 = 2 players, PlayablePrototype, jail-cell duel map); PracticeRange_Cave (Range, RegressionPreserved). EXPANSION (all Experimental): DM_1v1 (1v1=2, cap25, 300s), DM_2v2 (2v2=4, cap40, 420s), DM_FFA (6-player FFA, cap30, 480s); A4v4_CTF (4v4=8, 3 caps), A4v4_CTRL (4v4=8, 200), A4v4_HARD (4v4=8, 250), A4v4_SND (4v4=8, 6 rounds, one-life); A8v8_TDM/CTF/CTRL/HARD/SND (8v8=16 each); BattleRoyale 'WANE ROYALE' (FFA 24 combatants); Extraction 'WANE EXTRACTION' (8); Arcade_WaneRush (race, 8, 3 laps), Arcade_WaneClash (brawl, 8, 10 ring-outs, 300s), Arcade_RollingTrial (solo 1, rolling course).",
+      "OBJECTIVE RULE STATE-MACHINES (real, fully implemented, deterministic) in WanefallArenaObjectiveModes.cpp: FWanefallDeathmatchState (TDM/FFA, RegisterKill/Down/Finish, score-limit + time-expire resolve), FWanefallCaptureState (CTF/Wane Relic: PickUp/Capture/DropCarried/ReturnRelic, auto-return timer, capture-limit), FWanefallControlState (multi-zone domination: SetPresence, capture progress, score/sec, score-limit), FWanefallHardpointState (rotating KotH: SetPresence, fractional ScoreCarry, hill rotation, overtime), FWanefallSearchDestroyState ('Wane Charge': plant/defuse/detonate, best-of with side-swap, 5 round-result enums, RoundsToWin). Each has Setup/Start/AdvanceTime/Reset/Summary + a shared EWanefallRuntimePhase (NotStarted/Countdown/Live/RoundOver/MatchOver) from WanefallModeRuntimeTypes.h.",
+      "LARGE-MODE machines in WanefallLargeModes.cpp: FWanefallBattleRoyaleState (collapse-ring shrink staging, RegisterElimination -> last-combatant-standing resolve, out-of-zone damage accrual) and FWanefallExtractionState (Inserted/Looting/Extracting/Extracted/FailedKIA/FailedTimeout state enum, PickUpLoot/EnterExtractZone/TickExtract/ApplyThreatDamage, raid clock timeout). Both real and resolving.",
+      "ARCADE machines in WanefallArcadeModes.cpp/.h: FWanefallRaceState (ordered checkpoints/laps/boost/wrong-way/reset), FWanefallBrawlState (knockback ring-outs, score-limit, respawn), FWanefallRollingState (checkpoint course, fall/reset/finish). Real scoring/progression loops.",
+      "LIVE ACTOR-BINDING LAYER (WanefallObjectiveRuntime.h/.cpp): UWanefallMatchRuntimeComponent OWNS all 10 rule machines, with SetupX() selectors, StartMatch(), TickRuntime(Dt), and overlap/interaction handlers (OnRelicPickup, OnPlantTick, OnZoneOccupancyChanged, OnBRElimination, OnExtractTick, OnRaceCheckpoint, etc.). AWanefallObjectiveVolume is a real placeable UBoxComponent trigger that translates NotifyActorBeginOverlap/EndOverlap and real box-containment geometry (ContainsPoint/DriveSpatialOccupancy) into the component's presence handlers. This is the production bridge from world overlap to rule state.",
+      "ARENA 4v4 ROUND STATE MACHINE (real, self-driving): AWanefallArena4v4GameState (an AActor, placeable) in WanefallArena4v4GameState.cpp runs EWanefallArenaRoundState Warmup->Countdown->RoundActive->RoundEnding->RoundComplete->Resetting. BeginPlay auto-calls BeginCountdown(); Tick feeds AdvanceRound(DeltaSeconds) + TickBotRespawns. Scores TeamA/TeamB on enemy bot eliminations (opposing team scores), dedupes victims per life, ends on score-limit(25) or round timer(300s), owns a combat event log + local-player downed/death-watch components, and WriteMatchSummary() emits JSON. AWanefallBotLiteEnemy finds it live via TActorIterator<AWanefallArena4v4GameState> and calls RegisterBotElimination.",
+      "ROUTER: AWanefallModeRouter (AActor) owns the registry, enumerates modes, ValidateAllMaps (FPackageName::DoesPackageExist honest map-path check), and RequestMode(ModeId) which validates + UE_LOG + (in a live game world) UGameplayStatics::OpenLevel(MapPath). Also produces HUD mode-list text. This is the only code path that actually travels to a mode map.",
+      "SESSION/MATCHMAKING SCAFFOLD (WanefallSessionSystems.h): FWanefallMatchmaker (playlists, SimulateQueue with bot-fill + party-size validation), FWanefallSocialState (party/clan/friends, ValidatePartySize vs mode TeamSize), FWanefallVoiceSystem (channel eligibility), FWanefallTutorialState, FWanefallTelemetryLog. All offline game-side logic only (explicitly no real networking/mic/backend).",
+      "PROOF/SIM HARNESS: FWanefallModeSimHarness (RunArenaSuite=13 sims, RunLargeSuite, RunArcadeSuite, RunUISuite) and FWanefallLiveSurfaceHarness (RunSpatialSuite drives AWanefallObjectiveVolume via real geometry; RunUISurfaceSuite; SndEconomy/BrInventory placeholders) drive the EXACT production rule methods deterministically (no World/randomness/wall-clock). FWanefallModeResult is the unified per-mode result record.",
+      "Unified result type FWanefallModeResult (USTRUCT) captures SessionId/ModeId/Map/ResultType/Winner/TeamAScore/TeamBScore/Kills/Downs/Finishes/Duration/ProofFile etc. for any mode."
+    ],
+    "missingForBeta": [
+      "NO real AGameMode/AGameStateBase per mode. GlobalDefaultGameMode (DefaultEngine.ini) is AWanefallPrototypeGameMode, which only sets DefaultPawnClass/PlayerControllerClass/HUDClass (WanefallPrototypeCharacter/Controller/HUD) and contains ZERO mode logic, no GameStateClass override, no registry/router/runtime wiring. AWanefallArena4v4GameState is an AActor (not AGameStateBase) and is NOT spawned by any GameMode -- it only works if hand-placed in a level.",
+      "NO end-to-end 'select mode -> configure -> launch' flow in PIE. AWanefallModeRouter::RequestMode does OpenLevel to the map, but nothing then spawns/configures the matching UWanefallMatchRuntimeComponent or the right rule machine on that map. The map -> mode -> runtime binding is not assembled anywhere; each destination map would need its own pre-placed actors.",
+      "UWanefallMatchRuntimeComponent (the owner of the 10 rule machines for the objective/large/arcade modes) is NOT instantiated or ticked by any GameMode, manager actor, or placed actor in the runtime path. Its only callers are the headless harnesses. So in a live PIE session NONE of CTF/Control/Hardpoint/SND/BR/Extraction/Race/Brawl/Rolling actually run -- only the separate AWanefallArena4v4GameState TDM loop runs (and only if placed).",
+      "NO commandlet, automation spec, console command, or ::Main anywhere in Source (grep for UCommandlet/IMPLEMENT_*_AUTOMATION/BEGIN_DEFINE_SPEC/FAutoConsoleCommand found nothing in the runtime module; editor module WanefallGreyboxEditorModule.cpp is an empty IModuleInterface). The sim suites (RunArenaSuite etc.) have NO in-engine caller -- they are invoked only by the external Dimwit/Blunder proof tooling, so there is no in-game way to trigger a match-flow proof.",
+      "21 of the 24 registered modes are Status=Experimental with greybox shell maps (ArenaCore_Greybox_01, ArenaLarge_Greybox_01, BattleRoyale_Shell_01, Extraction_Shell_01, Arcade_*_01). Map existence is asserted by ValidateMapPath at proof time but the modes have no playable assembly (no spawns, no objective volumes placed, no team/bot setup) on those maps.",
+      "TeamSize/TeamCount/player counts are DATA ONLY (FWanefallModeDefinition fields). No spawning system reads them to actually place N bots/players per team. Bot roster for Arena4v4 is whatever AWanefallBotLiteEnemy actors are hand-placed and discovered via RefreshBotRoster/TActorIterator.",
+      "No spawn/respawn manager that consumes bSupportsRespawn, no networking/replication (all explicitly single-process), no real matchmaking backend, no persistence beyond local JSON match summaries.",
+      "FWanefallExtractionState in WanefallLargeModes.cpp was only partially read (Setup/Start/BR portion fully read); verify its TickExtract/Fail timeout paths before relying on exact extraction resolution."
+    ],
+    "betaReadiness": 38,
+    "stubbedOrPartial": [
+      "AWanefallPrototypeGameMode: shippable but trivial -- pawn/controller/HUD only, no mode awareness.",
+      "UWanefallMatchRuntimeComponent + AWanefallObjectiveVolume: real, complete logic but UNWIRED in the live path (only the harness drives them; no GameMode/manager creates or ticks them in PIE).",
+      "AWanefallModeRouter::RequestMode: routes via OpenLevel but the destination map is not auto-configured with the mode's runtime -- routing is real, mode assembly on arrival is not.",
+      "All 21 expansion modes: registered + rule-complete + greybox-mapped but Experimental, with no in-world assembly.",
+      "Session/matchmaking (FWanefallMatchmaker/FWanefallSocialState/FWanefallVoiceSystem): offline simulation logic only, no backend.",
+      "Sim/proof harnesses: complete but have no in-engine entry point (externally invoked).",
+      "EXTRACTION economy + BR inventory: explicit placeholders (FWanefallLiveSurfaceHarness::SndEconomy/BrInventory)."
+    ],
+    "risks": [
+      "Two parallel, non-converged match-flow implementations: (1) AWanefallArena4v4GameState -- a bespoke AActor TDM round machine that is the ONLY thing that runs live (when placed) and self-arms in BeginPlay; (2) the generic UWanefallMatchRuntimeComponent + 10 FWanefall*State machines that cover all 24 modes but only run under the headless harness. A beta must pick one spine; the Arena4v4 actor duplicates Deathmatch logic that also exists in FWanefallDeathmatchState.",
+      "Registry uses string ModeIds and string MapPaths with no compile-time link to actual placed actors -- map can 'exist' (DoesPackageExist) yet contain none of the actors a mode needs, so ValidateAllMaps passing does NOT mean a mode is launchable.",
+      "GlobalDefaultGameMode + GameDefaultMap point at Wanefall_WaneTrialJailCell_01 with the logic-less PrototypeGameMode, so opening the project drops into a duel slice with no mode/round system unless that map hand-places an Arena4v4 actor.",
+      "Player-count/team-size config is inert data; a beta that assumes these drive spawning will find nothing reads them.",
+      "No in-engine trigger for the proof suites means CI/match-flow validation depends entirely on the external Dimwit/Blunder tooling staying in sync with these signatures."
+    ],
+    "integrationNotes": "See integrationNotes field."
+  },
+  {
+    "subsystem": "hud_ui",
+    "keyFiles": [
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallPrototypeHUD.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallPrototypeHUD.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallShellWidgets.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallShellWidgets.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallUIFoundation.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallUISurfaces.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallShellPlayerController.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallShellPlayerController.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallModeRouter.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallModeRouter.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallModeDefinition.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallModeRegistry.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallGUIAudioHarness.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallInteractiveShellHarness.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Config/DefaultEngine.ini"
+    ],
+    "exists": [
+      "IN-MATCH HUD IS CANVAS AHUD, NOT UMG. AWanefallPrototypeHUD : public AHUD (WanefallPrototypeHUD.h) overrides DrawHUD() and is the active HUD: DefaultEngine.ini GlobalDefaultGameMode=WanefallPrototypeGameMode, whose ctor sets HUDClass=AWanefallPrototypeHUD::StaticClass(), DefaultPawnClass=AWanefallPrototypeCharacter, PlayerControllerClass=AWanefallPrototypePlayerController. Default startup map = Wanefall_WaneTrialJailCell_01.",
+      "HUD draws everything procedurally each frame with FCanvasTextItem / FCanvasLineItem / FCanvasTileItem via one helper DrawWanefallLine(Text,X,Y,Color) using GEngine->GetSmallFont(). No textures, no widgets, no fonts authored. Health/ammo shown as ASCII bars [||||----] from a MakeBar(fraction) helper.",
+      "HEALTH binding: on-foot branch casts owning pawn to AWanefallPrototypeCharacter, reads Character->GetHealthComponent()->GetCurrentHealth()/GetMaxHealth() (UWanefallPrototypeHealthComponent), colors green>0.35 else red.",
+      "AMMO binding: Character->GetPulseRifle() (UWanefallWanePulseRifleComponent) -> GetWeaponName/GetCurrentAmmo/GetMagazineSize/GetReserveAmmo/IsReloading/GetReloadProgress01/IsADS; hit marker from Rifle->GetHitMarkerAlpha().",
+      "SCORE/MATCH-STATE binding: GameInstance->GetSubsystem<UWanefallArenaScoreSubsystem>() for extractions/combat score/hits/melee/downed; per-mode state pulled by TActorIterator over context actors each frame — AWanefallArena4v4GameState (round state, TeamA/B score, score limit, time remaining, bot counts, kill-feed/event text), AWanefallWaneTrialArena (rule/state/countdown/collapse/player+opponent health), AWanefallMatrixPracticeController (practice theme/station text), AWanefallModeRouter (mode-shell list line).",
+      "HUD has 4 mutually-exclusive context branches selected by which marker actor is in the world: Matrix practice / Arena4v4 TDM / ModeRouter mode-shell / default Wane Trial. Crosshair (4 canvas lines + center dot, teal), hit marker (4 lines), center-screen banners (countdown / OPPONENT DOWNED / ELIMINATED / WANE COLLAPSE IMMINENT / EXTRACTION SUCCESSFUL), Wane-hazard-field warning, vehicle-enter prompt, vehicle HUD (speed/boost bar) for AWanefallScoutSkimmerPawn.",
+      "Debug overlay gated by Character->IsDebugHUDVisible() (bShowDebugHUD, [F1] toggle) — verbose telemetry hidden by default for a clean player HUD.",
+      "FRONT-END EXISTS AS REAL UMG C++ CLASSES BUT NO WBP ASSETS. WanefallShellWidgets.h defines 14 UUserWidget subclasses (UWanefallShellWidgetBase + ModeSelect, Playlist, Settings, MatchResults, ProfileSummary, RankProgression, Leaderboard, SocialPanel, VoiceStatus, ObjectiveHUD, PostMatchSummary, PauseMenu) each exposing BlueprintReadOnly PanelTitle/DisplayText + static Compose(VM) + Setup(VM).",
+      "Shell wiring is real and walkable: AWanefallShellGameMode + AWanefallShellPlayerController (WanefallShellPlayerController.cpp) CreateWidget<>s the C++ widget classes directly (no WBP), AddToViewport on BeginPlay (objective HUD) and on keys Tab=OpenModeShell, P=TogglePause, V=ToggleVoiceSocial. AWanefallShellHUD is a separate canvas fallback panel.",
+      "Data/view-model layer is real and proof-tested: WanefallUIFoundation.h (FWanefallSettings 12-setting model+Validate, FWanefallUIModel mode categories, FWanefallMenuNavigator controller nav, FWanefallResultScreenModel) and WanefallUISurfaces.h VMs (FWanefallModeSelectVM::BuildFromRegistry, Settings/Results/Profile/Rank/Leaderboard/Social/Voice/ObjectiveHud VMs). Harnesses FWanefallGUIAudioHarness + FWanefallInteractiveShellHarness run headless proof sims over these.",
+      "Mode launch path exists: AWanefallModeRouter::RequestMode(ModeId) validates the mode + map (FPackageName::DoesPackageExist) and calls UGameplayStatics::OpenLevel in a game world. Mode registry (WanefallModeRegistry.cpp BuildDefaultModes) defines ~22 modes with ModeId/DisplayName/MapPath/Objective/TeamCount/TeamSize/ScoreLimit/PlaylistCategory/Status across Practice/Arena/Trial/Range/Deathmatch/BattleRoyale/Extraction/Arcade.",
+      "Three named-surface map paths already referenced by registry (Matrix_01, Arena4v4_Prototype_01, WaneTrialJailCell_01, PracticeRangeArmoryGarage_01, plus greybox ArenaCore/ArenaLarge/BR/Extraction/Arcade shells)."
+    ],
+    "stubbedOrPartial": [
+      "NO UMG WidgetBlueprint (.uasset) assets exist anywhere in Content. Glob for Content/**/WBP_*.uasset = none; only template UI assets are Content/VehicleTemplate/UI/UI_Vehicle.uasset and BPI_TouchInterface_Vehicle. The shell widgets are pure C++ classes with no designer-authored visual tree — they render only PanelTitle/DisplayText FText, no styled layout/art.",
+      "Front-end is NOT wired into the default game flow. The shipping default GameMode is WanefallPrototypeGameMode (canvas HUD), NOT AWanefallShellGameMode. The shell game mode/controller is a separate, manually-selected foundation, not the boot experience.",
+      "Mode SELECTION via UMG is not connected to LAUNCH. OpenModeShell() builds a UWanefallModeSelectWidget from the registry and shows a text list, but there is no input handler that takes the selected mode and calls AWanefallModeRouter::RequestMode — the navigator (FWanefallMenuNavigator) is a struct placeholder, and selection->OpenLevel is only triggered by physically stepping on a mode pad (TActorIterator/overlap pattern), not by the menu.",
+      "AWanefallShellPlayerController::OpenSettings() just calls TogglePause(); OpenResults() is an empty stub (comment 'surfaced via post-match widget (PIE/next)'); ToggleVoiceSocialOverlay()/DebugNavigate() only flip bools/ints with no UI.",
+      "No character-select or loadout SELECTION surface exists. There is a UWanefallProfileSummaryWidget and loadout DATA (WanefallLoadoutInventoryComponents/Types/Actors) but no widget that picks a species/mech or assembles a loadout and feeds it into match launch.",
+      "TogglePause does not actually pause (comment: 'keep gameplay running... pause widget is informational').",
+      "Pause/settings/results widgets are created but their Compose() outputs are text-only; no interactivity beyond add/remove from viewport."
+    ],
+    "missingForBeta": [
+      "ZERO of THE FADE in-combat elements exist. No UWaneSubsystem, no MF_Wane material function, no FWaneSignature data asset (grep across Source = none). The bible's required spine is greenfield.",
+      "Wane Channels (body-emissive vitals): not present — health is an ASCII bar drawn on canvas. Needs skeletal-mesh emissive masks on arms/chest + HP->segment-extinguish driver + WidgetComponent for the etched core integer.",
+      "Charge-Rail (gun-receiver ammo + ability node): not present — ammo is an ASCII bar. Needs emissive UV-scroll mask material on the weapon mesh fed by the pulse rifle ammo getters that already exist.",
+      "Edge-Bite (directional damage post-process): not present — current damage cue is just the red/green health color + a center hazard text. Needs a screen-edge post-process material driven by damage direction+magnitude with erode-in/crystallize-out.",
+      "Wane-Ghosts (age-decaying enemy silhouettes / radar): not present at all — no custom-depth/stencil ghost pass, no SensoryAge model, no USensoriumClarity governor. This is the crown-jewel system and is fully missing.",
+      "The Fade low-HP post-process (desaturate + inverted contrast, center-60% clarity floor): not present.",
+      "The Re-Light heal (core-outward crystallize re-saturation): not present.",
+      "Functional front-end (THE HOLD): the 3D diegetic hold scene, chord nav (R/Q/E/Enter whip-pan), Wane-rot crust economy mesh, character-select-by-glow, loadout rack with crystal-unlock, deploy lever + THE HOLD FALLS sequence — none exist; only text view-models do.",
+      "The three shared motion macros (Crystallize/Erode/Snap) — not present (no BPL_WaneMotion).",
+      "A real selection->launch chain: menu pick of mode+map+character+loadout that persists the choice (GameInstance/save) and calls OpenLevel with that config. Today only RequestMode(modeId)->OpenLevel(mapPath) exists, with no character/loadout carry-over."
+    ],
+    "betaReadiness": 25,
+    "integrationNotes": "REUSE: (1) Keep the data/view-model layer wholesale — FWanefallModeSelectVM::BuildFromRegistry, the 22-mode registry (WanefallModeRegistry.cpp), FWanefallSettings, profile/rank/leaderboard/social VMs, and AWanefallModeRouter::RequestMode->OpenLevel are the real, proof-tested backbone the new HOLD front-end binds to; do not rebuild them. (2) Reuse the existing pawn-component getters as the HUD data source unchanged: AWanefallPrototypeCharacter::GetHealthComponent()/GetMaxHealth()/GetCurrentHealth() drive Wane Channels; GetPulseRifle()->GetCurrentAmmo/GetMagazineSize/GetReserveAmmo/GetReloadProgress01/GetHitMarkerAlpha drive the Charge-Rail; UWanefallArenaScoreSubsystem + the per-mode GameState actors stay as the match-state feed. (3) Reuse the shell harness pattern (CreateWidget + AddToViewport in AWanefallShellPlayerController) and the headless proof harnesses (FWanefallGUIAudioHarness, FWanefallInteractiveShellHarness) so new Wane widgets stay proof-driven. NEW (build per bible PART 3): UWaneSubsystem (UGameInstanceSubsystem) + MF_Wane material function + FWaneSignature(x8) FIRST as the spine, then the four HUD must-ship materials/widgets (M_WaneChannel, M_ChargeRail, PP_EdgeBite, M_WaneGhost + USensoriumClarity), then the 3D Hold scene. REPLACE-IN-PLACE: AWanefallPrototypeHUD::DrawHUD is the single integration seam for THE FADE — strip the ASCII bars/text and either (a) re-skin DrawHUD to drive the new Wane materials/WidgetComponents, or (b) demote it to a debug/[F1] overlay and move player vitals onto body materials + minimal UMG. WIRE-UP GAP TO CLOSE for a launchable front-end: connect FWanefallMenuNavigator selection (mode+map+character+loadout) -> persist on GameInstance -> AWanefallModeRouter::RequestMode/OpenLevel; today the menu only displays and only physical mode-pads launch. Note the default boot GameMode is WanefallPrototypeGameMode, not the shell mode — switching boot to a HOLD front-end map/GameMode is required.",
+    "risks": [
+      "The 'real UMG' shell widgets have no visual .uasset and no styling — calling them a front-end overstates readiness; they are text panels. A beta needs WBP authoring or a code-driven Slate/UMG build from scratch for the HOLD.",
+      "In-match HUD is 100% immediate-mode canvas drawing scattered through one ~500-line DrawHUD() with TActorIterator scans every frame (Matrix/Arena4v4/ModeRouter/WaneTrial/TargetDummy/HazardField/PracticeStation). Migrating to THE FADE means untangling this monolith; the per-context branching and per-frame actor iteration will not survive into the new system and risks regressions across the 4 mode contexts.",
+      "Mode launch uses OpenLevel(mapPath) with no character/loadout state carried across the travel — a beta front-end that selects character+loadout must add a persistence layer (GameInstance/PlayerState/SaveGame) that does not exist yet.",
+      "Several registry map paths are Experimental greybox shells (ArenaCore/ArenaLarge/BR/Extraction/Arcade) — RequestMode validates existence, so selecting them may fail DoesPackageExist or load empty greybox; front-end must surface mode Status (PlayablePrototype vs Experimental) honestly.",
+      "No species/decay-signature system exists, so the bible's Law-5 'pick by glow / 8 ownable skins' character-select cannot be built until UWaneSubsystem + FWaneSignature land first.",
+      "TogglePause does not pause the game — a beta pause menu over live gameplay is a correctness risk."
+    ]
+  },
+  {
+    "subsystem": "bots",
+    "keyFiles": [
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallBotLiteEnemy.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallBotLiteEnemy.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallPrototypeEnemy.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallPrototypeEnemy.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallPrototypeEnemyAttackComponent.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallPrototypeThreatComponent.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallPrototypeThreatSpawner.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallPrototypeThreatSpawner.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallArena4v4GameState.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallArena4v4GameState.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallDownedStateComponent.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallDeathWatchComponent.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallPrototypeHealthComponent.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallCombatTestZone.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Content/Wanefall/Maps/Wanefall_Arena4v4_Prototype_01.umap",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Content/Wanefall/Maps/Wanefall_CoreArenaBotLite_06.umap"
+    ],
+    "exists": [
+      "MOVE: AWanefallBotLiteEnemy::Tick drives live navmesh-FREE locomotion via direct SetActorLocation — StepToward() chases (MoveSpeed 340), StrafeStep() laterals (alternating L/R), back-off when inside TooCloseRange (280), and a stuck-safe return-home after StuckResetTime (6s). Rotation faces the target via Dir.Rotation().",
+      "AIM/PERCEPTION: HasLineOfSight() does a real ECC_Visibility LineTraceSingleByChannel (eye-height +40z); DetectsTarget() gates on PerceptionRadius (1600) + LOS. FindNearestEnemy() picks nearest different-team alive bot OR the enemy player pawn (no friendly fire).",
+      "FIRE/DEAL DAMAGE: BotFireAtEnemy() is the centralized fire path — range (BotPreferredRange 1200) + LOS + cooldown (BotFireCooldown 1.0s) gated, applies real BotDamage 20 via target's UWanefallPrototypeHealthComponent::ApplyPrototypeDamage, emits BotAcquiredTarget/BotFired/DamageApplied events to the arena event bus. Legacy melee TryAttack()/AttackComponent (AttackDamage 10, range 220) also exists.",
+      "TAKE DAMAGE: Tick polls its own health each frame; on a health drop it runs TakeDamageReaction -> stagger (StaggerTime 0.55s, no pursuit/attack during) + knockback (200). Wane hazard fields trigger a flee reaction (WaneReactionCheck via TActorIterator over AWanefallWaneHazardField).",
+      "DIE/DOWN: lethal damage routes through the shared UWanefallDownedStateComponent (Alive->Downed->BeingRevived->Finished->Eliminated->Reset) with bleedout/revive/finish timers; bot Tick freezes all behaviour while not Alive and dims its material.",
+      "RESPAWN: AWanefallArena4v4GameState::TickBotRespawns drives per-bot death-watch (UWanefallDeathWatchComponent, BotRespawnDelay 3s) — down edge auto-finishes (TDM has no allies to revive), elimination edge scores + opens the watch, watch-complete calls Bot->ResetBot()+Activate() in place. ResetBot restores health/threat/downed/deathwatch and teleports to HomeLocation.",
+      "TEAMS: EWanefallTeam{Neutral,TeamA,TeamB}; bot has SetTeam/GetTeam; arena scores the OPPOSING team on elimination, dedups per victim per life, tracks A/B scores to ScoreLimit 25 with a full round state machine (Warmup/Countdown/RoundActive/RoundEnding/RoundComplete).",
+      "ROUND ORCHESTRATION: ApplyRoundStateToBots() resets+activates the whole roster on RoundActive and resets+deactivates on Warmup/Countdown; RefreshBotRoster() gathers all placed bots via TActorIterator at BeginPlay.",
+      "HEADLESS PROOF HOOKS: DamageForProof/ForceDownForProof/FinishForProof/ReviveForProof on the bot and AddBotForProof/TickMatchForProof on the arena make the whole lifecycle deterministically testable without a live tick."
+    ],
+    "stubbedOrPartial": [
+      "NO PATHFINDING/NAVMESH: zero references to UNavigationSystem, AIController, MoveTo*, RecastNavMesh, or PathFollowing anywhere in Source. Movement is straight-line SetActorLocation toward the target with sweep=true. Bots cannot route around walls/cover — they will wall-hug or trigger the 6s stuck-reset-to-home. The class header explicitly states 'navmesh-free chase/strafe ... NOT full AI — no behaviour tree, no navmesh, no squad logic, no replication.'",
+      "NO TEAM-FILL / ROSTER-SIZE LOGIC: there is NO code that spawns N bots or fills a team up to a required count. No RequiredBots/BotsPerTeam/DesiredCount/fill loop exists. The roster is simply whatever AWanefallBotLiteEnemy actors are HAND-PLACED in the .umap. GetBotsSpawned() just returns Bots.Num() (placed count). The '4v4' name is aspirational — nothing enforces 4 per side.",
+      "NO RUNTIME BOT SPAWNING: AWanefallBotLiteEnemy is never created via SpawnActor/NewObject anywhere in source. AWanefallPrototypeThreatSpawner::SpawnEnemyAt spawns only the BASE AWanefallPrototypeEnemy (no behaviour, Tick disabled), MaxEnemies default 1, and is not wired to the bot-lite enemy or the arena.",
+      "PROOF HOOKS UNWIRED: AddBotForProof/TickMatchForProof are defined but have no caller in this module (no commandlet/test harness references them in Source) — the headless match-flow path is present but not driven by any found entry point.",
+      "AIM IS POSITIONAL ONLY: 'aim' = face-target rotation + a LOS trace + instant hitscan damage application. No projectile, no spread, no lead, no accuracy/difficulty model, no miss chance.",
+      "TARGET SELECTION IS NEAREST-ONLY: FindNearestEnemy is pure nearest-distance; no threat weighting, no focus-fire, no target switching hysteresis beyond the LastAcquiredTarget event de-dup ('Bot-lite combat V2 team target selection' = this nearest-enemy different-team picker).",
+      "VISUAL IS A PLACEHOLDER CUBE: bot body is /Engine/BasicShapes/Cube scaled 0.9x0.9x1.95 with a color-swap DMI (red/amber/dim). None of the 71 imported Dimwit alien-soldier/mech meshes are referenced by the bot class."
+    ],
+    "missingForBeta": [
+      "A spawner/roster manager that, per mode, SPAWNS bots at team spawn points and FILLS each team up to a target count (e.g. fill 4v4 minus human players). This does not exist in any form and is the single biggest gap.",
+      "Navmesh navigation: add a RecastNavMeshBoundsVolume per map + either an AIController/behaviour-tree+UPathFollowingComponent or a UNavigationSystemV1::FindPathToLocationSynchronously integration in StepToward, so bots traverse real greybox geometry with cover instead of straight-lining into walls.",
+      "Per-map NavMesh build/bake: none of the listed arena .umap files are confirmed to contain a nav volume; every map a bot fights on needs one (or the seek logic stays line-of-sight straight-line only).",
+      "Mode-agnostic bot driver: today only AWanefallArena4v4GameState (TDM) orchestrates bots. Other modes (BR/extraction/objective referenced elsewhere) have no bot activation/respawn/scoring wiring.",
+      "Wire AddBotForProof/TickMatchForProof (or an equivalent live spawner) into an actual entry point so bots can be created at runtime rather than only hand-placed.",
+      "Swap the placeholder cube for the imported Dimwit soldier/mech static (or skeletal) meshes + animation, since bots currently render as scaled cubes.",
+      "Difficulty/accuracy model (miss chance, reaction delay, fire-rate scaling) — current fire is deterministic instant-hit at fixed 20 dmg / 1s.",
+      "Human-player team integration: the arena reads a single local player pawn/team; multi-human + bot-fill mixing per team is not modeled."
+    ],
+    "betaReadiness": 45,
+    "integrationNotes": "Reuse AWanefallBotLiteEnemy as-is for per-bot combat behaviour and AWanefallArena4v4GameState as the team/score/respawn shell — both are solid and headless-proven. The exact hooks to extend: (1) Add a runtime spawner that calls World->SpawnActor<AWanefallBotLiteEnemy>(...) at team spawn points and Bot->SetTeam(EWanefallTeam) + arena->RefreshBotRoster()/AddBotForProof — model it after AWanefallPrototypeThreatSpawner::SpawnEnemyAt but for the bot-lite class. Drive a FILL loop: while alive-on-team < desired, spawn. (2) Replace AWanefallBotLiteEnemy::StepToward's straight-line SetActorLocation with a navmesh path query (UNavigationSystemV1 or convert the actor to a Character+AIController) and add a RecastNavMeshBoundsVolume to each combat .umap. (3) For non-TDM modes, generalize ApplyRoundStateToBots/TickBotRespawns out of AWanefallArena4v4GameState into a shared bot-director the other game modes can call. (4) The shared UWanefallDownedStateComponent + UWanefallDeathWatchComponent + UWanefallPrototypeHealthComponent already give down/finish/revive/respawn for free — keep routing all damage through ApplyPrototypeDamage so kills flow into the downed system. Tuning lives in WanefallCombat:: constants (BotDamage/BotFireCooldown/BotPreferredRange) and the bot's EditAnywhere props (PerceptionRadius/MoveSpeed/EngageRange).",
+    "risks": [
+      "The '4v4 arena' is a misnomer at the code level — there is no enforcement of any per-team count; a designer must hand-place exactly the right bots in each .umap or teams will be lopsided/empty.",
+      "Without navmesh, bots on any non-flat/obstructed greybox map will straight-line into walls and fall back to the 6s stuck-reset-to-home, looking broken; this risk scales with map complexity (ArenaLarge_Greybox especially).",
+      "No replication anywhere — this is strictly local/single-machine. Any beta multiplayer ambition needs a networking layer the bot system does not have.",
+      "BotFireAtEnemy applies instant deterministic hitscan with no miss model, so bots will feel either trivially weak or oppressively perfect depending only on fire-rate/damage tuning.",
+      "AddBotForProof/TickMatchForProof being unwired means the only validated path is hand-placed bots in PIE; a runtime-spawn path is untested in this codebase.",
+      "Bots are scaled cubes; shipping beta needs the mesh/anim swap, which may surface collision/scale issues not exercised by the cube body."
+    ]
+  },
+  {
+    "subsystem": "maps",
+    "keyFiles": [
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Content/Wanefall/Maps/ (34 .umap files)",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallModeRegistry.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallModeRouter.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallPrototypeGameMode.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallPrototypeEnemy.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallPlayableGreyboxMap.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallVerticalSliceArena.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallGreyboxArenaActor.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallGreyboxSpawnPoint.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallPhase34Gameflow.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallPhase35InternalPlaytest.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreyboxEditor/Private/WanefallGreyboxEditorModule.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Config/DefaultEngine.ini"
+    ],
+    "exists": [
+      "34 hand-authored .umap files in Content/Wanefall/Maps; all contain real greybox geometry built from /Engine/BasicShapes/Cube StaticMeshActors (which carry QueryAndPhysics collision) plus PlayerStarts and lighting",
+      "Authoritative mode->map->status table in WanefallModeRegistry.cpp::BuildDefaultModes(): 4 named pillars (Matrix, Arena4v4_TDM, WaneTrial/JailCell, PracticeRange_Cave) plus ~18 Experimental modes (DM 1v1/2v2/FFA, A4v4 CTF/CTRL/HARD/SND, A8v8 family, BattleRoyale, Extraction, 3 Arcade) each carrying Objective/TeamCount/TeamSize/ScoreLimit/RoundSeconds config",
+      "Launch path wired: WanefallModeRouter.cpp line 56 calls UGameplayStatics::OpenLevel(W, FName(*D.MapPath)) to load the chosen mode's map",
+      "Default/startup map set in DefaultEngine.ini = /Game/Wanefall/Maps/Wanefall_WaneTrialJailCell_01; GlobalDefaultGameMode = WanefallPrototypeGameMode",
+      "Floor+collision present: every map has StaticMeshActors (JailCell=166, Matrix=150, Arena4v4=62, ArenaLarge=44, BattleRoyale=36, ArenaCore=28, Extraction=20) using engine BasicShapes/Cube; AWanefallGreyboxArenaActor.FloorMesh sets ECollisionEnabled::QueryAndPhysics",
+      "PlayerStarts present in every map (string-ref counts: ArenaLarge=37, BattleRoyale=29, Arena4v4=21, ArenaCore=21, JailCell=8, Extraction=7, Matrix=5) — multiple spawns suitable for team modes in the Arena maps",
+      "Lighting present (JailCell fully lit with 179 light refs; others 12-19)",
+      "Proof/playtest harness reads existing umaps and verifies PlayerStart presence + route beats: WanefallPhase34Gameflow.cpp (iterates APlayerStart, checks beats) and WanefallPhase35InternalPlaytest.cpp",
+      "Mode launch UI/router + ModeRegistry mark named pillars as PlayablePrototype status; bSupportsBots=true on all modes"
+    ],
+    "missingForBeta": [
+      "NO navigation in ANY of the 34 maps: zero NavMeshBoundsVolume, zero RecastNavMesh, zero NavModifierVolume (verified by grep across all .umap binaries). Any roaming/patrolling AI bots will not pathfind.",
+      "No real bot AI: 'enemies' are AWanefallPrototypeEnemy — static mesh, bCanEverTick=false, distance-based threat only, no AAIController, no UNavigationSystem/MoveTo. Mode registry advertises bSupportsBots=true but there is no bot that walks the map.",
+      "GameMode has no team assignment or bot-fill logic: WanefallPrototypeGameMode only sets DefaultPawn/Controller/HUD. 4v4/8v8 TeamCount/TeamSize config in the registry is data-only, not enforced by spawn logic.",
+      "None of the 71 imported Dimwit assets (aliens/mechs/vehicles/weapons) are placed in ANY map — verified zero /Game/Wanefall/Dimwit/ refs across all .umap files. Maps are still pure engine-cube greybox.",
+      "Most modes are Experimental bones sharing 2 greybox shells: all 7 DM/A4v4 objective variants point at one ArenaCore_Greybox_01; all 5 A8v8 variants point at one ArenaLarge_Greybox_01 — no per-mode level design, objectives, or capture points placed.",
+      "BattleRoyale (24-player) and Extraction shells are spawn-grid 'Shell' maps (BR=36 SMA/29 PS, Extraction=20 SMA/7 PS) — too sparse for their advertised player counts; no shrinking-zone or extraction-gate geometry confirmed in-map.",
+      "No NavMesh means even WaneBoard/ScoutSkimmer vehicle traversal and any future melee chase AI lack a nav surface."
+    ],
+    "betaReadiness": 45,
+    "integrationNotes": "For a beta, lead with the four PlayablePrototype pillars (each genuinely playable today: real cube greybox floor+collision, PlayerStarts, lighting, launched via WanefallModeRouter::OpenLevel). Best mode-to-map fit: WaneTrial=Wanefall_WaneTrialJailCell_01 (default/startup map, richest at 166 StaticMeshActors + 179 lights + 8 PlayerStarts) for a 1v1/duel beta; Matrix=Wanefall_Matrix_01 (150 SMA) for solo practice/sandbox; Arena4v4_TDM=Wanefall_Arena4v4_Prototype_01 (62 SMA, 21 PlayerStart refs) for team deathmatch; PracticeRange_Cave=Wanefall_PracticeRangeArmoryGarage_01 (353KB) for the weapon range. Ship those three-to-four as human-facing; keep ArenaCore/ArenaLarge/BR/Extraction/Arcade as experimental menu entries. Extension hooks: register in WanefallModeRegistry.cpp::BuildDefaultModes (only set Status=PlayablePrototype once a map is authored); router opens MapPath via UGameplayStatics::OpenLevel (WanefallModeRouter.cpp:56). Three pre-beta fixes per chosen map: (a) add NavMeshBoundsVolume+RecastNavMesh if bots must move (none exist in any map); (b) replace/augment AWanefallPrototypeEnemy (static, non-ticking, no AIController) with nav-driven AI if roaming opponents are needed; (c) place the 71 Dimwit assets — no map references /Game/Wanefall/Dimwit/ yet. Do NOT use AWanefallPlayableGreyboxMap/AWanefallVerticalSliceArena for real geometry — they spawn bProofOnly marker actors for proof harnesses, not playable floors.",
+    "stubbedOrPartial": [
+      "WanefallGreyboxEditor module is a 7-line stub (WanefallGreyboxEditorModule.cpp) — no map-build commandlets; all maps are hand-authored binaries",
+      "AWanefallPlayableGreyboxMap::AssembleTransientMap and AWanefallVerticalSliceArena::AssembleTransientArena spawn ONLY bProofOnly=true SceneComponent marker/zone/route actors (lanes, objective zones, extraction routes, power positions) — proof scaffolding, zero floor/collision/nav",
+      "AWanefallGreyboxArenaActor.FloorMesh has collision enabled but NO mesh asset assigned in code (comment: 'a level/BP can assign one later')",
+      "AWanefallGreyboxSpawnPoint is a bare SceneComponent-only actor (no team/index data)",
+      "~18 of ~22 registered modes are Status=Experimental (bones): registered with team/objective data but pointing at shared generic greybox shells with no objective geometry placed",
+      "BattleRoyale and Extraction maps are named '_Shell_' and are sparse spawn grids, not finished layouts"
+    ],
+    "risks": [
+      "bSupportsBots=true is set on every mode in the registry but there is no nav and no walking AI — a tester selecting any mode expecting opponents will face only stationary AWanefallPrototypeEnemy threat dummies (or nothing, since GameMode does not spawn them)",
+      "Multiple 4v4/8v8/CTF/Control/Hardpoint/SND modes all load the SAME two greybox shells (ArenaCore / ArenaLarge) with no objective actors placed — modes are functionally identical empty arenas; shipping them as-is would feel broken/duplicated",
+      "Team config (TeamCount/TeamSize/ScoreLimit) lives only as data in the registry; WanefallPrototypeGameMode enforces none of it, so team-vs-team scoring is not actually wired at the GameMode level",
+      "No imported Dimwit assets are in any level — the game visually is still engine-grey cubes; the 71 assets are imported but unplaced",
+      "PlayerStart counts are from raw binary string greps (import-table de-dup may inflate/deflate exact placed-instance counts) — confirm actual placed PlayerStart instances in-editor before relying on team-spawn balance",
+      "If beta needs roaming melee/chase enemies (the design has melee threat prototypes), the missing NavMesh is a hard blocker, not cosmetic"
+    ]
+  },
+  {
+    "subsystem": "char_wpn_assets",
+    "keyFiles": [
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallPrototypeCharacter.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallPrototypeCharacter.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallPrototypeWeaponComponent.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallPrototypeWeaponComponent.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallWanePulseRifleComponent.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallWanePulseRifleComponent.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallBreacherWeaponPrototypeComponent.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallWaneRelicWeaponComponent.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallPowerWeaponEconomyTypes.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallLoadoutInventoryTypes.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallPlayerProfile.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallProofPawn.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Public/WanefallShellPlayerController.h",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallShellPlayerController.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallPrototypeGameMode.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/Private/WanefallNetworkCombat.cpp",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Content/Wanefall/Dimwit/Characters/SM_Char_01_Vorlax/StaticMeshes/SM_Char_01_Vorlax.uasset"
+    ],
+    "exists": [
+      "Player pawn AWanefallPrototypeCharacter (ACharacter) is the DefaultPawnClass for both AWanefallPrototypeGameMode (line 9-11) and AWanefallShellGameMode (WanefallShellPlayerController.cpp line 18-19). One pawn class is used everywhere; the separate AWanefallNetworkCombatCharacter is used only by the network gamemodes.",
+      "Working hitscan weapon: UWanefallPrototypeWeaponComponent::FireFromView does World->LineTraceSingleByChannel(ECC_Visibility), then ApplyDamageToActor finds a UWanefallPrototypeHealthComponent on the hit actor and calls ApplyPrototypeDamage. Damage defaults to WanefallCombat::RifleDamage. Range=10000. Has proof-fallback paths (FireAtActorForProof) and telemetry (RecordFireEvent).",
+      "Polished weapon layer UWanefallWanePulseRifleComponent adds magazine/ammo (MagazineSize 30, ReserveAmmo 150), ADS, reload (1.6s), fire-rate gating (FireInterval 0.10), recoil and hip/ADS spread. Its TryFire() delegates the actual damage trace back to UWanefallPrototypeWeaponComponent::FireFromView (line 102-104) so there is one source of truth for damage. Both components are CreateDefaultSubobject'd on the character (lines 166, 169).",
+      "Character.Fire() resolves a weapon priority chain: enemy-melee passthrough -> PulseRifle->TryFire() (preferred) -> WeaponComponent->FireFromOwnerView() fallback (cpp lines 799-815), then DoFireFeedback (camera kick + cyan tracer + impact spark).",
+      "A visible third-person weapon mesh exists and loads the REAL imported engine asset SM_Rifle from /Game/NiagaraExamples/Gallery/Weapons/Rifle/Mesh/SM_Rifle (cpp line 1881), attached to the hand socket, with a BasicShapes kitbash fallback. bUsingRealRifleMesh tracks which.",
+      "8-species system EXISTS as code: UENUM EWanefallSpecies {Kharvex, Veydrin, Drothakai, Thessar, BrakThul, Ilyr, Morvane, Caelrex}. ApplySpeciesProfile() (cpp line ~2296-2335) swaps a per-species body material M_WaneSpecies_<Name> plus armor scale/asymmetry/accent. Explicitly visual-only: 'gameplay frame is identical across all species' (same capsule/camera/aim/movement). SetSpecies()/GetSpecies() authoring setters exist; Species is EditAnywhere and serialized on the actor.",
+      "Additional prototype weapon components exist as STANDALONE test components (not on the player): UWanefallBreacherWeaponPrototypeComponent (close-range, FireAtTarget vs AWanefallArenaCombatTargetDummy), UWanefallWaneRelicWeaponComponent (SpawnRelic/ClaimRelic/UseRelic, radius AoE+impulse+corruption cost), plus precision rifle / grenade-impulse / melee-threat prototype components. These are damage-number/economy proofs, not equippable weapons.",
+      "Data-model scaffolding exists: FWanefallPlayerProfile (loadout slots, unlocks, JSON save/load), FWanefallInventoryItem + EWanefallInventoryItemType (PrimaryWeapon/Sidearm/Grenade/Relic/...) + EWanefallLoadoutSlotType, and FWanefallLoadoutTelemetry. All marked bProofOnly=true; they are string-id/telemetry models with no link to actual meshes or weapon components.",
+      "The 71 Dimwit assets ARE imported and present on disk: Content/Wanefall/Dimwit/Characters (8 SM_Char_NN_<name> soldiers + 8 SM_Char_Mech_NN), Weapons (25 SM_Wpn_Gun + 11 SM_Wpn_Melee + 10 SM_Wpn_Gren = 46), Vehicles (9). Each is a UStaticMesh under <Name>/StaticMeshes/<Name>.uasset with its own pbr_material.uasset + Textures/Image_0/1.uasset (Interchange glTF import)."
+    ],
+    "stubbedOrPartial": [
+      "Species selection is material-only and never changes the mesh: the pawn always loads the engine mannequin SKM_Manny (fallback SKM_Quinn, then /Engine Tutorial TPP). All 8 species are the SAME mannequin with a different M_WaneSpecies_* material. There is no per-species or per-character mesh assignment.",
+      "There is NO character-selection mechanism at all: Species is set only at authoring/placement time (EditAnywhere + commandlet/showcase SetSpecies); no UI, no front-end pick, no profile->pawn binding wires a chosen identity at spawn. The Shell controller (mode shell / pause / settings widgets) has no character or loadout select screen.",
+      "The loadout/inventory and player-profile systems are pure data/telemetry models (bProofOnly=true) with no runtime bridge: an ItemId string is never resolved to a weapon component, a mesh, or fire behavior. EnsureDefaultLoadout uses placeholder ids.",
+      "The prototype weapon components (Breacher, Relic, Precision, Grenade-impulse) are wired only into test dummies/arenas for damage-curve proofs; none is selectable or swappable on the player pawn.",
+      "bMinimalCleanSoldier=true by default hides most armor attachments, so even the existing visual species differentiation is largely suppressed at runtime."
+    ],
+    "missingForBeta": [
+      "A character-select flow: a front-end/menu (THE HOLD) screen + a path that writes the chosen identity into the pawn at spawn (e.g. GameMode override of GetDefaultPawnClassForController, or PlayerState->pawn ApplySpecies on possess). None exists today.",
+      "Mesh-driven characters: the 8 soldiers + 8 mechs are STATIC meshes (no skeleton/rig/anim), so they cannot drive a locomoting ACharacter as-is. To be playable characters they need either skeletal conversion+rig+retarget, or use as static showcase props. Current pawn animates only because it uses the rigged engine mannequin.",
+      "A weapon-data abstraction: a UDataAsset/struct (mesh + damage + fire-rate + ammo + spread + type) and a single equip-able weapon component that swaps the visible mesh and fire params from data. Today damage is hardcoded per-component and the visible mesh is a single hardcoded SM_Rifle path.",
+      "A real bridge from FWanefallInventoryItem.ItemId / FWanefallLoadoutSlot.ItemId to actual meshes + weapon stats (an id->asset registry). Currently ids are inert strings.",
+      "Any code reference to the Dimwit assets: grep over all .cpp/.h/.ini/.cs found ZERO references except editor UI state in Saved/Config EditorPerProjectUserSettings.ini. The 71 assets are orphaned content with no load path.",
+      "Projectile/grenade and melee firing models for the 10 grenades + melee: the base weapon is hitscan-only; grenade behavior exists only as the separate impulse/economy proof components, not as throwable equipped items."
+    ],
+    "betaReadiness": 35,
+    "integrationNotes": "Reuse the proven firing spine as-is: UWanefallPrototypeWeaponComponent::FireFromView is the single hitscan+damage+telemetry source of truth, and UWanefallWanePulseRifleComponent already layers ammo/ADS/reload/recoil on top of it by delegating its trace. To make 'a handful of guns shootable', generalize the visible weapon: add a small weapon-data struct/DataAsset (StaticMesh ptr + Damage + FireInterval + MagazineSize + Spread + bAuto) and have BuildVisibleWeapon/AttachVisibleWeapon (cpp ~1879-1945, currently hardcoding /Game/NiagaraExamples/.../SM_Rifle) pull the mesh from data; feed Damage/FireInterval into the existing PulseRifle/WeaponComponent fields instead of their constants. The 25 SM_Wpn_Gun_* static meshes drop straight into WeaponBodyMesh->SetStaticMesh() exactly like SM_Rifle already does, so guns are the LOW-effort win (mesh swap + stat table; firing already works). For character selection: the species spine already exists (EWanefallSpecies + ApplySpeciesProfile + EditAnywhere Species + SetSpecies); the minimum wiring is (a) a select UI feeding a chosen value into the pawn, and (b) calling SetSpecies()+re-running ApplySpeciesProfile() on possess/BeginPlay. BUT note the 8 Dimwit soldier identities (Vorlax/ekris/...) do NOT match the 8 code species (Kharvex/...) and are STATIC meshes, so making THEM playable characters needs skeletal-mesh conversion+rigging first; the cheap path is to keep the rigged mannequin body and treat species purely as material/armor identity (as the code already does). Minimum shootable-match path: (1) weapon-data table + mesh-swap in BuildVisibleWeapon, (2) bind 3-4 SM_Wpn_Gun meshes to stat rows, (3) a weapon-cycle input that swaps mesh+stats — no new firing code needed. Per the redesign bible's UWaneSubsystem direction, that id->asset weapon/character registry is the natural home for the missing string-id->mesh bridge.",
+    "risks": [
+      "Dimwit characters are static meshes with no skeleton — using them as playable locomoting pawns is a major art/rigging task, not a wiring task. Treating this as 'just reference the mesh' will fail; only the visible-weapon (static-mesh) use is low-effort.",
+      "The species enum names (Kharvex, Veydrin, ...) and the imported soldier names (Vorlax, ekris, zythan, ...) are two unrelated naming systems; any 'select a species/character' design must pick one canonical identity set or it will be incoherent.",
+      "Damage values are hardcoded across multiple components (RifleDamage constant, BreacherBaseDamage 24, RelicDamage 95, WaneFangDamage 75) with no central table; adding more guns without a data table will scatter balance further.",
+      "Loadout/profile systems are stamped bProofOnly=true and were built as validation telemetry, not gameplay; wiring them live needs care so proof-only assumptions (no real persistence/backend) don't leak into beta.",
+      "71 imported assets are entirely unreferenced; if a packaged build strips unreferenced content they may not cook unless explicitly added to a reference (DataAsset/registry) or an Additional Asset Directory."
+    ]
+  },
+  {
+    "subsystem": "build_run",
+    "keyFiles": [
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/WanefallGreybox.uproject",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox.Target.cs",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreyboxEditor.Target.cs",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Source/WanefallGreybox/WanefallGreybox.Build.cs",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Config/DefaultEngine.ini",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/HumanTestLaunch/WANEFALL_LAUNCH_EDITOR_V8_5.bat",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/HumanTestLaunch/WANEFALL_OPEN_V5_COMBAT_SANDBOX.bat",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/HumanTestLaunch/WANEFALL_OPEN_TEST_HUB_V8_5.bat",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Binaries/Win64/WanefallGreybox.exe",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Binaries/Win64/UnrealEditor-WanefallGreybox.dll",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Saved/ShowMeAI/WanefallAutonomousSliceEvolution/run_regressions.ps1",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Saved/ShowMeAI/WanefallSculptedEnemyHeroCapture/hero_capture_and_wait.ps1",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Plugins/ShowMeAIBridge/ShowMeAIBridge.uplugin",
+      "C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/Plugins/ShowMeAIBridge/Source/ShowMeAIBridgeEditor/Public/ShowMeAIBridgeSmokeCommandlet.h"
+    ],
+    "exists": [
+      "Two UBT targets defined: Game (WanefallGreyboxTarget, Type=Game) and Editor (WanefallGreyboxEditorTarget, Type=Editor), both BuildSettingsVersion.V7 / IncludeOrderVersion Unreal5_8, ExtraModuleNames WanefallGreybox(+WanefallGreyboxEditor). Engine at C:/UE_5.8.",
+      "Both targets are ALREADY freshly compiled. Binaries/Win64 holds UnrealEditor-WanefallGreybox.dll (built 2026-06-25 01:10) AND a standalone Game .exe WanefallGreybox.exe (342MB, built 2026-06-25 01:11). So the project currently builds clean and runs without a recompile.",
+      "Verified engine tooling present: C:/UE_5.8/Engine/Build/BatchFiles/Build.bat, UnrealBuildTool.exe, UnrealEditor.exe, UnrealEditor-Cmd.exe all exist.",
+      "Proven one-click launcher pattern (ShowMeAI style): 6 .bat files in HumanTestLaunch/. Editor-open: UnrealEditor.exe <uproject>. Direct-play: UnrealEditor.exe <uproject> /Game/Wanefall/Maps/<Map> -game -windowed -ResX=1600 -ResY=900. Per-map scripts exist for V5 Combat Sandbox, V6 BotLite, V7 Practice Range, V8 Vehicle Combat, and a PreHumanTestHub portal map.",
+      "Default boot is already wired: DefaultEngine.ini sets EditorStartupMap and GameDefaultMap = /Game/Wanefall/Maps/Wanefall_WaneTrialJailCell_01 and GlobalDefaultGameMode = /Script/WanefallGreybox.WanefallPrototypeGameMode. So launching with no map argument boots straight into the Wane Trial vertical slice.",
+      "AWanefallPrototypeGameMode (AGameModeBase subclass) is the C++ default game mode. ~100+ gameplay headers in Source/WanefallGreybox/Public (weapons, enemies, extraction, vehicle chaos, loadout inventory, HUD, network combat, capture directors).",
+      "Runtime module deps (WanefallGreybox.Build.cs): Core, CoreUObject, Engine, InputCore, Json, JsonUtilities, Niagara, UMG, Slate, SlateCore.",
+      "Headless automation pattern exists and works: run_regressions.ps1 drives UnrealEditor-Cmd.exe <proj> -run=<Commandlet> -unattended -nosplash -nullrhi; hero_capture_and_wait.ps1 drives UnrealEditor.exe <proj> <map> -game -RenderOffScreen -unattended with a marker-file watchdog. ShowMeAIBridgeEditor ships a ShowMeAIBridgeSmokeCommandlet.",
+      "ShowMeAIBridge plugin (Runtime+Editor modules) and WanefallPrototypeProof + PythonScriptPlugin are enabled in the uproject."
+    ],
+    "missingForBeta": [
+      "No single canonical 'beta launcher' that compiles-if-stale then boots the intended beta map+mode. The 6 batch files are hardcoded to specific maps/res and have no build step and no engine-path fallback (C:/UE_5.8 is hardcoded).",
+      "No cooked/packaged standalone build config (no DefaultGame.ini map-list for staging, no BuildCookRun script). The 342MB WanefallGreybox.exe is a Development Game build that still loads loose Content from the project dir, NOT a redistributable cooked .pak package.",
+      "No Build.bat/RunUAT wrapper script in the project; the compile command is currently implicit (devs rely on the IDE or Live Coding). No documented one-command recompile.",
+      "No mode-selection front end ('THE HOLD') wired into the boot map; default map is the Wane Trial slice, not a mode picker.",
+      "Map name fragmentation: 30+ umaps with overlapping eras (CoreArena 01-06, AssetFoundationSlice 01-06, Arcade, Arena4v4, ModeShell). No single declared 'beta map'."
+    ],
+    "stubbedOrPartial": [
+      "WanefallPrototypeGameMode.h is a bare AGameModeBase subclass (constructor only) — default pawn/HUD/controller wiring lives in the .cpp, not declared in the header.",
+      "Packaging path is partial: a Development Game .exe exists but there is no cook/stage/pak pipeline, so it is not a clean redistributable for testers on other machines.",
+      "Launchers are per-map snapshots (V5-V8 era), not regenerated against the current default slice; WANEFALL_OPEN scripts point at older CoreArena maps while the actual default boot map is Wanefall_WaneTrialJailCell_01."
+    ],
+    "betaReadiness": 72,
+    "integrationNotes": "FASTEST PATH TO A PLAYABLE BETA — do NOT package. This project carries heavy marketplace content (Paragon, Soul City/Cave) so a clean cooked standalone .pak is slow and fragile; the realistic fast path is the proven ShowMeAI launcher pattern: launch the editor straight into a -game PIE session on a chosen map. (1) COMPILE both targets (only needed after C++ edits): Editor target — `\\\"C:/UE_5.8/Engine/Build/BatchFiles/Build.bat\\\" WanefallGreyboxEditor Win64 Development -Project=\\\"C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/WanefallGreybox.uproject\\\" -WaitMutex`; Game target — same with `WanefallGreybox` as the target name. (Both are currently already built: DLL+exe dated 2026-06-25, so a first run needs no compile.) (2) STANDALONE .exe: technically feasible (a Development Game WanefallGreybox.exe already exists at Binaries/Win64) but it still reads loose Content from the project folder — it is a dev-run exe, not a redistributable cooked package, and full cook+pak of the marketplace content is the slow/fragile route. Skip it for beta. (3) FASTEST REPEATABLE LOOP: edit C++ -> Build.bat WanefallGreyboxEditor (or in-editor Live Coding via Ctrl+Alt+F11) -> launch into a match with ONE command: `\\\"C:/UE_5.8/Engine/Binaries/Win64/UnrealEditor.exe\\\" \\\"C:/Users/developer/Documents/Unreal Projects/WanefallGreybox/WanefallGreybox.uproject\\\" /Game/Wanefall/Maps/<Map> -game -windowed -ResX=1600 -ResY=900`. RECOMMENDED beta run mode = windowed `-game` (standalone PIE) on a fixed beta map, exactly the existing HumanTestLaunch pattern. RECOMMENDED single shortcut for the user: clone WANEFALL_OPEN_V5_COMBAT_SANDBOX.bat into a new `WANEFALL_BETA.bat` that targets the intended beta map (the V5 Combat Sandbox Wanefall_CoreArenaCombatSandbox_05 is the most combat-complete; or omit the map arg entirely to boot the DefaultEngine.ini default Wanefall_WaneTrialJailCell_01 slice). For an even tighter loop, make a build+launch combo .bat: line1 Build.bat WanefallGreyboxEditor..., line2 the UnrealEditor.exe -game line — gives edit->compile->play in one double-click. For headless/automated proof runs reuse run_regressions.ps1 (UnrealEditor-Cmd.exe -run=<Commandlet> -unattended -nullrhi) and the hero_capture_and_wait.ps1 marker-watchdog pattern.",
+    "risks": [
+      "risks captured above"
+    ]
+  }
+]

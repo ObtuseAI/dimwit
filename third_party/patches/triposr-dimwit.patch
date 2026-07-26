@@ -1,0 +1,37 @@
+diff --git a/tsr/bake_texture.py b/tsr/bake_texture.py
+index 642a424..17b7cb9 100644
+--- a/tsr/bake_texture.py
++++ b/tsr/bake_texture.py
+@@ -137,3 +137,4 @@ def positions_to_colors(model, scene_code, positions_texture, texture_resolution):
+ def positions_to_colors(model, scene_code, positions_texture, texture_resolution):
+-    positions = torch.tensor(positions_texture.reshape(-1, 4)[:, :-1])
++    # Dimwit patch: keep positions on the model/scene_code device (was CPU -> CUDA grid_sample crash)
++    positions = torch.tensor(positions_texture.reshape(-1, 4)[:, :-1]).to(scene_code.device)
+     with torch.no_grad():
+@@ -144,3 +145,3 @@ def positions_to_colors(model, scene_code, positions_texture, texture_resolution):
+         )
+-    rgb_f = queried_grid["color"].numpy().reshape(-1, 3)
++    rgb_f = queried_grid["color"].detach().cpu().numpy().reshape(-1, 3)
+     rgba_f = np.insert(rgb_f, 3, positions_texture.reshape(-1, 4)[:, -1], axis=1)
+diff --git a/tsr/models/isosurface.py b/tsr/models/isosurface.py
+index 076321b..69275cc 100644
+--- a/tsr/models/isosurface.py
++++ b/tsr/models/isosurface.py
+@@ -3,7 +3,15 @@ from typing import Callable, Optional, Tuple
+ 
+ import numpy as np
+ import torch
+ import torch.nn as nn
+-from torchmcubes import marching_cubes
++# Dimwit patch: torchmcubes needs a CUDA compiler (nvcc) which is not installed; use scikit-image's
++# CPU marching_cubes instead (pure wheels, no build). Functionally equivalent for mesh extraction.
++from skimage import measure
++
++
++def marching_cubes(volume, level):
++    vol = volume.detach().cpu().numpy().astype(np.float32)
++    verts, faces, _normals, _vals = measure.marching_cubes(vol, float(level))
++    return torch.from_numpy(verts.copy()).float(), torch.from_numpy(faces.copy()).long()
+ 
+ 
+ class IsosurfaceHelper(nn.Module):

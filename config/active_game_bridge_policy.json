@@ -1,0 +1,16 @@
+{
+  "dimwit_may": [
+    "write source art and review packages",
+    "import to a STAGING path",
+    "validate in preview scenes",
+    "propose active-slice promotion"
+  ],
+  "dimwit_may_not": [
+    "automatically promote assets into the WANEFALL active slice"
+  ],
+  "human_approval_required_for": "active-slice promotion",
+  "staging_paths": [
+    "/Game/Wanefall/Dimwit/Staging/",
+    "SourceArt/WANEFALL/Dimwit/"
+  ]
+}

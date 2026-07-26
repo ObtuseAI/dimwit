@@ -1,0 +1,287 @@
+{
+  "updated": "2026-06-29 (Packaged BuildCookRun proof, packaged runtime smoke, recursive queue sync, proof-ledger repair, and full validation pass)",
+  "driver": "codex",
+  "ceiling": "PROMOTED_TO_REVIEW",
+  "operating_model": "work-queue -> orchestrate -> execute (Dimwit) -> validate (fail-closed) -> PROMOTED_TO_REVIEW -> human gate -> lessons",
+  "gate_cmd": "python scripts/pipeline/run_validation.py",
+  "loop_cmd": "python scripts/pipeline/run_director.py",
+  "doctrine": "AGENTS.md",
+  "hard_constraints": [
+    "ceiling = PROMOTED_TO_REVIEW; never write HUMAN_ACCEPTED / PROMOTED_TO_ACTIVE_SLICE (operator-only)",
+    "never weaken/delete/stub a validator or lower a threshold/floor",
+    "fail-closed: missing evidence = BLOCKED, never a fake PASS; never fabricate captures/result-JSON/provenance",
+    "no fabricated live eyes: approved deterministic desktop captures may be evidence; missing semantic perception/optics remains BLOCKED",
+    "operator-only: sign in, pay, download-from-untrusted, design.md snapshot_baseline, Hi3D regen, GitHub push"
+  ],
+  "registry": "264 validators across 43 domains; latest full suite REJECTED (PASS 38 / FAIL 1 / BLOCKED 214 / REJECTED 11) at run_ts 1785091345 (with UE probes); validator count varies with the active roster; validate via `python scripts/pipeline/run_validation.py`",
+  "codex_latest": {
+    "id": "packaged-build-validation-v1",
+    "date": "2026-06-29",
+    "state": "PASS_PROMOTED_TO_REVIEW",
+    "pipeline": "packaged_build_validation",
+    "result": "artifacts/packaged_build_validation/packaged_build_result.json",
+    "shared_report": "C:\\Users\\developer\\Desktop\\Shared Folder\\WANEFALL_PACKAGED_BUILD_PROOF_REPORT_20260629.md",
+    "package_archive": "D:\\WanefallBuild\\PackagedBuildValidation\\runs\\20260629_161552\\archive",
+    "packaged_executable": "D:\\WanefallBuild\\PackagedBuildValidation\\runs\\20260629_161552\\archive\\Windows\\WanefallGreybox\\Binaries\\Win64\\WanefallGreybox.exe",
+    "packaged_executable_sha256": "fdf33c41b1c6e7dcae99eca60ea128259cfa88c4c958fc7c692182714fc99369",
+    "packaged_total_bytes": 2596574320,
+    "verified_commands": [
+      "python -m dimwit.tests.test_packaged_build_validation",
+      "python scripts/pipeline/run_pipeline.py packaged_build_validation wanefall_win64_development timeout_seconds=7200 max_wait_seconds=180 settle_seconds=25 smoke_seconds=2 smoke_fps=4",
+      "python scripts/pipeline/run_validation.py --domain packaged_build --no-ue",
+      "python scripts/pipeline/run_validation.py --domain pipeline_contracts --no-ue",
+      "python scripts/pipeline/run_validation.py --domain autonomy_engine --no-ue",
+      "python scripts/pipeline/run_validation.py --domain unreal_game_builder_engine --no-ue",
+      "python -m dimwit.ledger.repair ledger\\validation.jsonl artifacts\\ledger_repair_packaged_build_20260629 --reason packaged-build-validation-rechain",
+      "python scripts/pipeline/run_validation.py --domain proof_integrity --no-ue",
+      "python -m dimwit.tests.test_ledger_repair",
+      "python scripts/pipeline/run_validation.py"
+    ],
+    "result_summary": "PASS: real UAT BuildCookRun Win64 Development package produced 48 files / 2596574320 bytes, executable hash recorded, packaged executable launched, still and frame burst are nonblank, packaged log scan is clean, and full validation is 173 PASS / 0 FAIL / 0 BLOCKED / 0 REJECTED",
+    "remaining_global_non_pass": [],
+    "ceiling": "PROMOTED_TO_REVIEW"
+  },
+  "codex_contract_latest": {
+    "id": "cross-pipeline-contract-auditor-v1",
+    "date": "2026-06-29",
+    "state": "INSTALLED_PASS",
+    "artifact": "artifacts/pipeline_contracts/pipeline_contract_audit.json",
+    "domain": "pipeline_contracts",
+    "checks": [
+      "pipeline_contract_audit_fresh",
+      "pipeline_contract_registry_clean",
+      "pipeline_contract_manifest_parity",
+      "pipeline_contract_director_tasks_known",
+      "pipeline_contract_no_operator_only_writes"
+    ],
+    "verified_commands": [
+      "python -m dimwit.tests.test_pipeline_contract_auditor",
+      "python scripts/pipeline/run_validation.py --domain pipeline_contracts --no-ue",
+      "python scripts/pipeline/run_director.py --validate --no-ue"
+    ],
+    "result": "PASS: 5 PASS / 0 FAIL / 0 BLOCKED / 0 REJECTED"
+  },
+  "codex_metahuman_latest": {
+    "id": "metahuman-character-utilization-gate-v1",
+    "date": "2026-06-28",
+    "state": "READY_FOR_REVIEW_METAHUMAN_OUTPUT_PRESENT",
+    "artifact": "artifacts/metahuman_utilization/metahuman_utilization_audit.json",
+    "domain": "metahuman_character_pipeline",
+    "unreal_version": "5.8",
+    "source_ready_count": 8,
+    "expected_character_count": 8,
+    "version_gate": "UE 5.8 direct MetaHuman DNA Calibration use remains version-gated; this pass used the exposed MetaHumanCharacterEditorSubsystem conform-solver lane and produced a source-linked MetaHumanCharacter asset without redistributing Epic tooling",
+    "license_gate": "Character DNA Addon GPL/reference-only; Epic MetaHuman DNA Calibration official/reference-with-version-gate; no GPL code copied; no Epic tooling redistributed",
+    "verified_commands": [
+      "python -m dimwit.tests.test_metahuman_utilization",
+      "python scripts/pipeline/run_validation.py --domain metahuman_character_pipeline --no-ue",
+      "project/content/artifact search plus source-linked conform attempt result accepted a retired-prototype MetaHumanCharacter output as historical audit evidence only; active readiness now requires active-roster output evidence"
+    ],
+    "result": "PASS: 5 PASS / 0 FAIL / 0 BLOCKED / 0 REJECTED",
+    "current_blocker": null
+  },
+  "codex_metahuman_output_attempt_latest": {
+    "id": "metahuman-output-attempt-v1",
+    "date": "2026-06-29",
+    "state": "PROMOTED_TO_REVIEW_SOURCE_LINKED_CONFORM_OUTPUT",
+    "pipeline": "metahuman_output_attempt",
+    "asset_id": "retired_prototype_02",
+    "artifact": "historical retired-prototype MetaHuman output attempt; audit-only, not active-roster evidence",
+    "unreal_project": "C:\\Users\\developer\\Documents\\Unreal Projects\\WanefallGreybox\\WanefallGreybox.uproject",
+    "result_summary": "MetaHumanCharacter plugin/API loaded for a retired prototype and produced historical source-linked conform evidence. This is audit-only after the active roster policy change; it must not satisfy active character readiness.",
+    "blocker": null,
+    "verified_commands": [
+      "python -m dimwit.tests.test_metahuman_output_attempt",
+      "python -m dimwit.tests.test_metahuman_utilization",
+      "python scripts/pipeline/run_pipeline.py metahuman_output_attempt retired_prototype_02 timeout_seconds=600 (historical audit-only run)",
+      "python scripts/pipeline/run_validation.py --domain metahuman_character_pipeline --no-ue",
+      "python scripts/pipeline/run_validation.py --domain pipeline_contracts --no-ue",
+      "python scripts/pipeline/run_director.py --validate --no-ue",
+      "python -m dimwit.ledger.repair ledger\\validation.jsonl artifacts\\ledger_repair_metahuman_attempt_20260629 --reason metahuman-output-attempt-validation-concurrent-append-rechain",
+      "python scripts/pipeline/run_validation.py --domain proof_integrity --no-ue",
+      "python scripts/pipeline/run_validation.py"
+    ],
+    "validation_result": "PASS: full validation 167 PASS / 0 FAIL / 0 BLOCKED / 0 REJECTED",
+    "next_lane": "Operator/Claude review of the source-linked body-only conform output, then deepen toward full face/head identity fidelity if accepted. Do not mark HUMAN_ACCEPTED or active-slice promotion from automation."
+  },
+  "codex_autonomy_latest": {
+    "id": "autonomy-capability-matrix-v1",
+    "date": "2026-06-28",
+    "state": "INSTALLED_PASS_WITH_NOTES_REMAINING_GAME_BLOCKERS",
+    "domain": "autonomy_engine",
+    "artifacts": {
+      "matrix": "artifacts/autonomy/autonomy_capability_matrix.json",
+      "queue": "artifacts/autonomy/recursive_improvement_queue.json",
+      "final_report": "artifacts/autonomy/AUTONOMY_CAPABILITY_FINAL_REPORT_20260628.json"
+    },
+    "capability_count": 22,
+    "queue_candidate_count": 16,
+    "references_classified": 7,
+    "top_candidates": [
+      "Repair real game runtime blockers",
+      "Repair validation ledger chain integrity",
+      "Produce MetaHuman output proof through version-safe lane",
+      "Improve character pipeline proof",
+      "Improve animation feel proof"
+    ],
+    "verified_commands": [
+      "python -m dimwit.tests.test_autonomy_capability_matrix",
+      "python scripts/pipeline/run_validation.py --domain autonomy_engine --no-ue"
+    ],
+    "result": "PASS: 6 PASS / 0 FAIL / 0 BLOCKED / 0 REJECTED",
+    "ceiling": "PROMOTED_TO_REVIEW"
+  },
+  "codex_unreal_game_builder_latest": {
+    "id": "unreal-game-builder-engine-v1",
+    "date": "2026-06-29",
+    "state": "INSTALLED_PASS_PROMOTED_TO_REVIEW",
+    "pipeline": "unreal_game_builder_engine",
+    "domain": "unreal_game_builder_engine",
+    "director_task": "unreal_game_builder_engine:wanefall_autonomous_studio",
+    "artifacts": {
+      "doctrine": "artifacts/unreal_game_builder/unreal_game_builder_doctrine.json",
+      "scorecard": "artifacts/unreal_game_builder/unreal_game_builder_scorecard.json",
+      "final_report": "artifacts/unreal_game_builder/UNREAL_GAME_BUILDER_FINAL_REPORT_20260629.json"
+    },
+    "lane_count": 24,
+    "queue_candidate_count": 10,
+    "current_full_validation_blocker_count": 0,
+    "top_candidates": [
+      "Repair proof ledger integrity",
+      "Seal source asset provenance",
+      "Improve character asset generation"
+    ],
+    "verified_commands": [
+      "python -m dimwit.tests.test_unreal_game_builder_engine",
+      "python -m dimwit.tests.test_autonomy_capability_matrix",
+      "python -m dimwit.tests.test_pipeline_contract_auditor",
+      "python scripts/pipeline/run_pipeline.py unreal_game_builder_engine wanefall_autonomous_studio",
+      "python scripts/pipeline/run_validation.py --domain unreal_game_builder_engine --no-ue",
+      "python scripts/pipeline/run_validation.py --domain pipeline_contracts --no-ue",
+      "python scripts/pipeline/run_director.py --validate --no-ue",
+      "python scripts/pipeline/run_validation.py"
+    ],
+    "result": "PASS: unreal_game_builder_engine 6 PASS / 0 FAIL / 0 BLOCKED / 0 REJECTED; full suite is PASS after MetaHuman source-linked output evidence",
+    "ceiling": "PROMOTED_TO_REVIEW"
+  },
+  "work_queue": [
+    {
+      "id": "packaged-build-proof",
+      "facet": "build_packaging_deploy",
+      "state": "PASS_PROMOTED_TO_REVIEW_PACKAGED_RUNTIME_SMOKE",
+      "need": "future ready claims must consume artifacts/packaged_build_validation/packaged_build_result.json and require packaged_build validation PASS, not only editor compile/runtime validation"
+    },
+    {
+      "id": "active-character-roster",
+      "facet": "character_pipeline",
+      "state": "ACTIVE_POLICY_7_HUMANOIDS_8_MECHS",
+      "need": "consume config/character_roster.json, artifacts/character_roster_policy/character_roster_policy_report.json, and artifacts/character_source_sync/character_source_sync_report.json; retired prototypes are audit-only and must not surface as active visual proof"
+    },
+    {
+      "id": "top3-blocker-repair",
+      "facet": "validation_integrity_ui_truth_gate",
+      "state": "PASS_PROMOTED_TO_REVIEW",
+      "need": "consume artifacts/top3_blocker_repair_v1 plus Shared Folder package; proof ledger, HUD weakpoint/command-surface, and MetaHuman output gates are passing"
+    },
+    {
+      "id": "unreal-game-builder-engine",
+      "facet": "recursive_orchestration",
+      "state": "INSTALLED_PASS_PROMOTED_TO_REVIEW",
+      "need": "consume artifacts/unreal_game_builder/UNREAL_GAME_BUILDER_FINAL_REPORT_20260629.json for all-in-one Unreal production lane coverage and ranked recursive improvement queue; no current full-validation blockers"
+    },
+    {
+      "id": "autonomy-capability-matrix",
+      "facet": "recursive_orchestration",
+      "state": "INSTALLED_PASS_PROMOTED_TO_REVIEW",
+      "need": "consume artifacts/autonomy/recursive_improvement_queue.json for bounded next repair slices; current queue entries are improvements, not active full-suite blockers"
+    },
+    {
+      "id": "metahuman-character-utilization-gate",
+      "facet": "character_pipeline",
+      "state": "READY_FOR_REVIEW_METAHUMAN_OUTPUT_PRESENT",
+      "need": "review active-roster source-linked MetaHuman output evidence only; retired prototype output is audit-only and not active readiness proof"
+    },
+    {
+      "id": "cross-pipeline-contract-auditor",
+      "facet": "orchestration_integrity",
+      "state": "INSTALLED_PASS",
+      "need": "keep pipeline_contracts green after any registry/manifest/director task/pipeline source change"
+    },
+    {
+      "id": "real-game-runtime-loop",
+      "facet": "runtime_validation",
+      "state": "INSTALLED_PASS_PROMOTED_TO_REVIEW",
+      "need": "maintain command-surface real-game PASS; current live capture passes nonblank, frame burst, placeholder geometry, and log scan gates"
+    },
+    {
+      "id": "gate-evidence-traversal",
+      "facet": "movement_traversal",
+      "state": "GATE_INSTALLED_BLOCKED_PENDING_EVIDENCE",
+      "need": "compiled proof-writer calling the C++ *ForProof verbs -> artifacts/traversal_capture_result.json (game-target rebuild; editor stays up)"
+    },
+    {
+      "id": "gate-evidence-weapons",
+      "facet": "weapons_inplay",
+      "state": "GATE_INSTALLED_BLOCKED_PENDING_EVIDENCE",
+      "need": "in-hand capture per gun -> artifacts/weapons_capture_result.json (white-weapon law + ADS 90->65 / 360->200)"
+    },
+    {
+      "id": "gate-evidence-hud",
+      "facet": "hud_readability",
+      "state": "GATE_INSTALLED_BLOCKED_PENDING_EVIDENCE",
+      "need": "live Match HUD frame -> artifacts/hud_capture_result.json (DESIGN.md teal token + legibility)"
+    },
+    {
+      "id": "gate-evidence-br",
+      "facet": "br_loop",
+      "state": "GATE_INSTALLED_BLOCKED_PENDING_EVIDENCE",
+      "need": "caller for FWanefallModeSimHarness::BattleRoyale -> artifacts/br_loop_result.json (ring collapse + match resolve)"
+    },
+    {
+      "id": "environment-map-asset-lane",
+      "facet": "environments_maps_assets",
+      "state": "NEXT_LANE",
+      "need": "move production focus to environments, maps, props, materials, and encounter assets after active character roster gates stay green"
+    },
+    {
+      "id": "image-gen-capability",
+      "facet": "art-pipeline",
+      "state": "PLANNED",
+      "need": "wire Nano Banana 2 / Gemini 3.1 Flash Image (primary, consistency) + FLUX.2 Pro (hero aesthetic) as a provenance-gated generation capability feeding the intent-contract reference image"
+    }
+  ],
+  "note": "Codex partner is the failover/peer driver. Pick up the work_queue here; run the gate after every change; STOP at the review ceiling. Future ready claims must require active-roster evidence plus packaged_build PASS. Retired prototypes are audit-only and must not be used as active visual proof. Automation still must not write HUMAN_ACCEPTED or PROMOTED_TO_ACTIVE_SLICE.",
+  "generated_truth": {
+    "generated_at": 1785091345.461614,
+    "source_report": {
+      "path": "artifacts/validation/validation_report_full.json",
+      "run_ts": 1785091345,
+      "scope": "full",
+      "run_ue": true
+    },
+    "suite_verdict": "REJECTED",
+    "counts": {
+      "PASS": 38,
+      "FAIL": 1,
+      "BLOCKED": 214,
+      "REJECTED": 11
+    },
+    "total_validators": 264,
+    "domain_count": 43,
+    "active_humanoid_target": 6,
+    "active_mech_target": 8,
+    "quarantined_humanoids": [
+      "bad_runtime_01",
+      "retired_prototype_02"
+    ],
+    "next_lane": "environments_maps_assets",
+    "queue_top": [
+      "Repair real game runtime blockers",
+      "Repair validation ledger chain integrity",
+      "Produce MetaHuman output proof through version-safe lane",
+      "Improve movement traversal proof",
+      "Improve weapon feel proof"
+    ],
+    "note": "machine-generated from disk truth at the end of every full-scope suite run; validator totals vary with the active roster"
+  }
+}

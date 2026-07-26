@@ -1,0 +1,39 @@
+{
+  "loop": [
+    "generate candidate",
+    "import candidate",
+    "capture candidate",
+    "score candidate",
+    "classify weakest dimension",
+    "mutate candidate",
+    "reimport",
+    "recapture",
+    "rescore",
+    "compare to previous best",
+    "keep best",
+    "repeat until threshold/blocker/max",
+    "promote to review only if thresholds pass"
+  ],
+  "scored_dimensions": [
+    "wanefall_genre_fit",
+    "silhouette_readability",
+    "third_person_camera_readability",
+    "hero_readability",
+    "gameplay_readability",
+    "palette_discipline",
+    "not_generic_ai_slop",
+    "not_magenta_dominant",
+    "not_white_debug_junk",
+    "not_black_blob",
+    "collision_sanity",
+    "scale_sanity",
+    "material_sanity",
+    "performance_risk",
+    "import_correctness",
+    "hit_destroy_state_clarity"
+  ],
+  "max_iterations": 6,
+  "promote_threshold": 0.7,
+  "keep_best": true,
+  "implemented_by": "dimwit.engine.recursive_mutation_loop"
+}

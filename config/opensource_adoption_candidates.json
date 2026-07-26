@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-07-11",
+  "candidates": [
+    {
+      "id": "hypothesis", "name": "Hypothesis", "source_url": "https://github.com/HypothesisWorks/hypothesis",
+      "license": "MPL-2.0", "adoption_mode": "REFERENCE_ONLY", "value": 4.6, "risk": 0.5, "integration_cost": 1.0,
+      "local_probe": {"kind": "python_module", "value": "hypothesis"},
+      "use": "Property and state-machine test patterns for ledgers, gates, resumability, and artifact contracts.",
+      "guardrail": "Keep it in test scope; do not add runtime authority. License compatibility must be reviewed before vendoring."
+    },
+    {
+      "id": "triposr", "name": "TripoSR", "source_url": "https://github.com/VAST-AI-Research/TripoSR",
+      "license": "MIT", "adoption_mode": "EVALUATE", "value": 4.8, "risk": 1.8, "integration_cost": 2.0,
+      "local_probe": {"kind": "path", "value": "neural3d/TripoSR"},
+      "use": "Local image-to-3D candidate suited to the available 8 GB GPU envelope.",
+      "guardrail": "No weight download or output promotion without operator approval, provenance, license evidence, and measured geometry/texture gates."
+    },
+    {
+      "id": "materialx", "name": "MaterialX", "source_url": "https://github.com/AcademySoftwareFoundation/MaterialX",
+      "license": "APACHE-2.0", "adoption_mode": "EVALUATE", "value": 4.3, "risk": 0.8, "integration_cost": 2.1,
+      "local_probe": {"kind": "none", "value": ""},
+      "use": "Portable material contracts and validation between Blender, Unreal, and DCC review artifacts.",
+      "guardrail": "Prefer engine/DCC bindings already shipped locally; do not build or install a duplicate stack by default."
+    },
+    {
+      "id": "openusd", "name": "OpenUSD", "source_url": "https://github.com/PixarAnimationStudios/OpenUSD",
+      "license": "APACHE-2.0", "adoption_mode": "USE_ENGINE_BUILTIN", "value": 4.4, "risk": 0.9, "integration_cost": 2.3,
+      "local_probe": {"kind": "none", "value": ""},
+      "use": "Scene, hierarchy, metadata, and interchange contracts for Blender-to-Unreal production.",
+      "guardrail": "Use audited Blender/Unreal USD integrations first; avoid a source build unless a measured gap requires it."
+    },
+    {
+      "id": "meshoptimizer", "name": "meshoptimizer", "source_url": "https://github.com/zeux/meshoptimizer",
+      "license": "MIT", "adoption_mode": "EVALUATE", "value": 4.0, "risk": 0.8, "integration_cost": 1.8,
+      "local_probe": {"kind": "none", "value": ""},
+      "use": "Deterministic GLB optimization, LOD, and geometry budget measurement for review and interchange assets.",
+      "guardrail": "Use as a confined sidecar and compare against Unreal Nanite/import behavior before adoption."
+    },
+    {
+      "id": "unreal_mcp_chir24", "name": "Unreal MCP Automation Bridge", "source_url": "https://github.com/ChiR24/Unreal_mcp",
+      "license": "MIT", "adoption_mode": "REFERENCE_ONLY", "value": 3.8, "risk": 2.8, "integration_cost": 3.0,
+      "local_probe": {"kind": "none", "value": ""},
+      "use": "Typed native automation patterns for Blueprint, PCG, asset, and editor operations.",
+      "guardrail": "Dimwit's existing bridge stays authoritative; adapt typed contracts only after command-by-command permission review."
+    },
+    {
+      "id": "blender_mcp", "name": "Blender MCP", "source_url": "https://github.com/ahujasid/blender-mcp",
+      "license": "MIT", "adoption_mode": "REFERENCE_ONLY", "value": 3.5, "risk": 3.5, "integration_cost": 2.5,
+      "local_probe": {"kind": "none", "value": ""},
+      "use": "Reference for Blender scene-inspection and typed DCC workflows.",
+      "guardrail": "Do not import arbitrary Python execution, background socket authority, telemetry, downloads, or paid-service paths."
+    },
+    {
+      "id": "trellis", "name": "TRELLIS", "source_url": "https://github.com/microsoft/TRELLIS",
+      "license": "MIXED-SUBMODULE-LICENSES", "adoption_mode": "HOLD", "value": 4.5, "risk": 2.7, "integration_cost": 4.2,
+      "local_probe": {"kind": "none", "value": ""},
+      "use": "High-quality text/image-to-3D research candidate beyond the current lightweight local lane.",
+      "guardrail": "Hold pending per-submodule license audit, storage review, and measured GPU feasibility."
+    },
+    {
+      "id": "opentelemetry_python", "name": "OpenTelemetry Python", "source_url": "https://github.com/open-telemetry/opentelemetry-python",
+      "license": "APACHE-2.0", "adoption_mode": "HOLD", "value": 3.2, "risk": 1.0, "integration_cost": 2.5,
+      "local_probe": {"kind": "python_module", "value": "opentelemetry"},
+      "use": "Optional traces and metrics around long-running studio jobs.",
+      "guardrail": "Dimwit's append-only receipts remain authoritative; telemetry must default to local/no-export."
+    },
+    {
+      "id": "dvc", "name": "DVC", "source_url": "https://github.com/iterative/dvc",
+      "license": "APACHE-2.0", "adoption_mode": "HOLD", "value": 3.0, "risk": 1.2, "integration_cost": 3.2,
+      "local_probe": {"kind": "python_module", "value": "dvc"},
+      "use": "Large model/data lineage if Dimwit's artifact volume outgrows its current manifest and Git LFS controls.",
+      "guardrail": "Adopt only after a measured provenance gap; no remotes or uploads without operator approval."
+    },
+    {
+      "id": "mlflow", "name": "MLflow", "source_url": "https://github.com/mlflow/mlflow",
+      "license": "APACHE-2.0", "adoption_mode": "HOLD", "value": 2.8, "risk": 1.8, "integration_cost": 4.0,
+      "local_probe": {"kind": "python_module", "value": "mlflow"},
+      "use": "Optional experiment analytics if local ledger/reporting becomes insufficient.",
+      "guardrail": "No tracking server or daemon by default; avoid duplicating Dimwit's proof ledger."
+    }
+  ]
+}

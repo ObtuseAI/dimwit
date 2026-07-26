@@ -1,0 +1,30 @@
+{
+  "input_fields": [
+    "source_art_path",
+    "destination_game_path",
+    "asset_type",
+    "material_mapping",
+    "collision_mode",
+    "scale",
+    "socket_attach_metadata",
+    "preview_placement_metadata",
+    "validation_commandlet_path"
+  ],
+  "staging_destination": "/Game/Wanefall/Dimwit/Staging/",
+  "integrates_with": "WanefallBlenderImport commandlet path when safe",
+  "rule": "Dimwit imports to a STAGING path only; active-slice import requires operator approval.",
+  "glb_to_ue_material_map": {
+    "_comment": "task 13: glTF slot name -> intended UE material, set at import time (correct-by-construction) so M_KitMetal-style metallic-black bugs aren't 'repaired' afterward. Lit dark body, never high-metallic.",
+    "dark_body": "M_KitLit",
+    "red_core": "M_WaneRedCore",
+    "teal_accent": "M_WaneAccent",
+    "default": "M_KitLit",
+    "forbid": ["high_metallic_with_near_black_base"]
+  },
+  "post_import_verify": {
+    "_comment": "task 13: after import, assert these before TECH_VALIDATED. ue_import_verify.verify_import() checks them.",
+    "checks": ["material_slot_count_matches_spec", "no_default_world_grid_material", "collision_proxy_present",
+               "bounds_within_scale_tolerance", "nanite_usage_flag_set_if_nanite"],
+    "bounds_tolerance_pct": 25
+  }
+}

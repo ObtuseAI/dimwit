@@ -1,0 +1,27 @@
+{
+  "classes": [
+    "owned_reference",
+    "generated_concept",
+    "licensed_reference",
+    "public_domain",
+    "open_license",
+    "unknown_license",
+    "forbidden"
+  ],
+  "promotable_classes": [
+    "owned_reference",
+    "generated_concept",
+    "licensed_reference",
+    "public_domain",
+    "open_license"
+  ],
+  "rules": [
+    "unknown_license cannot be directly copied",
+    "copyrighted designs cannot be cloned",
+    "external references can inspire transformed WANEFALL-native assets only when lawful",
+    "generated assets need source prompt/file/provenance recorded",
+    "commercial use uncertainty must be flagged"
+  ],
+  "hard_fail": "Dimwit cannot promote an asset without a promotable provenance class + a recorded source.",
+  "enforced_by": "dimwit.core.evaluate_provenance (fail-closed pre-gate before generation)"
+}

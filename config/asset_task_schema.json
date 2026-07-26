@@ -1,0 +1,48 @@
+{
+  "$schema": "dimwit/asset_task/v1",
+  "required": [
+    "asset_id",
+    "asset_type",
+    "source_kind",
+    "intended_gameplay_role",
+    "promotion_target",
+    "human_review_required"
+  ],
+  "fields": {
+    "asset_id": "string",
+    "asset_type": "string",
+    "source_kind": "image|text_spec|screenshot_failure|design_need|existing_placeholder",
+    "source_paths": "array<string>",
+    "intended_gameplay_role": "string",
+    "wanefall_style_requirements": "array<string>",
+    "forbidden_traits": "array<string>",
+    "technical_requirements": "array<string>",
+    "validation_requirements": "array<string>",
+    "promotion_target": "review_only",
+    "human_review_required": "bool"
+  },
+  "supported_asset_types": [
+    "hostile_construct_enemy",
+    "player_armor",
+    "helmet",
+    "weapon",
+    "vehicle_shell",
+    "waneboard_shell",
+    "arena_prop",
+    "cover_piece",
+    "door_gate",
+    "chamber_module",
+    "target_dummy",
+    "destructible",
+    "HUD_icon",
+    "objective_marker",
+    "VFX_mesh",
+    "VFX_material",
+    "tracer",
+    "muzzle_flash",
+    "impact_effect",
+    "damage_effect",
+    "audio_placeholder_spec",
+    "music_prompt_spec"
+  ]
+}

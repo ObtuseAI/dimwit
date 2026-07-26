@@ -1,0 +1,9 @@
+{
+  "profile_id": "local",
+  "display_name": "Operative",
+  "account_level": 1,
+  "account_xp": 0,
+  "settings": {"lstick":0.5,"rstick":0.5,"remap":0,"vibration":true,"master":0.8,"voice":0.8,"music":0.6,"dialogue":0.8,"voice_chat":true,"input_device":"Default Controller","output_device":"Default Audio Device","graphics":3},
+  "loadout": [{"slot":"primary","item":"wane_rifle_default"}],
+  "unlocks": ["wane_rifle_default"]
+}

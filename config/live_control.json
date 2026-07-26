@@ -1,0 +1,7 @@
+{
+  "_doc": "Operator-authorized live desktop control for Dimwit (2026-06-26: operator chose enable). enabled=true lets desktop_hands inject input into the UE editor. allow_destructive stays FALSE: delete / Save-All / source-control / project-switch require an explicit human gate even with control on. Emergency stop: create artifacts/control/ABORT, or press Scroll Lock.",
+  "enabled": true,
+  "allow_destructive": false,
+  "panic_key": "ScrollLock",
+  "deadline_s": 600
+}

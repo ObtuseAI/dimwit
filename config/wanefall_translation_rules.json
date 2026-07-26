@@ -1,0 +1,29 @@
+{
+  "law": "Dimwit must never copy an image literally; it translates references into WANEFALL-native specs.",
+  "example": {
+    "source_read": "angular armored alien drone with glowing core",
+    "wanefall_translation": "dark hostile Wane construct with teal vents and red weak point",
+    "keep": [
+      "wide shoulders",
+      "head silhouette",
+      "central weak point"
+    ],
+    "reject": [
+      "cartoon proportions",
+      "magenta glow",
+      "ornament clutter"
+    ],
+    "asset_output_type": "hostile_construct_enemy"
+  },
+  "always_keep_if_present": [
+    "clean silhouette",
+    "central weak point",
+    "readable head"
+  ],
+  "always_reject": [
+    "magenta glow",
+    "cartoon proportions",
+    "ornament clutter",
+    "literal copyrighted shapes"
+  ]
+}

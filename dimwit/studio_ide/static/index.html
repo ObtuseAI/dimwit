@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Dimwit Studio — Game Production IDE</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="app-shell">
+    <header class="topbar">
+      <button class="brand" data-view-target="forge" aria-label="Dimwit Studio home">
+        <span class="brand-sigil"><i></i><i></i><i></i><i></i></span>
+        <span><strong>DIMWIT</strong><small>GAME PRODUCTION IDE</small></span>
+      </button>
+      <nav class="main-nav" aria-label="Primary workspace">
+        <button class="nav-button active" data-view-target="forge">Forge</button>
+        <button class="nav-button" data-view-target="studio">Studio</button>
+        <button class="nav-button" data-view-target="engines">Engines</button>
+        <button class="nav-button" data-view-target="mobile">Mobile</button>
+        <button class="nav-button" data-view-target="evolve">Evolve</button>
+        <button class="nav-button" data-view-target="source">Source</button>
+      </nav>
+      <div class="top-actions">
+        <span class="local-pill"><i></i>Private · Local</span>
+        <button class="square-button" id="refreshButton" title="Refresh state" aria-label="Refresh state">↻</button>
+        <button class="command-button" id="commandButton"><span>Command</span><kbd>Ctrl K</kbd></button>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <aside class="left-rail">
+        <section>
+          <p class="rail-label">Production controls</p>
+          <button class="rail-action" data-action="studio_plan"><span class="action-glyph cyan">◇</span><span><strong>Plan studio</strong><small>22-node DAG · no mutation</small></span></button>
+          <button class="rail-action" data-action="improvement_plan"><span class="action-glyph violet">↗</span><span><strong>Plan evolution</strong><small>Evidence-ranked · review only</small></span></button>
+          <button class="rail-action" data-action="validate_full"><span class="action-glyph gold">✓</span><span><strong>Validate game</strong><small>Authoritative fail-closed suite</small></span></button>
+          <button class="rail-action" data-action="ecosystem_audit"><span class="action-glyph green">◎</span><span><strong>Audit ecosystem</strong><small>Licenses · risk · local fit</small></span></button>
+          <button class="rail-action" data-action="engine_audit"><span class="action-glyph cyan">⌘</span><span><strong>Audit engines</strong><small>8 adapters · exact blockers</small></span></button>
+          <button class="rail-action" data-action="mobile_audit"><span class="action-glyph violet">▣</span><span><strong>Audit mobile</strong><small>Android · iOS · 72 checks</small></span></button>
+        </section>
+        <section class="context-list">
+          <p class="rail-label">Workspace</p>
+          <button class="context-button active" data-view-target="forge"><span>01</span>Command forge</button>
+          <button class="context-button" data-view-target="studio"><span>02</span>Production graph</button>
+          <button class="context-button" data-view-target="evolve"><span>03</span>Improvement lab</button>
+          <button class="context-button" data-view-target="engines"><span>04</span>Universal engines</button>
+          <button class="context-button" data-view-target="mobile"><span>05</span>Mobile factory</button>
+          <button class="context-button" data-view-target="source"><span>06</span>Source reader</button>
+        </section>
+
+        <section class="boundary-card">
+          <div><span class="shield">◆</span><strong>Authority boundary</strong></div>
+          <ul id="boundaryList"><li>Loading boundaries…</li></ul>
+        </section>
+        <div class="connection"><i id="connectionDot"></i><span><strong id="connectionLabel">Connecting</strong><small>127.0.0.1 only</small></span></div>
+      </aside>
+
+      <section class="stage">
+        <section class="view active" data-view="forge">
+          <div class="hero">
+            <div>
+              <p class="eyebrow">Autonomous game production, visible end to end</p>
+              <h1>Build the impossible.<br><em>Keep the proof.</em></h1>
+              <p class="hero-copy">One local workspace for Blender, Unreal, gameplay, assets, testing, packaging, and recursively better production decisions.</p>
+            </div>
+            <div class="reactor" aria-hidden="true"><span>R</span><i></i><i></i><i></i></div>
+          </div>
+
+          <section class="mission-card">
+            <div class="mission-head"><span>DIMWIT · STUDIO DIRECTOR</span><strong id="reviewCeiling">PROMOTED_TO_REVIEW</strong></div>
+            <label for="missionInput">Mission framing</label>
+            <textarea id="missionInput" maxlength="1600" placeholder="Describe the game outcome you want to frame. The IDE will keep it local until you choose an allowlisted proof action…"></textarea>
+            <div class="mission-footer">
+              <span><i></i>No model call · no execution from free text</span>
+              <button class="primary-button" id="frameMissionButton">Frame locally <b>→</b></button>
+            </div>
+          </section>
+
+          <div class="metric-grid">
+            <article class="metric-card"><div><span>Validation</span><i class="cyan">✓</i></div><strong id="validationVerdict">—</strong><small id="validationCopy">Loading suite evidence</small><div class="meter"><b id="validationMeter"></b></div></article>
+            <article class="metric-card"><div><span>Studio graph</span><i class="violet">◇</i></div><strong id="studioProgress">—</strong><small id="studioCopy">Loading production state</small><div class="meter violet-meter"><b id="studioMeter"></b></div></article>
+            <article class="metric-card"><div><span>Capabilities</span><i class="gold">◎</i></div><strong id="capabilityCount">—</strong><small>Typed design · develop · execute · test</small><div class="meter gold-meter"><b id="capabilityMeter"></b></div></article>
+            <article class="metric-card"><div><span>Open source</span><i class="green">↗</i></div><strong id="ecosystemCount">—</strong><small id="ecosystemCopy">Fail-closed intake registry</small><div class="meter green-meter"><b id="ecosystemMeter"></b></div></article>
+          </div>
+
+          <section class="activity-panel">
+            <div class="panel-head"><div><p class="eyebrow">Live command output</p><h2>Every action leaves evidence</h2></div><span class="status-chip" id="jobStatus">Idle</span></div>
+            <div class="empty-state" id="emptyJob"><span>⌁</span><div><strong>Ready for a bounded production action</strong><small>Use the left rail or command palette. Free text never becomes shell authority.</small></div></div>
+            <div class="job-console hidden" id="jobConsole"><div><strong id="jobLabel">Action</strong><time id="jobTime"></time></div><pre id="jobOutput" aria-live="polite"></pre></div>
+          </section>
+        </section>
+
+        <section class="view" data-view="studio">
+          <div class="view-title"><div><p class="eyebrow">Blender + Unreal + full game lifecycle</p><h1>The production<br><em>graph is the plan.</em></h1></div><span class="advisory">REVIEW-BOUNDED</span></div>
+          <div class="toolchain-grid">
+            <article><span class="tool-logo blender">B</span><div><small>Blender toolchain</small><strong id="blenderVersion">—</strong><p id="blenderDetail">Waiting for preflight</p></div></article>
+            <article><span class="tool-logo unreal">U</span><div><small>Unreal toolchain</small><strong id="unrealVersion">—</strong><p id="unrealDetail">Waiting for preflight</p></div></article>
+          </div>
+          <section class="graph-panel">
+            <div class="panel-head"><div><p class="eyebrow">Resumable critical path</p><h2 id="graphTitle">Production nodes</h2></div><span id="nextNodeLabel">Loading next node</span></div>
+            <div class="studio-graph" id="studioGraph"></div>
+          </section>
+          <section class="blocker-panel"><div class="panel-head"><div><p class="eyebrow">Truth before confidence</p><h2>Current non-pass evidence</h2></div><span id="blockerCount">—</span></div><div id="blockerList" class="blocker-list"></div></section>
+        </section>
+
+        <section class="view" data-view="engines">
+          <div class="view-title"><div><p class="eyebrow">One production contract, every serious engine</p><h1>Choose the engine.<br><em>Keep the factory.</em></h1></div><span class="advisory">PLAN-FIRST</span></div>
+          <div class="universal-summary">
+            <article><span>Adapters</span><strong id="engineAdapterCount">—</strong><small>Executable engine contracts</small></article>
+            <article><span>Ready here</span><strong id="engineReadyCount">—</strong><small>Detected local toolchains</small></article>
+            <article><span>Targets</span><strong id="engineTargetCount">—</strong><small>Desktop · web · mobile · XR</small></article>
+            <article><span>Cross-engine proof</span><strong id="crossEngineState">—</strong><small id="crossEngineDetail">Same brief · verified receipts</small></article>
+          </div>
+          <section class="engine-panel"><div class="panel-head"><div><p class="eyebrow">Universal adapter matrix</p><h2>Build, package, test, prove</h2></div><span>EngineAdapter protocol</span></div><div id="engineCards" class="engine-cards"></div></section>
+          <section class="contract-panel"><div class="panel-head"><div><p class="eyebrow">Universal outputs</p><h2>Every platform through one contract</h2></div></div><div id="targetCloud" class="target-cloud"></div></section>
+        </section>
+
+        <section class="view" data-view="mobile">
+          <div class="view-title"><div><p class="eyebrow">Cross-engine Android and iOS production</p><h1>Mobile-native quality.<br><em>No desktop assumptions.</em></h1></div><span class="advisory">STORE-SAFE</span></div>
+          <div class="mobile-platforms">
+            <article><span class="mobile-logo android">A</span><div><small>Android factory</small><strong id="androidState">—</strong><p id="androidDetail">Discovering SDK</p></div></article>
+            <article><span class="mobile-logo ios">i</span><div><small>iOS factory</small><strong id="iosState">—</strong><p id="iosDetail">Checking Xcode host</p></div></article>
+          </div>
+          <section class="mobile-quality-panel"><div class="panel-head"><div><p class="eyebrow">Device-first quality matrix</p><h2 id="mobileQualityTitle">Mobile validation lanes</h2></div><span>Evidence required per build</span></div><div id="mobileQualityGrid" class="mobile-quality-grid"></div></section>
+          <section class="store-panel"><div class="panel-head"><div><p class="eyebrow">Release discipline</p><h2>Store candidate gates</h2></div><span>Upload remains operator-only</span></div><div class="store-flow"><article><b>01</b><strong>Build</strong><small>APK/AAB · XCArchive/IPA</small></article><article><b>02</b><strong>Inspect</strong><small>Manifest · size · architecture</small></article><article><b>03</b><strong>Test</strong><small>Device · lifecycle · performance</small></article><article><b>04</b><strong>Review</strong><small>Privacy · metadata · signing</small></article></div></section>
+        </section>
+
+        <section class="view" data-view="evolve">
+          <div class="view-title"><div><p class="eyebrow">Quality-diversity recursive improvement</p><h1>Search broadly.<br><em>Regress never.</em></h1></div><span class="advisory">ADVISORY ONLY</span></div>
+          <div class="outcome-summary">
+            <article><span>Review eligible</span><strong id="outcomeEligible">0</strong><small>Proposals reaching the human gate</small></article>
+            <article><span>Decided</span><strong id="outcomeDecided">0</strong><small>Operator-recorded outcomes</small></article>
+            <article><span>Accepted</span><strong id="outcomeAccepted">0</strong><small>Never automation-granted</small></article>
+            <article><span>Hit rate</span><strong id="outcomeHitRate">—</strong><small>Accepted / decided</small></article>
+          </div>
+          <div class="evolve-grid" id="familyGrid"></div>
+          <section class="ranking-panel"><div class="panel-head"><div><p class="eyebrow">Exploration portfolio</p><h2>Family pressure and outcome memory</h2></div><span id="cooldownLabel">No enforced cooldowns</span></div><div id="familyRanking"></div></section>
+          <section class="archive-panel"><div class="panel-head"><div><p class="eyebrow">Champion archive</p><h2>Review-eligible, never auto-accepted</h2></div></div><div id="championArchive" class="champion-grid"></div></section>
+          <section class="ecosystem-panel"><div class="panel-head"><div><p class="eyebrow">Open-source foundry</p><h2>Curated adoption queue</h2></div><span id="ecosystemState">—</span></div><div id="ecosystemCards" class="ecosystem-cards"></div></section>
+        </section>
+
+        <section class="view" data-view="source">
+          <div class="view-title compact"><div><p class="eyebrow">First-party source boundary</p><h1>Inspect the system.<br><em>See what is real.</em></h1></div></div>
+          <div class="source-workspace">
+            <aside><label for="sourceSearch">Search Dimwit source</label><div class="search-field"><span>⌕</span><input id="sourceSearch" type="search" placeholder="Try studio, blender, validation…"></div><div id="sourceResults"><p>Type two characters to search approved first-party roots.</p></div></aside>
+            <section><div class="source-head"><span id="sourcePath">No file selected</span><small id="sourceBytes"></small></div><pre id="sourceContent">Select a source file to inspect it here.</pre></section>
+          </div>
+        </section>
+      </section>
+
+      <aside class="proof-rail">
+        <section class="proof-hero"><p class="eyebrow">Proof rail</p><h2>System pulse</h2><span class="status-chip" id="systemStatus">Loading</span></section>
+        <section class="proof-block"><div><span>Validation</span><strong id="proofValidation">—</strong></div><dl id="validationCounts"></dl></section>
+        <section class="proof-block"><div><span>Next critical work</span><strong id="proofNext">—</strong></div><div id="nextNodeList" class="proof-list"></div></section>
+        <section class="proof-block"><div><span>Review queue</span><strong id="reviewCount">0</strong></div><div id="reviewQueue" class="proof-list"></div></section>
+        <section class="proof-block boundary-proof"><div><span>Authority</span><strong>Closed</strong></div><p>Actions are allowlisted. Free text cannot become a command. Acceptance remains human-only.</p></section>
+      </aside>
+    </main>
+  </div>
+
+  <div class="palette hidden" id="palette"><button id="paletteBackdrop" aria-label="Close command palette"></button><section><div class="palette-search"><span>⌘</span><input id="paletteInput" type="search" placeholder="Type a Dimwit command…"><kbd>Esc</kbd></div><div id="paletteList"></div></section></div>
+  <div class="toast hidden" id="toast"><span id="toastIcon">✓</span><p id="toastText"></p></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "policy": "Active WANEFALL character target is the currently qualified clean humanoid set plus 8 mech characters. Operator-rejected or retired prototypes remain as failure-fixture evidence only and are excluded from active readiness, autonomous repair loops, runtime selection, director tasks, and packaged surfaces.",
+  "active_humanoid_target": 6,
+  "active_mech_target": 8,
+  "next_lane": "environments_maps_assets",
+  "quarantined_humanoids": {
+    "bad_runtime_01": {
+      "state": "QUARANTINED_OPERATOR_REJECTED_RUNTIME_DEFECT",
+      "asset_name": "SM_Char_01_Vorlax",
+      "asset_id": "SM_Char_01_vorlax",
+      "reason": "Operator rejected this active runtime character after visible hand deformation and abnormal posture in the test area; keep only as failure-fixture evidence and do not spend further autonomous repair cycles on it.",
+      "replacement_required": false,
+      "capacity_rebalanced_to_mechs": true,
+      "remove_from_runtime": true,
+      "remove_from_unreal_active_surfaces": true,
+      "evidence": [
+        "artifacts/validation/character_deformation_review_vorlax.json",
+        "artifacts/validation/char_still_focused.png",
+        "artifacts/blender_anatomy_review/SM_Char_01_vorlax_handcrafted_rig_review.json"
+      ]
+    },
+    "retired_prototype_02": {
+      "state": "QUARANTINED_RETIRED_PROTOTYPE",
+      "asset_name": "SM_Char_02_ekris",
+      "asset_id": "SM_Char_02_ekris",
+      "reason": "Operator retired this prototype after repeated right-arm/runtime deformation failure; do not spend further autonomous repair cycles on it.",
+      "replacement_required": false,
+      "capacity_rebalanced_to_mechs": true,
+      "evidence": [
+        "artifacts/validation/character_deformation_review.json"
+      ]
+    }
+  },
+  "mech_characters": [
+    {
+      "character_id": "mech_01_glaciera",
+      "asset_name": "SM_Char_Mech_01_Glaciera",
+      "active": true,
+      "source_glb": "artifacts/new_out/mech_01_glaciera.glb",
+      "staged_glb": "artifacts/ue_staging_new/SM_Char_Mech_01_Glaciera.glb",
+      "render_png": "artifacts/ingame_new/SM_Char_Mech_01_Glaciera.png"
+    },
+    {
+      "character_id": "mech_02_voidrunner",
+      "asset_name": "SM_Char_Mech_02_Voidrunner",
+      "active": true,
+      "source_glb": "artifacts/new_out/mech_02_voidrunner.glb",
+      "staged_glb": "artifacts/ue_staging_new/SM_Char_Mech_02_Voidrunner.glb",
+      "render_png": "artifacts/ingame_new/SM_Char_Mech_02_Voidrunner.png"
+    },
+    {
+      "character_id": "mech_03_aurelion",
+      "asset_name": "SM_Char_Mech_03_Aurelion",
+      "active": true,
+      "source_glb": "artifacts/new_out/mech_03_aurelion.glb",
+      "staged_glb": "artifacts/ue_staging_new/SM_Char_Mech_03_Aurelion.glb",
+      "render_png": "artifacts/ingame_new/SM_Char_Mech_03_Aurelion.png"
+    },
+    {
+      "character_id": "mech_04_luxorion",
+      "asset_name": "SM_Char_Mech_04_Luxorion",
+      "active": true,
+      "source_glb": "artifacts/new_out/mech_04_luxorion.glb",
+      "staged_glb": "artifacts/ue_staging_new/SM_Char_Mech_04_Luxorion.glb",
+      "render_png": "artifacts/ingame_new/SM_Char_Mech_04_Luxorion.png"
+    },
+    {
+      "character_id": "mech_05_pyroclast",
+      "asset_name": "SM_Char_Mech_05_Pyroclast",
+      "active": true,
+      "source_glb": "artifacts/new_out/mech_05_pyroclast.glb",
+      "staged_glb": "artifacts/ue_staging_new/SM_Char_Mech_05_Pyroclast.glb",
+      "render_png": "artifacts/ingame_new/SM_Char_Mech_05_Pyroclast.png"
+    },
+    {
+      "character_id": "mech_06_jadewind",
+      "asset_name": "SM_Char_Mech_06_Jadewind",
+      "active": true,
+      "source_glb": "artifacts/new_out/mech_06_jadewind.glb",
+      "staged_glb": "artifacts/ue_staging_new/SM_Char_Mech_06_Jadewind.glb",
+      "render_png": "artifacts/ingame_new/SM_Char_Mech_06_Jadewind.png"
+    },
+    {
+      "character_id": "mech_07_ironline",
+      "asset_name": "SM_Char_Mech_07_Ironline",
+      "active": true,
+      "source_glb": "artifacts/new_out/mech_07_ironline.glb",
+      "staged_glb": "artifacts/ue_staging_new/SM_Char_Mech_07_Ironline.glb",
+      "render_png": "artifacts/ingame_new/SM_Char_Mech_07_Ironline.png"
+    },
+    {
+      "character_id": "mech_08_nightwire",
+      "asset_name": "SM_Char_Mech_08_Nightwire",
+      "active": true,
+      "source_glb": "artifacts/new_out/mech_08_nightwire.glb",
+      "staged_glb": "artifacts/ue_staging_new/SM_Char_Mech_08_Nightwire.glb",
+      "render_png": "artifacts/ingame_new/SM_Char_Mech_08_Nightwire.png"
+    }
+  ]
+}

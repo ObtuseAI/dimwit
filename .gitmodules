@@ -1,0 +1,6 @@
+[submodule "neural3d/InstantMesh"]
+	path = neural3d/InstantMesh
+	url = https://github.com/TencentARC/InstantMesh.git
+[submodule "neural3d/TripoSR"]
+	path = neural3d/TripoSR
+	url = https://github.com/VAST-AI-Research/TripoSR.git

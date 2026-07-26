@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "review_ceiling": "PROMOTED_TO_REVIEW",
+  "max_tasks": 3,
+  "max_total_cost": 6.0,
+  "max_wall_seconds": 10800,
+  "max_attempts_per_task": 2,
+  "regression_cooldown_seconds": 86400,
+  "validate_after_each_task": true,
+  "stop_on_regression": true,
+  "stop_on_execution_error": false,
+  "policy_note": "Bounded recursive improvement. Every executed candidate is compared against a validator baseline; regressions are quarantined and no automation may cross PROMOTED_TO_REVIEW."
+}
