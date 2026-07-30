@@ -9,9 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- `dimwit.market`: the executed DumbMoney market cell, implementing the runtime role
-  `chart_vision_and_deterministic_technical_analysis_for_stocks_and_crypto` that was previously assigned to
-  Dimwit but implemented elsewhere and stamped with Dimwit's name.
+- `dimwit.market`: the market evidence lane — the studio's evidence law applied to prices and game state
+  instead of pixels and packages, with the same fail-closed discipline.
   - 46 prefix-stable indicators and 24 pattern detectors, each carrying its confirmation lag.
   - Deterministic candlestick renderer (PNG + SVG, three themes) with invertible pixel geometry, plus chart
     vision that reads the prices back out and reports recovery error in pixels.
@@ -21,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     observations are genuinely independent.
   - A 111-term citable knowledge pack merged from the code registries plus 41 methodology, microstructure and
     assurance concepts.
-  - DumbMoney-compatible observation export, an implementation attestation over the market modules' own bytes,
+  - Downstream-compatible observation export, an implementation attestation over the market modules' own bytes,
     and a hash-chained evidence ledger with a length anchor so tail truncation is detectable.
   - `python -m dimwit market <cmd>` operator surface; each command exits non-zero on a BLOCKED verdict.
   - `dimwit market audit` — the anti-costume gate: runs the cell and reports what actually executed.

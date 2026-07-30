@@ -52,8 +52,8 @@ jobs:
         #     test_bot_balance_telemetry, test_elite_toolchains,
         #     test_metahuman_output_attempt, test_packaged_build_validation,
         #     test_performance_baseline.
-        # The 10 dimwit/tests/test_market_*.py modules are the DumbMoney market
-        # cell (dimwit/market/): pure Python plus numpy/pillow, no Unreal, no
+        # The 10 dimwit/tests/test_market_*.py modules are the market evidence
+        # lane (dimwit/market/): pure Python plus numpy/pillow, no Unreal, no
         # Blender, no Windows path assumptions and no network, so they belong in
         # the clean-clone set rather than the local-only one.
         # This selection is the honest intersection a clean Linux runner can

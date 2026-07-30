@@ -125,9 +125,9 @@ def _compact(values: Series, start: int) -> list[float]:
 
 
 def rsi(closes: Sequence[float], period: int = 14) -> Series:
-    """Wilder RSI. Note this is *not* the flat-average RSI in DumbMoney's legacy
-    `technical_analysis._rsi`; `rsi_simple` reproduces that one so the bridge can report both and the
-    difference stays visible instead of being quietly reconciled."""
+    """Wilder RSI. Note this is *not* the flat-average RSI some legacy consumers compute under the same name;
+    `rsi_simple` reproduces that one so an export can report both and the difference stays visible instead of
+    being quietly reconciled."""
     out: Series = [None] * len(closes)
     if len(closes) <= period:
         return out
@@ -155,8 +155,8 @@ def _rsi_from(average_gain: float, average_loss: float) -> float:
 
 
 def rsi_simple(closes: Sequence[float], period: int = 14) -> Series:
-    """Flat-average RSI over the trailing `period` changes — DumbMoney's legacy formulation, kept for
-    parity/diff reporting only."""
+    """Flat-average RSI over the trailing `period` changes — the legacy formulation, kept for parity and diff
+    reporting only."""
     out: Series = [None] * len(closes)
     changes = [closes[index] - closes[index - 1] for index in range(1, len(closes))]
     for index in range(period, len(closes)):
@@ -533,7 +533,7 @@ INDICATORS: dict[str, dict[str, Any]] = {
     "rsi14_simple": {
         "family": "momentum",
         "warmup_bars": 15,
-        "description": "Flat-average 14-bar RSI (DumbMoney legacy formulation, parity only).",
+        "description": "Flat-average 14-bar RSI (legacy formulation, parity only).",
     },
     "atr14": {"family": "volatility", "warmup_bars": 15, "description": "Wilder 14-bar average true range."},
     "atr14_percent": {

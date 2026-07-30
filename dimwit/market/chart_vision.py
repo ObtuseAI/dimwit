@@ -1,7 +1,7 @@
 """Chart vision — reading price structure back out of pixels.
 
-DumbMoney's runtime binding for Dimwit lists `chart_pixels_and_visual_perception_not_implemented` as a
-limitation. This module implements it, in the only form that is falsifiable:
+Reading a chart is the easiest capability to claim and one of the easiest to fake. This module implements it in
+the only form that is falsifiable:
 
 * `read_chart` inverts a Dimwit-rendered chart back into OHLC values using the geometry the renderer emitted.
 * `verify_chart_roundtrip` renders a known series, reads it back, and reports the recovery error in *pixels*.

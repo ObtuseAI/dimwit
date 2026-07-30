@@ -7,7 +7,7 @@
   capture   [hero|lane] [--live]          dry-run (or --live) the real UE capture adapters
   selftest                                run Dimwit self-validation
   opensource                             show the imported open-source registry
-  market    <cmd> [...]                   DumbMoney market cell: TA, chart render/vision, scans, sports,
+  market    <cmd> [...]                   market evidence lane: TA, chart render/vision, scans, sports,
                                           knowledge, evidence. `market --help` lists its commands.
 """
 from __future__ import annotations

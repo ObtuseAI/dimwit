@@ -1,4 +1,4 @@
-"""Deterministic chart renderer — the "chart viewer" half of Dimwit's assigned DumbMoney role.
+"""Deterministic chart renderer — the chart-viewer half of the market evidence lane.
 
 Design constraints, all of them driven by the fact that these pixels are *evidence*:
 
@@ -13,7 +13,7 @@ Design constraints, all of them driven by the fact that these pixels are *eviden
 * **Honest windowing.** A chart that cannot fit every bar renders the most recent window and reports
   `bars_omitted` / `window_start_index`. Silent truncation reads as "you are looking at everything".
 
-Themes: `dark` (default), `light`, `tote` (the pitch-green totalizator skin the DumbMoney dashboard uses).
+Themes: `dark` (default), `light`, `tote` (a pitch-green totalizator skin, for operator dashboards that use it).
 """
 from __future__ import annotations
 

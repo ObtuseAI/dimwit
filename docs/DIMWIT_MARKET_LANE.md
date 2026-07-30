@@ -1,26 +1,19 @@
-# Dimwit as DumbMoney's market cell (`dimwit.market`)
+# Market evidence lane (`dimwit.market`)
 
 ## Why this exists
 
-DumbMoney's `contracts/runtime-bindings.v1.json` assigns Dimwit the runtime role
-`chart_vision_and_deterministic_technical_analysis_for_stocks_and_crypto`. Its own binding was honest about what
-that meant in practice:
+Dimwit's whole premise is that a claim is worth exactly its evidence — that a file on disk, a zero exit code, or
+a confident model opinion proves nothing on its own. That premise is not specific to art.
 
-```json
-"implementation_status": "PARTIAL",
-"limitations": [
-  "deterministic_ohlcv_indicators_plus_held_out_ta_evidence",
-  "chart_pixels_and_visual_perception_not_implemented",
-  "frozen_dimwit_is_a_game_production_studio_and_is_not_executed"
-]
-```
+A backtest is the purest example of the problem. It produces a number that looks like proof, is trivially easy
+to generate, and is wrong in ways no exit code reveals: an indicator computed over the whole series and then
+indexed historically, a pattern dated to where it *is* rather than to when it was *knowable*, a rule credited
+for a rising market it merely sat in, or a t-statistic quoted without the search space that produced it.
 
-The technical analysis lived in `DumbMoney/src/dumbmoney/technical_analysis.py`, produced a result stamped
-`producer: "dimwit"`, and Dimwit contributed nothing to it. Dimwit's own tree — 368 Python files, ~57k lines —
-contained **zero** market code: the word "chart" appeared once, in the README.
-
-`dimwit.market` closes that gap with code that really runs, and `dimwit market audit` reports the honest
-manifest so the costume cannot come back quietly.
+`dimwit.market` applies the studio's evidence law to that domain, with the same fail-closed discipline and the
+same refusal to accept a plausible-looking result as a verified one. `dimwit market audit` runs the lane end to
+end and reports what actually executed, so the surface cannot drift into an impressive-looking module that never
+runs.
 
 ## Doctrine
 
@@ -44,12 +37,12 @@ anything:
 | `indicators.py` | 46 prefix-stable indicators across 7 families, with exact warmup accounting |
 | `patterns.py` | 24 candlestick / structure / divergence detectors, each carrying its confirmation lag |
 | `chart.py` | Deterministic candlestick renderer (PNG + SVG, 3 themes) with invertible geometry |
-| `chart_vision.py` | Reads price structure back out of pixels; the declared "not implemented" limitation |
+| `chart_vision.py` | Reads price structure back out of pixels, and scores its own recovery error |
 | `scan.py` | Walk-forward rule scanner over 35 rules: the settled-observation factory |
 | `sports.py` | Game-state analysis, margin/win-probability charting, cross-game rule scanner |
 | `knowledge.py` | 111 citable terms merged from the code registries plus a 41-concept pack |
-| `evidence.py` | DumbMoney-compatible export, implementation attestation, hash-chained ledger |
-| `selfaudit.py` | Runs the whole cell and reports what actually executed (the anti-costume gate) |
+| `evidence.py` | Downstream-compatible export, implementation attestation, hash-chained ledger |
+| `selfaudit.py` | Runs the whole lane and reports what actually executed |
 | `cli.py` | `python -m dimwit market <cmd>` — each command exits non-zero on BLOCKED |
 
 ## The three ideas that matter
@@ -114,12 +107,12 @@ windows, so one settled game is one independent draw per rule and **no overlap d
 Hit rates there are benchmarked against a fair coin and stamped `FAIR_COIN_NOT_MARKET_PRICE` — beating 50% is
 not an edge, beating the price is, and no prices are present.
 
-## Provenance: the anti-costume mechanism
+## Provenance: a digest, not a label
 
 `evidence.implementation_digest()` hashes the **actual bytes** of the eleven attested market modules and returns
 both the combined digest and the per-file map, so a mismatch names the module that moved. Every export embeds
-it. That is the difference between "this came from Dimwit" as a label and as something a verifier can recompute
-and disagree with.
+it. That is the difference between "this came from Dimwit" as a label and as something an independent verifier
+can recompute and disagree with.
 
 `tests/test_market_cell_contract.py` asserts that every `.py` file in the package is either attested or
 explicitly exempt (`cli.py` only, because it just parses argv), so a new module cannot slip in unattested.
@@ -171,28 +164,29 @@ One gate was **added**, none relaxed: `MARKET/chart.read` and `MARKET/chart.desc
 image path, so the MCP server confines that argument to the approved capture roots. Nothing leaves the machine,
 but an unconfined path over MCP is still an arbitrary-file-read primitive.
 
-## Feeding DumbMoney
+## Exporting downstream
 
-`evidence.export_dumbmoney_observation(series, chart_render=..., roundtrip=...)` emits
-`dimwit.technical-analysis-observation.v1`, field-compatible with
-`dumbmoney.technical-analysis-observation.v2` and a strict superset: full indicator panel, market structure,
+`evidence.export_observation(series, chart_render=..., roundtrip=...)` emits
+`dimwit.technical-analysis-observation.v1`. It is field-compatible with the foreign observation schema pinned in
+`evidence.DOWNSTREAM_COMPATIBLE_SCHEMA`, and a strict superset of it: full indicator panel, market structure,
 support/resistance, pattern counts, the implementation attestation, and real `chart_pixel_evidence`
-(`PROVIDED_AND_VERIFIED` with a pixel error, instead of `NOT_PROVIDED`).
+(`PROVIDED_AND_VERIFIED` with a pixel error, instead of `NOT_PROVIDED`). That foreign schema id is kept verbatim
+because a schema string is a contract with whoever defined it.
 
-One field changes meaning, disclosed rather than reconciled: `rsi14` is now **Wilder** RSI, not the
-flat-average number DumbMoney's legacy `_rsi` produced under the same key. Both values, their delta, and both
-resulting `technical_state` labels ship in a `parity` block. `point_in_time_claim` is passed through from the
-input classification — this function cannot upgrade it, and a retrospective backfill can never claim it.
+One field changes meaning, disclosed rather than reconciled: `rsi14` is **Wilder** RSI, not the flat-average
+number legacy consumers produce under the same key. Both values, their delta, and both resulting
+`technical_state` labels ship in a `parity` block. `point_in_time_claim` is passed through from the input
+classification — this function cannot upgrade it, and a retrospective backfill can never claim it.
 
-## What this cell deliberately does not do
+## What this lane deliberately does not do
 
 Reported by `audit_market_cell()` under `honest_limitations`:
 
-* **No forecast probabilities or expected returns.** Observations only; probability claims are doofus's after
-  held-out evidence.
+* **No forecast probabilities or expected returns.** Observations only; probability claims belong downstream,
+  after held-out evidence.
 * **No live market data.** No network. Bars arrive from the caller with a declared classification.
-* **No order routing or brokerage access.** Kalshi belongs to dummy, Robinhood to dopey. This cell holds no
-  credentials.
+* **No order routing or brokerage access.** Brokerage access belongs to whatever consumes this lane. It holds
+  no credentials.
 * **No win-probability model.** A supplied curve is analyzed and attributed to the caller; absent one, the
   result says `NOT_PROVIDED`.
 * **No prices from foreign chart images.** Shape only.
@@ -214,4 +208,4 @@ not have.
 | `test_market_sports.py` | 36 | Independence claim holds; win probability never invented |
 | `test_market_knowledge.py` | 14 | Code is the source of truth; unknown terms raise |
 | `test_market_evidence.py` | 27 | Attestation from real bytes; full tamper matrix |
-| `test_market_cell_contract.py` | 27 | The anti-costume contract, end to end |
+| `test_market_cell_contract.py` | 28 | The does-it-actually-run contract, end to end |

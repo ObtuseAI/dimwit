@@ -11,7 +11,7 @@ Rules in `scan.py` are only ever allowed to read `detected_at_index`. Mixing the
 way a backtest invents edge that never existed, so the split is structural rather than a convention.
 
 Nothing here emits a probability. A detector says "this shape is present and it is *this* big relative to ATR";
-whether that shape pays is an empirical question for `scan.py` and, past that, for doofus.
+whether that shape pays is an empirical question for `scan.py`, and past that for whoever consumes its output.
 """
 from __future__ import annotations
 

@@ -24,7 +24,7 @@ built to manufacture settled observations honestly and to refuse to overstate ho
   by a fixed number of bars: the same count of same-sided positions, opened at bars the condition says nothing
   about. If rules "survive" that, the accounting manufactures edge, and a test asserts it does not.
 
-Nothing here promotes anything or emits a probability. The output is evidence for doofus to judge.
+Nothing here promotes anything or emits a probability. The output is evidence for a downstream judge.
 """
 from __future__ import annotations
 
