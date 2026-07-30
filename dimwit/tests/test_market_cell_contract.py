@@ -1,14 +1,12 @@
-"""The anti-costume contract.
+"""The does-it-actually-run contract.
 
-Background: DumbMoney's runtime bindings assign Dimwit the role
-`chart_vision_and_deterministic_technical_analysis_for_stocks_and_crypto`, and its audit found the cell was a
-costume — the TA lived in DumbMoney, was stamped `producer: "dimwit"`, and the verifier checked its own stamp.
-The audit also found the wider pattern: a component whose embedded line count looked large while almost none of
-it executed.
+The failure mode this file guards against: a package that is large, documented, registered, and inert. Line
+counts do not detect it, a `producer` stamp does not detect it, and neither does a status field the component
+writes about itself.
 
-This file is the standing guard against that recurring. It asserts the cell *executes*, that every declared
-capability resolves to real code in `dimwit.market`, that the writing verbs stay behind the mutation gate, that
-no module in the package escapes attestation, and that nothing anywhere emits a forecast.
+So this file asserts the lane *executes*: every declared capability resolves to real code in `dimwit.market`,
+the writing verbs stay behind the mutation gate, no module in the package escapes attestation, and nothing
+anywhere emits a forecast.
 """
 from __future__ import annotations
 
@@ -103,12 +101,12 @@ def test_audit_states_what_is_deliberately_absent(audit):
             assert item["implementation"], item["responsibility"]
 
 
-def test_audit_names_the_role_and_the_upstream_product_honestly(audit):
+def test_audit_names_its_role_and_its_host_honestly(audit):
     assert audit["assigned_role"] == (
         "chart_vision_and_deterministic_technical_analysis_for_stocks_and_crypto"
     )
-    # the frozen snapshot really is a game studio; pretending otherwise is how the costume started
-    assert audit["upstream_product_role"] == "proof_bearing_game_production_studio"
+    # this repository really is a game-production studio; a lane inside it should not pretend otherwise
+    assert audit["host_product_role"] == "proof_bearing_game_production_studio"
 
 
 def test_audit_is_reproducible():
@@ -208,7 +206,7 @@ def test_every_public_observation_reports_forecast_probability_none():
     games = selfaudit.synthetic_games(24)
     render = chart.render_chart_png(series, max_bars=100)
     produced = {
-        "ta_observation": evidence.export_dumbmoney_observation(series),
+        "ta_observation": evidence.export_observation(series),
         "patterns": patterns.detect_patterns(series),
         "structure": patterns.market_structure(series),
         "levels": patterns.support_resistance(series),
@@ -233,7 +231,7 @@ def test_every_public_observation_reports_forecast_probability_none():
 def test_nothing_claims_execution_authority_or_broker_access():
     series = bars.normalize_series(selfaudit.synthetic_series(bar_count=1000))
     for payload in (
-        evidence.export_dumbmoney_observation(series),
+        evidence.export_observation(series),
         scan.scan_rules(series),
         sports.scan_sports_rules(selfaudit.synthetic_games(24)),
     ):

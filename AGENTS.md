@@ -26,9 +26,10 @@ Autonomy **STOPS** at the review ceiling. The operator (a human) owns everything
    PASS). Your change is a **CANDIDATE** until it passes. Stop at the review ceiling.
 
 ## The market cell (`dimwit/market/`)
-Dimwit is also DumbMoney's technical-analysis / chart-vision cell. Same doctrine, three extra non-negotiables:
+Dimwit's market evidence lane applies the studio's law to prices and game state. Same doctrine, three extra
+non-negotiables:
 1. **Observations only.** Never emit `forecast_probability` or `expected_return_bps` as anything but `None`.
-   Probability and edge claims belong to doofus after held-out evidence.
+   Probability and edge claims belong to a downstream evidence court, after held-out evidence.
 2. **No lookahead, structurally.** Indicators must be prefix-stable (`indicator(bars)[i]` equals the value on
    `bars[:i+1]`); patterns must expose `detected_at_index`, and rules may read only that, never `index`.
 3. **Disclose the search and the baseline.** Any new rule raises `family_size`; any claim is scored on excess

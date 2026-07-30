@@ -6,7 +6,7 @@ That makes each of these usable directly as a shell gate.
   audit                                   run the cell and print the anti-costume manifest (add --deep for the scan)
   indicators   <series.json>              canonical indicator panel at the last bar
   patterns     <series.json>              pattern detections + confirmed market structure
-  analyze      <series.json>              full DumbMoney-compatible TA observation
+  analyze      <series.json>              full TA observation (downstream field-compatible)
   chart        <series.json> [--svg] [--theme t] [--bars n] [--out name]
                                           render a chart; --out writes under artifacts/market/
   vision       <series.json> [--bars n]   render -> read back -> report recovery error in pixels
@@ -17,7 +17,7 @@ That makes each of these usable directly as a shell gate.
   know         <term|--search q>          knowledge pack lookup
   ledger       [path]                     verify the market evidence ledger
 
-A `series.json` is a `dimwit.market-ohlcv-series.v1` (or DumbMoney synthetic/point-in-time) payload. Pass
+A `series.json` is a `dimwit.market-ohlcv-series.v1` (or an accepted foreign synthetic/point-in-time) payload. Pass
 `--self` instead of a path to run against the deterministic synthetic fixture.
 """
 from __future__ import annotations
@@ -131,7 +131,7 @@ def main(argv: list[str]) -> int:
         kwargs = _render_kwargs(rest, default_max_bars=120)
         render = chart_mod.render_chart_png(series, **kwargs)
         roundtrip = vision_mod.verify_chart_roundtrip(series, **kwargs)
-        observation = evidence_mod.export_dumbmoney_observation(
+        observation = evidence_mod.export_observation(
             series, chart_render=render, roundtrip=roundtrip
         )
         observation.pop("indicators_full", None)

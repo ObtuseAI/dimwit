@@ -1,15 +1,14 @@
 """Evidence export + a tamper-evident ledger for market observations.
 
-`implementation_digest()` is the important function here. DumbMoney's audit found the TA cell was a *costume*:
-the runtime stamped `producer: "dimwit"` onto results produced by code Dimwit does not own, and the verifier
-checked the stamp it had just written. A name in a field is not provenance. So every export from this module
-carries a digest computed over the **actual bytes of the modules that produced it**, which a verifier can
-recompute and disagree with.
+`implementation_digest()` is the important function here. A `producer` field is a label, not provenance: any
+component can stamp any name onto a result, and a verifier that checks a stamp against the code that wrote it has
+verified nothing. So every export from this module carries a digest computed over the **actual bytes of the
+modules that produced it**, which an independent verifier can recompute and disagree with.
 
-The ledger fixes the second finding from the same audit. Its chained payload includes `sequence` and
-`occurred_at`, and `verify()` checks sequence contiguity as well as the hash chain — so truncating the tail is
-detectable, not silent. A ledger whose digest omits its own ordering fields can be shortened without breaking
-a single link.
+The ledger closes the matching gap in ordering. Its chained payload includes `sequence` and `occurred_at`, and
+`verify()` checks sequence contiguity alongside the hash chain. A ledger whose digest omits its own ordering
+fields can be shortened without breaking a single link, which is why tail truncation gets its own mechanism
+below rather than being assumed away.
 """
 from __future__ import annotations
 
@@ -31,7 +30,9 @@ ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_LEDGER_PATH = ROOT / "artifacts" / "market" / "evidence.jsonl"
 
 OBSERVATION_SCHEMA = "dimwit.technical-analysis-observation.v1"
-DUMBMONEY_COMPATIBLE_SCHEMA = "dumbmoney.technical-analysis-observation.v2"
+#: The foreign observation schema this export stays field-compatible with. Kept verbatim: a schema id is a
+#: contract with whoever defined it, and renaming it would break the interop it exists to declare.
+DOWNSTREAM_COMPATIBLE_SCHEMA = "dumbmoney.technical-analysis-observation.v2"
 
 #: Deliberately outside the attestation: `cli.py` only parses argv and dispatches into the attested modules, so
 #: including it would invalidate every historical digest on a help-text edit. `tests/test_market_cell_contract.py`
@@ -54,7 +55,7 @@ ATTESTED_MODULES = (
     "sports.py",
 )
 
-#: Indicator keys DumbMoney's legacy observation consumers read.
+#: Indicator keys legacy observation consumers read.
 LEGACY_INDICATOR_KEYS = (
     "last_close",
     "sma20",
@@ -111,23 +112,23 @@ def _utc_now() -> str:
     return datetime.now(UTC).isoformat().replace("+00:00", "Z")
 
 
-def export_dumbmoney_observation(
+def export_observation(
     series: Mapping[str, Any],
     *,
     chart_render: Mapping[str, Any] | None = None,
     roundtrip: Mapping[str, Any] | None = None,
     include_structure: bool = True,
 ) -> dict[str, Any]:
-    """Build the observation DumbMoney's TA slot consumes, executed by Dimwit for real.
+    """Build the observation a downstream TA slot consumes.
 
-    Field-compatible with `dumbmoney.technical-analysis-observation.v2` (same keys, same units) and a strict
-    superset: the full indicator panel, market structure, pattern counts, the implementation attestation, and —
-    when a chart was rendered and read back — real `chart_pixel_evidence` instead of `NOT_PROVIDED`.
+    Field-compatible with `DOWNSTREAM_COMPATIBLE_SCHEMA` (same keys, same units) and a strict superset: the
+    full indicator panel, market structure, pattern counts, the implementation attestation, and — when a chart
+    was rendered and read back — real `chart_pixel_evidence` instead of `NOT_PROVIDED`.
 
     Two deliberate honesty details:
 
-    * `rsi14` is Wilder RSI, which is the correct formulation and *not* the flat-average number DumbMoney's
-      legacy module emitted under that key. Both are exported and the `parity` block states the difference, so
+    * `rsi14` is Wilder RSI, which is the correct formulation and *not* the flat-average number legacy
+      consumers emitted under that key. Both are exported and the `parity` block states the difference, so
       the change is visible rather than reconciled behind the same name.
     * `point_in_time_claim` is passed through from the input classification. This function cannot upgrade it.
     """
@@ -175,7 +176,7 @@ def export_dumbmoney_observation(
 
     observation: dict[str, Any] = {
         "schema": OBSERVATION_SCHEMA,
-        "dumbmoney_schema_compatibility": DUMBMONEY_COMPATIBLE_SCHEMA,
+        "downstream_schema_compatibility": DOWNSTREAM_COMPATIBLE_SCHEMA,
         "producer": "dimwit",
         "producer_executed": True,
         "producer_implementation": "dimwit.market",
@@ -206,8 +207,8 @@ def export_dumbmoney_observation(
             ),
             "technical_state_legacy_parity": state_from(legacy_rsi),
             "note": (
-                "DumbMoney's legacy technical_analysis._rsi averages the trailing window flat; this cell uses "
-                "Wilder smoothing. Both are reported so the change is auditable, not silent."
+                "The legacy formulation averages the trailing window flat; this lane uses Wilder smoothing. "
+                "Both are reported so the change is auditable, not silent."
             ),
         },
         "chart_pixel_evidence": pixel_evidence,

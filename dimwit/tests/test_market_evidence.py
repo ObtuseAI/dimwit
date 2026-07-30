@@ -26,7 +26,7 @@ def series() -> dict:
 
 @pytest.fixture(scope="module")
 def observation(series) -> dict:
-    return evidence.export_dumbmoney_observation(series)
+    return evidence.export_observation(series)
 
 
 # --- attestation -----------------------------------------------------------
@@ -69,7 +69,7 @@ def test_missing_attested_module_is_an_error(monkeypatch):
 # --- observation export ----------------------------------------------------
 
 
-def test_observation_carries_the_dumbmoney_v2_field_set(observation):
+def test_observation_carries_the_downstream_v2_field_set(observation):
     required = {
         "schema",
         "producer",
@@ -93,7 +93,7 @@ def test_observation_carries_the_dumbmoney_v2_field_set(observation):
         "digest",
     }
     assert required <= set(observation)
-    assert observation["dumbmoney_schema_compatibility"] == evidence.DUMBMONEY_COMPATIBLE_SCHEMA
+    assert observation["downstream_schema_compatibility"] == evidence.DOWNSTREAM_COMPATIBLE_SCHEMA
 
 
 def test_observation_supplies_the_legacy_indicator_keys(observation):
@@ -155,17 +155,17 @@ def test_observation_holds_no_authority_and_no_forecast(observation):
 def test_pixel_evidence_is_not_provided_until_a_chart_is(series, observation):
     assert observation["chart_pixel_evidence"] == "NOT_PROVIDED"
     render = chart.render_chart_png(series, max_bars=100)
-    with_chart = evidence.export_dumbmoney_observation(series, chart_render=render)
+    with_chart = evidence.export_observation(series, chart_render=render)
     assert with_chart["chart_pixel_evidence"]["status"] == "PROVIDED"
     roundtrip = chart_vision.verify_chart_roundtrip(series, max_bars=100)
-    verified = evidence.export_dumbmoney_observation(series, chart_render=render, roundtrip=roundtrip)
+    verified = evidence.export_observation(series, chart_render=render, roundtrip=roundtrip)
     assert verified["chart_pixel_evidence"]["status"] == "PROVIDED_AND_VERIFIED"
     assert verified["chart_pixel_evidence"]["roundtrip_verdict"] == "PASS"
     assert verified["chart_pixel_evidence"]["worst_error_px"] <= 1.0
 
 
 def test_candidate_status_tracks_the_source_classification(series):
-    assert evidence.export_dumbmoney_observation(series)["candidate_status"] == "RESEARCH_INPUT_ONLY"
+    assert evidence.export_observation(series)["candidate_status"] == "RESEARCH_INPUT_ONLY"
     imported = bars.normalize_series(
         {
             **synthetic_series(bar_count=300),
@@ -173,7 +173,7 @@ def test_candidate_status_tracks_the_source_classification(series):
         }
     )
     assert (
-        evidence.export_dumbmoney_observation(imported)["candidate_status"]
+        evidence.export_observation(imported)["candidate_status"]
         == "WALK_FORWARD_EVIDENCE_REQUIRED"
     )
 
@@ -187,12 +187,12 @@ def test_export_cannot_upgrade_a_point_in_time_claim(series, observation):
             "point_in_time_claim": True,
         }
     )
-    assert evidence.export_dumbmoney_observation(captured)["point_in_time_claim"] is True
+    assert evidence.export_observation(captured)["point_in_time_claim"] is True
 
 
 def test_export_accepts_a_raw_series_and_normalizes_it():
     raw = synthetic_series(bar_count=300)
-    assert evidence.export_dumbmoney_observation(raw)["bar_count"] == 300
+    assert evidence.export_observation(raw)["bar_count"] == 300
 
 
 def test_observation_digest_covers_the_whole_body(series, observation):

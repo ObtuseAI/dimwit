@@ -1,9 +1,9 @@
-"""Self-audit for the market cell — the anti-costume gate.
+"""Self-audit for the market lane — the does-it-actually-run gate.
 
-DumbMoney's audit found Dimwit listed as the technical-analysis cell while shipping zero market code, with the
-TA implemented elsewhere and stamped `producer: "dimwit"`. The fix is not a claim that it has been fixed. It is
-this function: it **runs** the cell end to end on a synthetic series and reports what actually executed, what is
-missing, and why.
+A module can be large, well documented, listed in a registry, and never execute a line in production. That gap
+is invisible to line counts and to any status field the component writes about itself. So this function does
+not assert the lane works: it **runs** the lane end to end on a synthetic series and reports what actually
+executed, what is missing, and why.
 
 `costume_risk` is the finding list. Empty means every declared capability resolved to real code that produced a
 real result on this invocation. Non-empty is the honest state of a partially wired cell, and
@@ -28,7 +28,7 @@ from . import patterns as pat
 from . import scan as scan_mod
 from . import sports as sports_mod
 
-#: What DumbMoney's runtime binding assigns this cell, and what is honestly true of each item.
+#: What this lane is expected to cover, and what is honestly true of each item.
 DECLARED_RESPONSIBILITIES: tuple[dict[str, Any], ...] = (
     {
         "responsibility": "deterministic_technical_analysis_for_stocks_and_crypto",
@@ -66,7 +66,7 @@ DECLARED_RESPONSIBILITIES: tuple[dict[str, Any], ...] = (
         "responsibility": "forecast_probabilities_or_expected_returns",
         "status": "NOT_IMPLEMENTED_BY_DESIGN",
         "implementation": None,
-        "note": "Observations only. Probability claims belong to doofus after held-out evidence.",
+        "note": "Observations only. Probability claims belong downstream, after held-out evidence.",
     },
     {
         "responsibility": "live_market_data_ingestion",
@@ -78,7 +78,7 @@ DECLARED_RESPONSIBILITIES: tuple[dict[str, Any], ...] = (
         "responsibility": "order_routing_or_brokerage_access",
         "status": "NOT_IMPLEMENTED_BY_DESIGN",
         "implementation": None,
-        "note": "Kalshi belongs to dummy, Robinhood to dopey. This cell holds no credentials.",
+        "note": "Brokerage access belongs to whatever consumes this lane. It holds no credentials.",
     },
 )
 
@@ -280,12 +280,12 @@ def audit_market_cell(*, deep: bool = False) -> dict[str, Any]:
 
     def probe_evidence() -> dict[str, Any]:
         attestation = evidence_mod.implementation_digest()
-        observation = evidence_mod.export_dumbmoney_observation(series)
+        observation = evidence_mod.export_observation(series)
         return {
             "attested_modules": attestation["module_count"],
             "implementation_digest": attestation["digest"],
             "observation_schema": observation["schema"],
-            "dumbmoney_compatibility": observation["dumbmoney_schema_compatibility"],
+            "downstream_compatibility": observation["downstream_schema_compatibility"],
             "chart_pixel_evidence": observation["chart_pixel_evidence"],
         }
 
@@ -345,7 +345,7 @@ def audit_market_cell(*, deep: bool = False) -> dict[str, Any]:
         "producer": "dimwit",
         "cell": "dimwit",
         "assigned_role": "chart_vision_and_deterministic_technical_analysis_for_stocks_and_crypto",
-        "upstream_product_role": "proof_bearing_game_production_studio",
+        "host_product_role": "proof_bearing_game_production_studio",
         "deep": deep,
         "counts": {
             "indicators": len(ind.INDICATORS),

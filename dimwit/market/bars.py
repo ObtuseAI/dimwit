@@ -22,6 +22,8 @@ from ..core import sha256_obj
 
 NATIVE_SCHEMA = "dimwit.market-ohlcv-series.v1"
 
+#: The native schema plus the two foreign OHLCV schema identifiers a downstream consumer emits. Foreign ids are
+#: kept verbatim on purpose: a schema string is a contract with whoever wrote it, not a name to localize.
 ACCEPTED_SCHEMAS = frozenset(
     {
         NATIVE_SCHEMA,

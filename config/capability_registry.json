@@ -160,8 +160,8 @@
     {
       "name": "MARKET/ta.analyze",
       "domain": "MARKET",
-      "target": "dimwit.market.evidence:export_dumbmoney_observation",
-      "description": "Full TA observation for a normalized OHLCV series (DumbMoney v2 field-compatible, with implementation attestation)"
+      "target": "dimwit.market.evidence:export_observation",
+      "description": "Full TA observation for a normalized OHLCV series (downstream v2 field-compatible, with implementation attestation)"
     },
     {
       "name": "MARKET/ta.indicators",
