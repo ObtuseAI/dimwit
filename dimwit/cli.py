@@ -7,6 +7,8 @@
   capture   [hero|lane] [--live]          dry-run (or --live) the real UE capture adapters
   selftest                                run Dimwit self-validation
   opensource                             show the imported open-source registry
+  market    <cmd> [...]                   DumbMoney market cell: TA, chart render/vision, scans, sports,
+                                          knowledge, evidence. `market --help` lists its commands.
 """
 from __future__ import annotations
 
@@ -81,6 +83,9 @@ def main(argv: list[str]) -> int:
         live = "--live" in rest
         fn = adapters.hero_capture if which == "hero" else adapters.player_camera_capture
         print(json.dumps(fn(dry_run=not live), indent=2))
+    elif cmd == "market":
+        from .market.cli import main as market_main
+        return market_main(rest)
     elif cmd == "selftest":
         import runpy
         runpy.run_path(str(ROOT / "validators" / "dimwit_self_validation.py"), run_name="__main__")

@@ -25,10 +25,24 @@ Autonomy **STOPS** at the review ceiling. The operator (a human) owns everything
 6. **Validate before trust.** After ANY change you make, run `python scripts/pipeline/run_validation.py` (exit 0 only on suite
    PASS). Your change is a **CANDIDATE** until it passes. Stop at the review ceiling.
 
+## The market cell (`dimwit/market/`)
+Dimwit is also DumbMoney's technical-analysis / chart-vision cell. Same doctrine, three extra non-negotiables:
+1. **Observations only.** Never emit `forecast_probability` or `expected_return_bps` as anything but `None`.
+   Probability and edge claims belong to doofus after held-out evidence.
+2. **No lookahead, structurally.** Indicators must be prefix-stable (`indicator(bars)[i]` equals the value on
+   `bars[:i+1]`); patterns must expose `detected_at_index`, and rules may read only that, never `index`.
+3. **Disclose the search and the baseline.** Any new rule raises `family_size`; any claim is scored on excess
+   over the unconditional same-side baseline and must beat its own placebo. Never add a rule without re-running
+   `python -m dimwit market audit --deep`.
+
+No network, no credentials, no broker calls in that package. A new module there must be added to
+`evidence.ATTESTED_MODULES` or the contract test fails.
+
 ## How to drive
 | Purpose | Command |
 |---|---|
 | The gate (full fail-closed suite; exit 0 = PASS) | `python scripts/pipeline/run_validation.py` |
+| Market cell anti-costume gate (exit 0 = clean) | `python -m dimwit market audit --deep` |
 | Fast gate (UE/eyes validators → BLOCKED, cannot PASS — honest) | `python scripts/pipeline/run_validation.py --no-ue` |
 | List every validator | `python scripts/pipeline/run_validation.py --list` |
 | The loop (sweep to PROMOTED_TO_REVIEW) | `python scripts/pipeline/run_director.py` |

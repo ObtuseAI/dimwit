@@ -13,7 +13,10 @@ from .. import llm
 from . import registry
 
 MAX_STEPS = 3
-_SAFE_DOMAINS = {"TEST", "DESIGN"}
+# MARKET joins the safe default because every MARKET capability is a pure read-only analysis function over
+# caller-supplied data: no network, no credentials, no writes. The market cell's writing verbs (chart export,
+# evidence append) are registered under EXECUTE and therefore stay out of this set.
+_SAFE_DOMAINS = {"TEST", "DESIGN", "MARKET"}
 
 
 def _fn_name(cap_name: str) -> str:

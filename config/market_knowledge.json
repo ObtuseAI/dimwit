@@ -1,0 +1,444 @@
+{
+  "_comment": "Dimwit MARKET knowledge pack. Concepts the market cell must not re-derive (or re-learn the hard way) every session. Indicator and pattern definitions are NOT duplicated here: they come from dimwit.market.indicators.INDICATORS and dimwit.market.patterns.PATTERNS, and knowledge.describe() merges the two sources so the code and the prose cannot drift apart. Entries here are evaluation, microstructure and methodology concepts, plus the specific traps this system has already paid for.",
+  "schema": "dimwit.market-knowledge-pack.v1",
+  "version": "1",
+  "concepts": [
+    {
+      "term": "point_in_time",
+      "aliases": ["pit", "as-of correctness"],
+      "family": "methodology",
+      "definition": "A dataset is point-in-time if every value is the value that was actually observable at the timestamp attached to it, including values later revised.",
+      "why_it_matters": "A file downloaded today shows today's revisions. Backtesting on it credits a strategy with knowledge nobody had.",
+      "failure_modes": [
+        "Retrospective backfill labelled as point-in-time.",
+        "Adjusted-close price series silently reindexed by later corporate actions.",
+        "Sports rosters or injury tables fetched after the game."
+      ],
+      "see_also": ["look_ahead_bias", "retrospective_backfill", "walk_forward"]
+    },
+    {
+      "term": "look_ahead_bias",
+      "aliases": ["lookahead", "future leak"],
+      "family": "methodology",
+      "definition": "Using information in a decision that was not available at the decision time.",
+      "why_it_matters": "It is the single most common source of backtest edge that vanishes live, and it is usually structural rather than deliberate.",
+      "failure_modes": [
+        "Indicator computed on the whole series then indexed historically.",
+        "A partially formed higher-timeframe bar whose close is the future.",
+        "A fractal swing pivot used before its confirmation bars existed.",
+        "Entry filled at the signal bar's own close."
+      ],
+      "see_also": ["prefix_stability", "confirmation_lag", "point_in_time"]
+    },
+    {
+      "term": "prefix_stability",
+      "aliases": ["causality test"],
+      "family": "methodology",
+      "definition": "An indicator is prefix-stable when its value at bar i is identical whether computed on bars[:i+1] or on the full series.",
+      "why_it_matters": "It converts 'no lookahead' from an assurance into a property a test can falsify per indicator.",
+      "failure_modes": [
+        "Centred moving averages and any two-sided smoother.",
+        "Z-scores computed against a full-sample mean.",
+        "Normalization by a max or min taken over the whole series."
+      ],
+      "see_also": ["look_ahead_bias", "confirmation_lag"]
+    },
+    {
+      "term": "confirmation_lag",
+      "aliases": ["pivot confirmation", "detected_at"],
+      "family": "methodology",
+      "definition": "The number of bars that must elapse after a pattern's location before it can be identified.",
+      "why_it_matters": "A swing high at bar 40 with 2 right bars is knowable at bar 42. Rules must key on the knowable bar, not the located bar.",
+      "failure_modes": [
+        "Divergence signals dated to the pivot instead of its confirmation.",
+        "Head-and-shoulders style templates fitted to a completed shape and then backdated."
+      ],
+      "see_also": ["prefix_stability", "look_ahead_bias"]
+    },
+    {
+      "term": "walk_forward",
+      "aliases": ["out of sample", "oos"],
+      "family": "methodology",
+      "definition": "Splitting a series chronologically into warmup, training, embargo and holdout segments, selecting on training only and scoring on the untouched holdout.",
+      "why_it_matters": "Random k-fold splits on time series leak both directions in time; only a forward split matches how the strategy would have been run.",
+      "failure_modes": [
+        "Holdout consulted during selection, even once.",
+        "Embargo shorter than the outcome horizon, so training outcomes settle inside the holdout.",
+        "Re-running the split after seeing holdout results."
+      ],
+      "see_also": ["embargo", "selection_leakage", "multiple_testing"]
+    },
+    {
+      "term": "embargo",
+      "aliases": ["purge", "gap"],
+      "family": "methodology",
+      "definition": "A discarded band of bars between training and holdout, at least as long as the outcome horizon.",
+      "why_it_matters": "Without it, a training signal near the boundary settles using holdout bars and the two segments are no longer disjoint in information.",
+      "failure_modes": ["Embargo sized in calendar time while the horizon is in bars, or vice versa."],
+      "see_also": ["walk_forward", "overlapping_windows"]
+    },
+    {
+      "term": "overlapping_windows",
+      "aliases": ["overlap deflation", "effective sample size"],
+      "family": "statistics",
+      "definition": "Fixed-horizon outcomes computed at every bar share bars with their neighbours, so n outcomes carry roughly n/horizon independent draws.",
+      "why_it_matters": "Ignoring it inflates every t-statistic by about sqrt(horizon) and is the most flattering error in a scan.",
+      "failure_modes": [
+        "Quoting a raw t-statistic from overlapping windows as if from independent trials.",
+        "Bootstrapping i.i.d. resamples of overlapping outcomes."
+      ],
+      "see_also": ["multiple_testing", "settled_observation"]
+    },
+    {
+      "term": "settled_observation",
+      "aliases": ["independent observation", "resolved outcome"],
+      "family": "statistics",
+      "definition": "A prediction whose outcome is now known, and whose information does not overlap another counted observation.",
+      "why_it_matters": "This is the scarce resource. Rules, features and models are cheap; settled independent observations are what any of them can be judged with. Judge an architecture change by how many it creates versus consumes.",
+      "failure_modes": [
+        "Counting overlapping bar windows as independent.",
+        "Counting the same market's repeated re-pricings as distinct observations.",
+        "Splitting one settlement across many agents so that no agent reaches a calibration bar."
+      ],
+      "see_also": ["overlapping_windows", "calibration", "multiple_testing"]
+    },
+    {
+      "term": "multiple_testing",
+      "aliases": ["data mining bias", "family wise error", "search disclosure"],
+      "family": "statistics",
+      "definition": "Testing many hypotheses inflates the chance that the best one looks significant purely by luck; corrections such as Bonferroni and Benjamini-Hochberg price that search.",
+      "why_it_matters": "A statistic that does not survive its own search space is a coincidence with a name. The family size must be disclosed, including rules that were tried and dropped.",
+      "failure_modes": [
+        "Reporting the surviving rule without saying how many were searched.",
+        "Iterating parameters by hand and then quoting an uncorrected p-value.",
+        "Choosing the correction after seeing which one passes."
+      ],
+      "see_also": ["bonferroni", "benjamini_hochberg", "null_control", "walk_forward"]
+    },
+    {
+      "term": "bonferroni",
+      "family": "statistics",
+      "definition": "Reject only when p <= alpha / family_size. Controls the probability of any false positive.",
+      "why_it_matters": "Conservative and trivially auditable; a good default when the cost of a false discovery is a live position.",
+      "failure_modes": ["Applying it to a family size that omits the rules that were quietly discarded."],
+      "see_also": ["multiple_testing", "benjamini_hochberg"]
+    },
+    {
+      "term": "benjamini_hochberg",
+      "aliases": ["bh", "fdr"],
+      "family": "statistics",
+      "definition": "Sort p-values ascending; reject the largest rank k where p_k <= alpha*k/m. Controls the expected false discovery rate.",
+      "why_it_matters": "Less brutal than Bonferroni when many rules are genuinely non-null, which is the usual situation in a broad scan.",
+      "failure_modes": ["Reporting FDR survivors as if each individually cleared alpha."],
+      "see_also": ["multiple_testing", "bonferroni"]
+    },
+    {
+      "term": "null_control",
+      "aliases": ["placebo test", "placebo control", "shuffled label control"],
+      "family": "statistics",
+      "definition": "Re-running an entire evaluation with the signal decoupled from the outcome — for example by displacing every entry by a fixed bar lag — to confirm the machinery finds nothing when there is nothing to find.",
+      "why_it_matters": "It tests the accounting rather than the market. It is also a comparison, not a pass/fail: a placebo run is itself a draw from the null and will occasionally reject something, so the number that matters is whether the real result exceeds its own placebo.",
+      "failure_modes": [
+        "i.i.d. shuffling of an autocorrelated series, which makes the null too easy to beat.",
+        "Permuting a rule's signals among themselves: when the signals are homogeneous this changes almost nothing, so a real finding survives its own null and the control looks broken.",
+        "A displacement lag that is a multiple of a strong cycle in the data, which lands back on the same phase.",
+        "Treating any non-zero placebo count as a defect instead of comparing it to the real count.",
+        "Running the control only after a positive result, and only once."
+      ],
+      "see_also": ["multiple_testing", "unconditional_baseline", "self_attestation"]
+    },
+    {
+      "term": "unconditional_baseline",
+      "aliases": ["always-on baseline", "excess return"],
+      "family": "statistics",
+      "definition": "The outcome of taking the same side at every bar of the segment being studied; a rule is judged on its excess over that number, not on its raw return.",
+      "why_it_matters": "A long rule evaluated over a rising segment is profitable because the segment rose. No multiple-testing correction detects that, and a signal-decoupling placebo does not either: displacement preserves drift. Only a baseline does.",
+      "failure_modes": [
+        "Comparing a rule's return to zero instead of to the always-on return.",
+        "Using one baseline for a rule that takes both sides; long and short baselines are not symmetric once costs are charged.",
+        "Computing the baseline over a different window than the rule was scored on."
+      ],
+      "see_also": ["null_control", "net_edge", "regime_dependence"]
+    },
+    {
+      "term": "selection_leakage",
+      "family": "methodology",
+      "definition": "Any path by which the holdout influences what is selected, including indirect ones such as feature choice, parameter defaults or which symbols were kept.",
+      "why_it_matters": "A hard-coded 'no leakage detected' flag proves nothing; the property has to be structural.",
+      "failure_modes": [
+        "A leakage flag that is a literal in the source, asserted by a test that reads the same literal.",
+        "Universe selection made after inspecting outcomes.",
+        "Dropping a symbol because its holdout looked bad."
+      ],
+      "see_also": ["self_attestation", "walk_forward"]
+    },
+    {
+      "term": "self_attestation",
+      "aliases": ["costume", "producer stamp"],
+      "family": "assurance",
+      "definition": "A component asserting its own correctness or provenance, then having that assertion verified against itself.",
+      "why_it_matters": "This system has already shipped it twice: a producer field stamped with a cell name by code the cell does not own, and a verifier checking the stamp it wrote. Independent execution or an independent signer is the only real check.",
+      "failure_modes": [
+        "producer: <cell> stamped by another component's code.",
+        "A gate whose evidence is generated by the thing being gated.",
+        "Counting embedded lines of code as capability when almost none of it executes."
+      ],
+      "see_also": ["implementation_attestation", "null_control"]
+    },
+    {
+      "term": "implementation_attestation",
+      "family": "assurance",
+      "definition": "A digest computed over the actual bytes of the modules that produced a result, embedded in the result.",
+      "why_it_matters": "It converts 'this came from Dimwit' from a label into something a verifier can recompute and disagree with.",
+      "failure_modes": ["Digesting a manifest of filenames instead of their contents."],
+      "see_also": ["self_attestation", "hash_chain"]
+    },
+    {
+      "term": "hash_chain",
+      "family": "assurance",
+      "definition": "Append-only log where each entry commits to the previous entry's hash, so editing any past entry breaks every link after it.",
+      "why_it_matters": "Tamper evidence for an evidence ledger, without a trusted third party.",
+      "failure_modes": [
+        "Digest omitting a field such as sequence or timestamp, which leaves tail truncation undetectable.",
+        "Tolerating an unchained entry in the middle of the log, which allows a re-chain forgery."
+      ],
+      "see_also": ["implementation_attestation"]
+    },
+    {
+      "term": "calibration",
+      "aliases": ["reliability"],
+      "family": "evaluation",
+      "definition": "Agreement between stated probabilities and realized frequencies, usually read from a reliability curve or a bucketed table.",
+      "why_it_matters": "Accuracy without calibration cannot be sized. A forecaster needs a substantial number of settled observations before its calibration means anything, and splitting settlements across many agents can leave every one of them below the bar.",
+      "failure_modes": [
+        "Pooling across regimes so that opposite miscalibrations cancel.",
+        "Measuring calibration on the data used to fit the calibrator.",
+        "Spawning more forecasters per demotion, growing the denominator faster than settlements arrive."
+      ],
+      "see_also": ["brier_score", "settled_observation", "closing_line_value"]
+    },
+    {
+      "term": "brier_score",
+      "family": "evaluation",
+      "definition": "Mean squared error of probabilistic forecasts; decomposes into reliability, resolution and uncertainty.",
+      "why_it_matters": "It is proper, so it cannot be gamed by hedging toward the base rate, and its decomposition separates being calibrated from being informative.",
+      "failure_modes": ["Comparing Brier scores across different base rates without the decomposition."],
+      "see_also": ["calibration", "log_loss"]
+    },
+    {
+      "term": "log_loss",
+      "aliases": ["cross entropy"],
+      "family": "evaluation",
+      "definition": "Negative log likelihood of the realized outcomes under the stated probabilities.",
+      "why_it_matters": "Also proper, and far harsher on confident errors than Brier — which is the right harshness when a confident error is a sized position.",
+      "failure_modes": ["Unbounded penalty on a single 0-or-1 forecast; clip before aggregating."],
+      "see_also": ["brier_score", "calibration"]
+    },
+    {
+      "term": "closing_line_value",
+      "aliases": ["clv"],
+      "family": "evaluation",
+      "definition": "The difference between the price obtained and the market's closing price for the same contract.",
+      "why_it_matters": "It settles far sooner than profit and with far less noise, so it is the cheapest honest feedback signal available for a betting or prediction-market system.",
+      "failure_modes": [
+        "Measuring against a stale or non-executable closing quote.",
+        "Comparing to a different line or a different book than the one traded."
+      ],
+      "see_also": ["settled_observation", "adverse_selection"]
+    },
+    {
+      "term": "adverse_selection",
+      "family": "microstructure",
+      "definition": "Getting filled precisely when the counterparty knows more, so realized fills are systematically worse than quoted prices imply.",
+      "why_it_matters": "A value-of-information rule that rewards wide spreads and uncertain markets steers straight into it: the markets that look most attractive on paper are the ones where the fill is least likely to be a gift.",
+      "failure_modes": [
+        "Scoring candidates by spread width without pricing why the spread is wide.",
+        "Assuming a mid-price fill in a market whose depth is one order thick.",
+        "Treating a maker fill as free when the queue only clears against informed flow."
+      ],
+      "see_also": ["favorite_longshot_bias", "fee_ceiling_per_contract", "closing_line_value"]
+    },
+    {
+      "term": "favorite_longshot_bias",
+      "family": "microstructure",
+      "definition": "Longshots are systematically overpriced and favorites underpriced relative to realized frequencies.",
+      "why_it_matters": "It fixes the sign of the trade. A skeptic heuristic that fades favorites is betting the wrong side of one of the most replicated regularities in betting markets.",
+      "failure_modes": [
+        "Assuming the bias holds with the same magnitude in every market type and horizon.",
+        "Building a contrarian rule whose implicit prior is the opposite of the documented effect."
+      ],
+      "see_also": ["adverse_selection", "calibration"]
+    },
+    {
+      "term": "fee_ceiling_per_contract",
+      "aliases": ["fee model", "kalshi fee"],
+      "family": "microstructure",
+      "definition": "A fee charged per contract with a ceiling applied per contract rather than per order, and quoted in cents that round up.",
+      "why_it_matters": "Per-contract ceilings do not amortize across an order, so a fee that looks like a small percentage becomes a flat step. Modelling it per order understates cost, and the error scales with size.",
+      "failure_modes": [
+        "Applying a per-order cap to a per-contract fee.",
+        "Dropping the maker path and then charging the taker fee to both sides.",
+        "Computing net edge on one contract and multiplying, so a rounding step is multiplied too.",
+        "Applying a cost floor before calibration and never re-applying it afterwards."
+      ],
+      "see_also": ["maker_rebate", "adverse_selection", "net_edge"]
+    },
+    {
+      "term": "maker_rebate",
+      "family": "microstructure",
+      "definition": "A price improvement or fee reduction for providing rather than taking liquidity.",
+      "why_it_matters": "It is model-free: capturing it does not require forecasting anything, which makes it strictly better evidence than a directional claim of the same size.",
+      "failure_modes": ["Assuming a resting order fills at all, or fills before the market moves through it."],
+      "see_also": ["fee_ceiling_per_contract", "model_free_edge"]
+    },
+    {
+      "term": "model_free_edge",
+      "family": "microstructure",
+      "definition": "Profit available from structure rather than prediction: no-arbitrage violations across a strike ladder, fee or rebate mechanics, or a documented pricing bias.",
+      "why_it_matters": "It consumes no settled observations to validate, so it should be exhausted before any forecasting effort is funded.",
+      "failure_modes": ["Counting a structural trade's profit as evidence that a forecast model works."],
+      "see_also": ["ladder_no_arbitrage", "maker_rebate", "favorite_longshot_bias"]
+    },
+    {
+      "term": "ladder_no_arbitrage",
+      "aliases": ["strike ladder consistency"],
+      "family": "microstructure",
+      "definition": "Constraints binding prices across strikes of the same underlying: monotonicity in strike, convexity, and complementary contracts summing to one.",
+      "why_it_matters": "Violations are checkable from quotes alone and need no view on the underlying at all.",
+      "failure_modes": [
+        "Checking consistency on mids when only one side is executable.",
+        "Ignoring fees, which can make an apparent violation unprofitable."
+      ],
+      "see_also": ["model_free_edge", "fee_ceiling_per_contract"]
+    },
+    {
+      "term": "net_edge",
+      "family": "evaluation",
+      "definition": "Expected value per decision after all costs, reported with a confidence bound rather than as a point estimate.",
+      "why_it_matters": "A negative lower bound with a positive mean is not an edge, and per-decision numbers must not be multiplied up without re-deriving the rounding and fee steps at that size.",
+      "failure_modes": [
+        "Quoting a point estimate whose confidence interval straddles zero.",
+        "Scaling a one-contract number linearly."
+      ],
+      "see_also": ["fee_ceiling_per_contract", "settled_observation"]
+    },
+    {
+      "term": "retrospective_backfill",
+      "family": "methodology",
+      "definition": "History assembled after the fact from a current source.",
+      "why_it_matters": "Legitimate for research, but it can never support a point-in-time claim, and any evidence built on it stays candidate-only until forward evidence exists.",
+      "failure_modes": ["Promoting a strategy on backfilled evidence alone."],
+      "see_also": ["point_in_time", "walk_forward"]
+    },
+    {
+      "term": "survivorship_bias",
+      "family": "methodology",
+      "definition": "Restricting a study to instruments or teams that still exist or still qualify at the end of the period.",
+      "why_it_matters": "It quietly removes exactly the cases where the strategy would have lost most.",
+      "failure_modes": ["Current-constituents index lists used for historical tests."],
+      "see_also": ["point_in_time", "selection_leakage"]
+    },
+    {
+      "term": "regime_dependence",
+      "family": "methodology",
+      "definition": "A relationship that holds only within a particular volatility, liquidity or trend environment.",
+      "why_it_matters": "A rule validated in one regime and deployed in another is untested, not proven.",
+      "failure_modes": ["Pooling across regimes so opposite behaviours average to a small positive."],
+      "see_also": ["walk_forward", "calibration"]
+    },
+    {
+      "term": "trading_session",
+      "aliases": ["rth", "market hours"],
+      "family": "microstructure",
+      "definition": "The interval during which an instrument trades continuously. US equities have a regular session plus pre and post markets; crypto trades continuously; sports markets are bounded by the event.",
+      "why_it_matters": "Bar aggregation, VWAP anchoring and gap detection are all session-relative, and a series with no session metadata cannot be session-anchored honestly.",
+      "failure_modes": [
+        "Assuming a session boundary the data does not record.",
+        "Treating an overnight gap in equities as if it were a continuous move."
+      ],
+      "see_also": ["overnight_gap", "vwap_anchoring"]
+    },
+    {
+      "term": "vwap_anchoring",
+      "family": "microstructure",
+      "definition": "The choice of where a volume-weighted average price starts accumulating.",
+      "why_it_matters": "VWAP is meaningless without its anchor; a cumulative VWAP over an arbitrary window is a different statistic from a session VWAP.",
+      "failure_modes": ["Comparing a session VWAP to a rolling one as if they were the same series."],
+      "see_also": ["trading_session"]
+    },
+    {
+      "term": "overnight_gap",
+      "family": "microstructure",
+      "definition": "The price discontinuity between one session's close and the next session's open.",
+      "why_it_matters": "Intrabar stop and target logic cannot be assumed to fill inside a gap, and gap risk is not captured by bar-range volatility.",
+      "failure_modes": ["Backtesting a stop as if it filled at its level across a gap."],
+      "see_also": ["trading_session"]
+    },
+    {
+      "term": "tick_size",
+      "family": "microstructure",
+      "definition": "The minimum price increment. Prediction-market contracts commonly quote in whole cents from 1 to 99.",
+      "why_it_matters": "A modelled edge smaller than one tick is not tradeable, and cent rounding interacts with per-contract fees to produce steps rather than smooth costs.",
+      "failure_modes": ["Sizing on a sub-tick edge.", "Rounding to the operator's advantage."],
+      "see_also": ["fee_ceiling_per_contract", "net_edge"]
+    },
+    {
+      "term": "leverage_index",
+      "family": "sports",
+      "definition": "How much a single event moves win probability, per unit of scoring.",
+      "why_it_matters": "It identifies which moments actually decide games, which is where live pricing is most likely to be wrong and where a stale quote costs the most.",
+      "failure_modes": ["Computed from an unvalidated in-house win-probability curve and then reported as an observation."],
+      "see_also": ["garbage_time", "win_probability_model"]
+    },
+    {
+      "term": "garbage_time",
+      "family": "sports",
+      "definition": "Late-game play in which the margin exceeds any plausible comeback, so team behaviour changes and statistics stop describing competitive play.",
+      "why_it_matters": "Including it distorts pace, efficiency and player-prop distributions, usually in the direction that flatters a totals model.",
+      "failure_modes": ["A fixed margin threshold applied across leagues with different scoring rates."],
+      "see_also": ["leverage_index", "regime_dependence"]
+    },
+    {
+      "term": "win_probability_model",
+      "family": "sports",
+      "definition": "A model mapping game state to the probability that a side wins.",
+      "why_it_matters": "Cheap to fit and very hard to validate. Dimwit deliberately does not ship one: it analyses a supplied curve and attributes it to the caller.",
+      "failure_modes": [
+        "Fitting on the same games used to evaluate it.",
+        "Ignoring garbage time, so late blowout states dominate the fit.",
+        "Reporting a fitted curve as an observation rather than a forecast."
+      ],
+      "see_also": ["leverage_index", "calibration", "settled_observation"]
+    },
+    {
+      "term": "fail_closed",
+      "family": "assurance",
+      "definition": "Missing or ambiguous evidence produces a BLOCKED verdict, never a default pass.",
+      "why_it_matters": "It is the difference between a gate and a decoration, and it is why an absent capability shows up as blocked rather than as silence.",
+      "failure_modes": [
+        "A fire-and-forget launcher whose exit code is zero regardless of what happened inside.",
+        "A watchdog that grades its own exit code instead of the artifact it was supposed to produce."
+      ],
+      "see_also": ["self_attestation", "artifact_age_watchdog"]
+    },
+    {
+      "term": "artifact_age_watchdog",
+      "family": "assurance",
+      "definition": "Health check that gates on the freshness of the artifact a job was supposed to write, not on the job's exit status.",
+      "why_it_matters": "Exit codes lie when the real work happens in a detached child; artifact age does not.",
+      "failure_modes": ["Watching a file that some other job also writes."],
+      "see_also": ["fail_closed"]
+    },
+    {
+      "term": "chart_pixel_evidence",
+      "family": "assurance",
+      "definition": "A claim about a chart backed by pixels that were actually read, with a stated price-to-pixel mapping and a measured recovery error.",
+      "why_it_matters": "Without a mapping, an image supports statements about shape only. Naming a price from an unlabelled screenshot is invention.",
+      "failure_modes": [
+        "Reading levels off a foreign screenshot with no axis mapping.",
+        "Overlay lines drawn over candles being counted as price geometry."
+      ],
+      "see_also": ["implementation_attestation", "fail_closed"]
+    }
+  ]
+}

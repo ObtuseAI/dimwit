@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `dimwit.market`: the executed DumbMoney market cell, implementing the runtime role
+  `chart_vision_and_deterministic_technical_analysis_for_stocks_and_crypto` that was previously assigned to
+  Dimwit but implemented elsewhere and stamped with Dimwit's name.
+  - 46 prefix-stable indicators and 24 pattern detectors, each carrying its confirmation lag.
+  - Deterministic candlestick renderer (PNG + SVG, three themes) with invertible pixel geometry, plus chart
+    vision that reads the prices back out and reports recovery error in pixels.
+  - Walk-forward rule scanner over 35 rules with baseline-excess scoring, overlap deflation, Bonferroni and
+    Benjamini–Hochberg search disclosure, and a placebo control.
+  - Sports game-state analysis, margin/win-probability charting, and a cross-game rule scanner whose
+    observations are genuinely independent.
+  - A 111-term citable knowledge pack merged from the code registries plus 41 methodology, microstructure and
+    assurance concepts.
+  - DumbMoney-compatible observation export, an implementation attestation over the market modules' own bytes,
+    and a hash-chained evidence ledger with a length anchor so tail truncation is detectable.
+  - `python -m dimwit market <cmd>` operator surface; each command exits non-zero on a BLOCKED verdict.
+  - `dimwit market audit` — the anti-costume gate: runs the cell and reports what actually executed.
+- New `MARKET` capability domain (24 read-only capabilities). The two writing verbs, `EXECUTE/chart.export` and
+  `EXECUTE/evidence.record`, stay behind the existing MCP mutation gate.
+- MCP path confinement for the chart-vision verbs that accept a local image path.
+- 239 tests in `dimwit/tests/test_market_*.py`.
+
 ## [0.1.1] - 2026-07-26
 
 ### Fixed
