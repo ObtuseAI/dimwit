@@ -52,8 +52,12 @@ jobs:
         #     test_bot_balance_telemetry, test_elite_toolchains,
         #     test_metahuman_output_attempt, test_packaged_build_validation,
         #     test_performance_baseline.
+        # The 10 dimwit/tests/test_market_*.py modules are the DumbMoney market
+        # cell (dimwit/market/): pure Python plus numpy/pillow, no Unreal, no
+        # Blender, no Windows path assumptions and no network, so they belong in
+        # the clean-clone set rather than the local-only one.
         # This selection is the honest intersection a clean Linux runner can
-        # actually satisfy: 549 tests across 58 modules, including source-controlled
+        # actually satisfy: 788 tests across 68 modules, including source-controlled
         # engine fixtures, improvement outcomes, and cross-engine proof receipts.
         run: |
           python -m pytest -q -p no:cacheprovider --no-header \
@@ -109,6 +113,16 @@ jobs:
             dimwit/tests/test_ui_settings_persistence.py \
             dimwit/tests/test_universal_mobile_factory.py \
             dimwit/tests/test_unreal_game_builder_engine.py \
+            dimwit/tests/test_market_bars.py \
+            dimwit/tests/test_market_cell_contract.py \
+            dimwit/tests/test_market_chart.py \
+            dimwit/tests/test_market_chart_vision.py \
+            dimwit/tests/test_market_evidence.py \
+            dimwit/tests/test_market_indicators.py \
+            dimwit/tests/test_market_knowledge.py \
+            dimwit/tests/test_market_patterns.py \
+            dimwit/tests/test_market_scan.py \
+            dimwit/tests/test_market_sports.py \
             tests/test_animation_roster.py \
             tests/test_mode_contract.py \
             tests/test_progression.py \

@@ -9,8 +9,9 @@ Every executable lane returns receipts. Every promotion stops for human review.
 
 [![Tests](https://github.com/ObtuseAI/dimwit/actions/workflows/tests.yml/badge.svg)](https://github.com/ObtuseAI/dimwit/actions/workflows/tests.yml)
 [![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-[![CI proof](https://img.shields.io/badge/clean_clone-549_tests-8B5CF6)](.github/workflows/tests.yml)
+[![CI proof](https://img.shields.io/badge/clean_clone-788_tests-8B5CF6)](.github/workflows/tests.yml)
 [![Human gate](https://img.shields.io/badge/ceiling-PROMOTED__TO__REVIEW-22D3EE)](AGENTS.md)
+[![Market cell](https://img.shields.io/badge/DumbMoney_cell-239_tests-F59E0B)](docs/DIMWIT_DUMBMONEY_MARKET_CELL.md)
 [![Source available](https://img.shields.io/badge/license-source--available-22C55E)](LICENSE)
 
 </div>
@@ -23,6 +24,8 @@ It turns a brief into a typed, dependency-aware production graph. Each runnable 
 
 Dimwit can autonomously prepare a candidate up to `PROMOTED_TO_REVIEW`. Human acceptance, source integration, signing, publishing, payment, account access, store submission, and active-slice promotion remain operator-owned.
 
+The evidence machinery is not specific to art. A second system consumes it: [`dimwit/market/`](dimwit/market) is the technical-analysis and chart-vision cell of [DumbMoney](#second-consumer-the-dumbmoney-market-cell), where the same law applies to prices — 46 indicators proven prefix-stable by recomputation, chart recovery error reported in pixels, and rule survival reported only after a disclosed search and a placebo. It emits observations and never a forecast.
+
 ## Product truth
 
 | Contract | Current public state |
@@ -32,6 +35,7 @@ Dimwit can autonomously prepare a candidate up to `PROMOTED_TO_REVIEW`. Human ac
 | **Engineering evidence baseline** | [`1019e4df`](https://github.com/ObtuseAI/dimwit/commit/1019e4dfb6191a2e751829253fde7359c5bb2d67) · configured [test workflow](https://github.com/ObtuseAI/dimwit/actions/workflows/tests.yml) |
 | **Proved now** | The public source implements typed production graphs, capability detection, bounded command plans, receipts, artifact hashing, fail-closed validators, recovery candidates, and review promotion. |
 | **Authority ceiling** | Automation stops at `PROMOTED_TO_REVIEW`. Human operators own acceptance, integration, publishing, accounts, payment, signing, and active-slice promotion. |
+| **Second runtime consumer** | **DumbMoney market cell** — [`dimwit/market/`](dimwit/market) implements the assigned role `chart_vision_and_deterministic_technical_analysis_for_stocks_and_crypto`: deterministic TA, chart render and chart *vision*, walk-forward rule evidence, sports game state. Observations only; no network, no credentials, no broker. |
 | **Clean demonstration** | Use the [quick start](#quick-start) to inspect the graph, run provider-free checks, and exercise bounded studio surfaces. |
 | **Known limit** | DCC execution, live captures, visual judgment, mobile SDKs, and packaged-build proof depend on the actual local toolchains and current project evidence; missing evidence remains blocked. |
 
@@ -51,6 +55,7 @@ Dimwit can autonomously prepare a candidate up to `PROMOTED_TO_REVIEW`. Human ac
 | **Does every engine execute everywhere?** | No. Adapters report detected, ready, plan-only, blocked, or reference-only based on actual project and toolchain evidence. |
 | **What is the core output?** | A review candidate with build receipts, logs, artifact hashes, validator results, provenance, rollback notes, and unresolved blockers. |
 | **What makes it different?** | It treats creative-production claims as evidence contracts rather than accepting successful process exit, generated files, or AI confidence as proof. |
+| **Does anything else use it?** | Yes. [`dimwit/market/`](dimwit/market) is DumbMoney's technical-analysis and chart-vision cell — same evidence law, applied to prices and game state instead of pixels and packages. `python -m dimwit market audit --deep` runs it and reports what actually executed. |
 
 ## The production problem
 
@@ -373,6 +378,39 @@ The local Studio IDE brings production state into one work surface:
 
 The server binds to `127.0.0.1` and prints a tokenized URL. The token protects source views and operator actions. The interface does not expose an arbitrary shell or generic filesystem mutation endpoint.
 
+## Second consumer: the DumbMoney market cell
+
+Dimwit's evidence discipline is not specific to game production, and one other system consumes it directly.
+DumbMoney — an autonomous multi-agent research harness — assigns Dimwit the runtime role
+`chart_vision_and_deterministic_technical_analysis_for_stocks_and_crypto`. `dimwit/market/` implements it.
+
+| Question | Answer |
+| --- | --- |
+| **What does it do?** | Deterministic technical analysis, chart rendering, chart *vision*, walk-forward rule evidence, and sports game-state analysis. |
+| **Why is it here?** | The same law: a claim is only worth its evidence. Prices are simply another domain where "the process exited zero" proves nothing. |
+| **What is measured, not asserted?** | 46 indicators proven prefix-stable by recomputation on truncated prefixes; chart recovery error reported in **pixels** (≤ 0.5 px); rule survival reported after Bonferroni and Benjamini–Hochberg on a disclosed search space. |
+| **Does it forecast?** | No. Every result carries `forecast_probability: None`, and a test asserts it across all fifteen public result types. Probability claims belong to the consuming system after held-out evidence. |
+| **Does it touch money?** | No. No network, no credentials, no broker, no orders. Bars arrive from the caller with a declared classification. |
+| **Authority ceiling** | Unchanged. The cell emits observations; nothing it produces promotes, sizes, or executes anything. |
+
+Three properties do the work:
+
+- **Prefix stability.** `indicator(bars)[i] == indicator(bars[:i+1])[-1]`, tested per indicator. Patterns carry
+  both `index` (where the shape is) and `detected_at_index` (when it was knowable), because a fractal pivot is
+  not visible until its confirmation bars exist.
+- **Falsifiable chart vision.** The renderer returns its exact pixel geometry; the reader inverts it; the
+  round-trip is scored against known values. "Dimwit can see a chart" is a number a test can fail.
+- **Honest observation accounting.** Settled independent observations are the scarce resource, so rules are
+  scored on **excess over the unconditional same-side baseline**, t-statistics are deflated for window overlap,
+  and a placebo run with displaced entries must not match the real result. On a random walk the scanner finds
+  nothing; on an injected conditional edge it recovers the responsible rule.
+
+Provenance is recomputable rather than declared: every export embeds a digest of the actual bytes of the eleven
+attested market modules, and `python -m dimwit market audit` runs the cell end to end and reports what really
+executed — including what is deliberately absent.
+
+Full detail: [DumbMoney market cell](docs/DIMWIT_DUMBMONEY_MARKET_CELL.md).
+
 ## What proof looks like
 
 | Production claim | Required evidence |
@@ -411,6 +449,19 @@ python dimwit.py mobile
 python dimwit.py studio --status
 python scripts\pipeline\run_validation.py --list
 ```
+
+Exercise the DumbMoney market cell against its deterministic synthetic fixture (no network, no data files):
+
+```powershell
+python -m dimwit market audit --deep
+python -m dimwit market indicators --self
+python -m dimwit market vision --self --bars 120
+python -m dimwit market scan --self --null
+python -m dimwit market chart --self --bars 140 --theme tote --out today
+python -m dimwit market know adverse_selection
+```
+
+Each command prints one JSON document and exits non-zero on a `BLOCKED` verdict, so any of them works as a shell gate.
 
 Launch the local Studio IDE:
 
@@ -481,6 +532,7 @@ dimwit/
 |-- adapters/              shared engine and production contracts
 |-- capabilities/          typed registry and read/mutate boundaries
 |-- ledger/                evidence, outcomes, integrity, and repair
+|-- market/                DumbMoney market cell: TA, chart render/vision, scans, sports
 |-- pipelines/             production, validation, runtime, and review flows
 |-- toolchains/            Blender, Unreal, engine, and mobile execution plans
 |-- studio/                DAG scheduling, receipts, and IDE data surfaces
@@ -503,6 +555,7 @@ Recommended reading:
 2. [Elite Studio toolchains](docs/DIMWIT_ELITE_STUDIO_TOOLCHAINS_20260711.md) — Blender, Unreal, and the studio DAG.
 3. [Universal game and mobile factory](docs/DIMWIT_UNIVERSAL_GAME_FACTORY_20260711.md) — engine adapters and mobile evidence.
 4. [Open-source adaptation audit](docs/DIMWIT_BLUNDER_OPEN_SOURCE_AUDIT_20260711.md) — reused ideas, upstream policy, and boundaries.
+4b. [DumbMoney market cell](docs/DIMWIT_DUMBMONEY_MARKET_CELL.md) — technical analysis, chart vision, and observation accounting.
 5. [Autonomy capability matrix](docs/superpowers/specs/2026-06-28-autonomy-capability-matrix-design.md) — capability states and validation integration.
 6. [Cross-pipeline contract auditor](docs/superpowers/specs/2026-06-28-cross-pipeline-contract-auditor-design.md) — drift detection between production lanes.
 7. [Real-game validation loop](docs/superpowers/specs/2026-06-28-real-game-validation-loop-design.md) — runtime and capture proof.
@@ -534,7 +587,8 @@ Dimwit does not:
 - fabricate an iOS archive on Windows or a DCC result when the DCC is absent;
 - delegate signing credentials, purchases, account access, publishing, or payment;
 - promote its own work beyond `PROMOTED_TO_REVIEW`;
-- convert a successful command, generated file, or AI opinion into complete production proof.
+- convert a successful command, generated file, or AI opinion into complete production proof;
+- forecast prices or outcomes, hold broker credentials, place orders, or claim an edge — the market cell emits observations, and the bars it reads arrive from the caller with a declared classification.
 
 The intended outcome is not unattended publication. It is a better-prepared, better-instrumented, and more honestly reviewed candidate.
 

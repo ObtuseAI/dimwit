@@ -6,7 +6,10 @@ import importlib
 from dataclasses import dataclass
 from typing import Callable, Optional
 
-DOMAINS = ("DESIGN", "DEVELOP", "EXECUTE", "TEST")
+# MARKET is the read-only analysis domain of the DumbMoney market cell (dimwit.market): pure functions over
+# caller-supplied bars/images, no network, no credentials, no disk writes. Anything in the market cell that
+# writes (chart export, evidence append) is registered under EXECUTE so it stays behind the mutation gate.
+DOMAINS = ("DESIGN", "DEVELOP", "EXECUTE", "TEST", "MARKET")
 
 
 @dataclass

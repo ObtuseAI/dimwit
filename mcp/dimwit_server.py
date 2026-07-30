@@ -31,6 +31,9 @@ PROVIDER_IMAGE_ROOTS = tuple(
     (ROOT / name).resolve()
     for name in ("artifacts", "captures", "frontend_capture", "source_art")
 )
+# MARKET chart-vision verbs accept a local image path. Nothing leaves the machine, but an unconfined path
+# argument over MCP is still an arbitrary-file-read primitive, so it gets the same root confinement.
+MARKET_IMAGE_CAPABILITIES = frozenset({"MARKET/chart.read", "MARKET/chart.describe_foreign"})
 
 
 def log(*a):
@@ -126,6 +129,8 @@ def call_tool(name: str, args: dict):
             raise ValueError("capability args must be an object")
         if args["name"] in PROVIDER_CAPABILITIES:
             call_args = _validate_provider_args(args["name"], call_args)
+        if args["name"] in MARKET_IMAGE_CAPABILITIES and call_args.get("path") is not None:
+            call_args["path"] = _confined_provider_image(call_args["path"])
         return {"ok": True, "result": registry.dispatch(args["name"], **call_args)}
     if name == "dimwit_author_seed":
         if not _enabled(MUTATION_ENV):
